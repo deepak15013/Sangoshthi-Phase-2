@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "849083346543",
+    "project_id": "sangoshthi-161307"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849083346543:android:291562700b453700",
+        "android_client_info": {
+          "package_name": "io.github.varunj.sangoshthi_ivr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849083346543-13r5fqk58lhvbd9fcric03ualbecvq6h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.varunj.sangoshthi_ivr",
+            "certificate_hash": "377843dd2cb288c1889c1af6d8e6d4eb01b6a7bb"
+          }
+        },
+        {
+          "client_id": "849083346543-3nh3ppr0b4tpgltfe2h1ita104jqk5sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFNoHU7iWDomJAdgl3FXeaU7oM8uztHjE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

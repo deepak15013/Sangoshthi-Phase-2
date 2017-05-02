@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">xSangoshthi_IVR</string>
+
+    <string name="login_minLen_name">1</string>
+    <string name="login_len_phoneNum">10</string>
+    <string name="login_heading">USER REGISTRATION</string>
+    <string name="login_signin">Sign In</string>
+    <string name="login_toast_wrong_name">Enter Name</string>
+    <string name="login_toast_wrong_phoneNum">Enter Your 10 Digit Phone Number</string>
+
+    <string name="splash_screen_text">Welcome</string>
+
+    <string name="home_add_show">CREATE SHOW</string>
+    <string name="home_host_show">HOST SHOW</string>
+    <string name="home_notifications">NOTIFICATIONS</string>
+    <string name="home_help">TUTORIALS</string>
+
+    <string name="create_show_heading">CREATE A NEW SHOW</string>
+    <string name="create_show_time">TIME</string>
+    <string name="create_show_date">DATE</string>
+    <string name="create_show_audio_file">AUDIO FILE</string>
+    <string name="create_show_list">Enter List of Phone Numbers \n (separated by a , )</string>
+    <string name="create_show_ok">OK</string>
+
+    <string name="host_show_nolisting">------</string>
+
+
+    <string name="tutorials_call">CALL FOR HELP</string>
+
+</resources>

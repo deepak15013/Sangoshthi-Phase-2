@@ -1,0 +1,203 @@
+package io.github.varunj.sangoshthi_ivr;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.QueueingConsumer;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
+/**
+ * Created by Varun on 12-Mar-17.
+ */
+
+public class HomeActivity extends AppCompatActivity {
+
+    public static final ArrayList<String> show_id = new ArrayList<>();
+    public static final ArrayList<String> time_of_air = new ArrayList<>();
+    public static final ArrayList<String> audio_name = new ArrayList<>();
+    public static final ArrayList<String> ashalist = new ArrayList<>();
+
+    public static final ArrayList<String> notifications_message = new ArrayList<>();
+    public static final ArrayList<String> notifications_state = new ArrayList<>();
+    private String senderPhoneNum;
+    Thread subscribeThread;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        senderPhoneNum = pref.getString("phoneNum", "0000000000");
+
+        final Button button_home_add_show = (Button) findViewById(R.id.home_add_show);
+        button_home_add_show.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AddShowActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button button_home_host_show = (Button) findViewById(R.id.home_host_show);
+        button_home_host_show.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), HostShowActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button button_home_notifications = (Button) findViewById(R.id.home_notifications);
+        button_home_notifications.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button button_home_help = (Button) findViewById(R.id.home_help);
+        button_home_help.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {Intent intent = new Intent(getApplicationContext(), TutorialsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        setupConnectionFactory();
+        subscribe();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (subscribeThread != null)
+            subscribeThread.interrupt();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (subscribeThread != null)
+            subscribeThread.interrupt();
+        super.onBackPressed();
+    }
+
+
+    // subscribe to RabbitMQ
+    public static ConnectionFactory factory = new ConnectionFactory();
+    public static  void setupConnectionFactory() {
+        try {
+            factory.setUsername(LoginActivity.SERVER_USERNAME);
+            factory.setPassword(LoginActivity.SERVER_PASS);
+            factory.setHost(LoginActivity.IP_ADDR);
+            factory.setPort(LoginActivity.SERVER_PORT);
+            factory.setAutomaticRecoveryEnabled(true);
+            factory.setNetworkRecoveryInterval(10000);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    void subscribe() {
+        subscribeThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    try {
+                        Connection connection = factory.newConnection();
+                        Channel channel = connection.createChannel();
+
+                        String queue_name = "server_to_broadcaster_" +  senderPhoneNum;
+                        // xxx: read http://www.rabbitmq.com/tutorials/tutorial-three-python.html, http://stackoverflow.com/questions/10620976/rabbitmq-amqp-single-queue-multiple-consumers-for-same-message
+                        channel.queueDeclare(queue_name, false, false, false, null);
+                        QueueingConsumer consumer = new QueueingConsumer(channel);
+                        channel.basicConsume(queue_name, true, consumer);
+
+                        while (true) {
+                            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
+                            final JSONObject message = new JSONObject(new String(delivery.getBody()));
+                            System.out.println("xxx:" + message.toString());
+
+                            // populate hostShowList
+                            if (message.getString("objective").equals("show_list_populate")) {
+                                String jsonStr = message.getString("info");
+                                if (jsonStr != null) {
+                                    try {
+                                        JSONObject jsonObj = new JSONObject(jsonStr);
+                                        JSONArray contacts = jsonObj.getJSONArray("result");
+                                        for (int i = 0; i < contacts.length(); i++) {
+                                            JSONObject c = contacts.getJSONObject(i);
+                                            show_id.add(c.getString("show_id"));
+                                            time_of_air.add(c.getString("time_of_air"));
+                                            audio_name.add(c.getString("audio_name"));
+                                            ashalist.add(c.getString("ashalist"));
+                                        }
+                                    }
+                                    catch (final JSONException e) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getApplicationContext(),"Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+
+                            // notifications
+                            if (message.getString("objective").equals("app_notify")) {
+                                String jsonStr = message.getString("info");
+                                if (jsonStr != null) {
+                                    try {
+                                        JSONObject jsonObj = new JSONObject(jsonStr);
+                                        JSONArray contacts = jsonObj.getJSONArray("result");
+                                        for (int i = 0; i < contacts.length(); i++) {
+                                            JSONObject c = contacts.getJSONObject(i);
+                                            notifications_message.add(c.getString("message"));
+                                            notifications_state.add(c.getString("state"));
+                                        }
+                                    }
+                                    catch (final JSONException e) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                Toast.makeText(getApplicationContext(),"Json parsing error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        break;
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                        try {
+                            Thread.sleep(4000); //sleep and then try again
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        subscribeThread.start();
+    }
+}
