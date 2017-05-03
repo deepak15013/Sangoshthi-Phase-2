@@ -38,13 +38,15 @@ public class ShowActivity extends AppCompatActivity {
     private String senderPhoneNum;
     private String show_id, time_of_air, audio_name, ashalist;
     ArrayList<String> ashaListNames;
-    ArrayList<Integer> ashaListQuery, ashaListOnline, ashaListMute;
+    ArrayList<Integer> ashaListQuery;
+    ArrayList<Integer> ashaListOnline;
+    ArrayList<Integer> ashaListMute;
     Thread subscribeThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_host_show);
+        setContentView(R.layout.activity_show);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         senderPhoneNum = pref.getString("phoneNum", "0000000000");
@@ -60,8 +62,7 @@ public class ShowActivity extends AppCompatActivity {
         show_id = i.getStringExtra("show_id");
         time_of_air = i.getStringExtra("time_of_air");
         audio_name = "/" + i.getStringExtra("audio_name");
-        ashalist = i.getStringExtra("ashalist");
-        System.out.println("xxx: " + show_id + time_of_air+audio_name+ashalist);
+        ashalist = ""+i.getStringExtra("ashalist").toString();
 
         // build list
         String[] temp1 = ashalist.replace("[","").replace("]","").replace("\"","").replace("\"","").split(",");
@@ -160,6 +161,7 @@ public class ShowActivity extends AppCompatActivity {
         ListView list = (ListView)findViewById(R.id.show_ashalist_master);
         ShowListAdapter adapter = new ShowListAdapter(this, ashaListNames, ashaListOnline, ashaListQuery, ashaListMute);
         adapter.setNotifyOnChange(true);
+
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -191,7 +193,7 @@ public class ShowActivity extends AppCompatActivity {
                     try {
                         final JSONObject jsonObject = new JSONObject();
                         //primary key: <, >
-                        jsonObject.put("objective", "unmute");
+                        jsonObject.put("objective", "mute");
                         jsonObject.put("show_id", show_id);
                         jsonObject.put("sender_phone_no", senderPhoneNum);
                         jsonObject.put("listener_phoneno", ashaListNames.get(position));
@@ -231,7 +233,7 @@ public class ShowActivity extends AppCompatActivity {
                         Connection connection = factory.newConnection();
                         Channel channel = connection.createChannel();
 
-                        String queue_name = "server_to_broadcaster_ivr_" +  senderPhoneNum;
+                        String queue_name = "server_to_broadcaster_ivr_show_" +  senderPhoneNum;
                         // xxx: read http://www.rabbitmq.com/tutorials/tutorial-three-python.html, http://stackoverflow.com/questions/10620976/rabbitmq-amqp-single-queue-multiple-consumers-for-same-message
                         channel.queueDeclare(queue_name, false, false, false, null);
                         QueueingConsumer consumer = new QueueingConsumer(channel);
@@ -240,31 +242,35 @@ public class ShowActivity extends AppCompatActivity {
                         while (true) {
                             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
                             final JSONObject message = new JSONObject(new String(delivery.getBody()));
-                            System.out.println("xxx:" + message.toString());
+                            System.out.println("xxx1:" + message.toString());
 
                             // asha query
-                            if (message.getString("objective").equals("asha_query") && message.getString("show_id").equals(show_id)) {
+                            if (message.getString("objective").equals("press_1_event") && message.getString("show_id").equals(show_id)) {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         try {
-                                            ashaListQuery.set(ashaListNames.indexOf(message.getString("asha")), R.drawable.query);
+                                            ashaListQuery.set(ashaListNames.indexOf(message.getString("phoneno")), R.drawable.query);
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
                                         populateAshaList(ashaListNames);
                                     }
                                 });
+
                             }
                             // asha active
-                            else if (message.getString("objective").equals("asha_active") && message.getString("show_id").equals(show_id)) {
+                            else if (message.getString("objective").equals("conf_member_status") && message.getString("show_id").equals(show_id)
+                                    && !message.getString("phoneno").equals(senderPhoneNum)) {
+                                System.out.println("xxx:000");
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         try {
-                                                if (message.getString("task").equals("make_active")) {
-                                                ashaListOnline.set(ashaListNames.indexOf(message.getString("asha")), R.drawable.green);
+                                            if (message.getString("task").equals("online")) {
+                                            ashaListOnline.set(ashaListNames.indexOf(message.getString("phoneno")), R.drawable.green);
                                             }
-                                            if (message.getString("task").equals("make_inactive")) {
-                                                ashaListOnline.set(ashaListNames.indexOf(message.getString("asha")), R.drawable.red);
+                                            if (message.getString("task").equals("offline")) {
+                                                System.out.println("xxx:111");
+                                                ashaListOnline.set(ashaListNames.indexOf(message.getString("phoneno")), R.drawable.red);
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();

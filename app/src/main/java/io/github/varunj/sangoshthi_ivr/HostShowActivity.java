@@ -40,10 +40,10 @@ public class HostShowActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(getApplicationContext(), ShowActivity.class);
-                i.putExtra("show_id", show_id);
-                i.putExtra("time_of_air", time_of_air);
-                i.putExtra("audio_name", audio_name);
-                i.putExtra("ashalist", ashalist);
+                i.putExtra("show_id", show_id.get(position));
+                i.putExtra("time_of_air", time_of_air.get(position));
+                i.putExtra("audio_name", audio_name.get(position));
+                i.putExtra("ashalist", ashalist.get(position));
                 startActivity(i);
             }
         });

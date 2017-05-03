@@ -32,7 +32,7 @@ public class ShowListAdapter extends ArrayAdapter<String> {
 
     public View getView(int position, View view , ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.adapter_host_show_list, null, true);
+        View rowView=inflater.inflate(R.layout.adapter_show, null, true);
 
         TextView groupvideo_ashalist_name = (TextView) rowView.findViewById(R.id.show_ashalist_ashaname);
         ImageView groupvideo_ashalist_online = (ImageView) rowView.findViewById(R.id.show_ashalist_active);

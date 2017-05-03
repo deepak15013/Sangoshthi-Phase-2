@@ -65,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), HostShowActivity.class);
                 startActivity(intent);
+
             }
         });
 
@@ -105,6 +106,14 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
+
+        show_id.clear();
+        time_of_air.clear();
+        audio_name.clear();
+        ashalist.clear();
+        notifications_message.clear();
+        notifications_message_id.clear();
+        notifications_state.clear();
 
         try {
             final JSONObject jsonObject = new JSONObject();
@@ -186,11 +195,6 @@ public class HomeActivity extends AppCompatActivity {
                             final JSONObject message = new JSONObject(new String(delivery.getBody()));
                             System.out.println("xxx:" + message.toString());
 
-                            show_id.clear();
-                            time_of_air.clear();
-                            audio_name.clear();
-                            ashalist.clear();
-
                             // populate hostShowList
                             if (message.getString("objective").equals("show_list_populate")) {
                                 JSONArray jsonArr = message.getJSONArray("info");
@@ -217,7 +221,7 @@ public class HomeActivity extends AppCompatActivity {
 
                             // notifications
                             if (message.getString("objective").equals("notify")) {
-                                JSONArray jsonArr = message.getJSONArray("data");
+                                JSONArray jsonArr = message.getJSONArray("info");
                                 if (jsonArr != null) {
                                     try {
                                         for (int i = 0; i < jsonArr.length(); i++) {
