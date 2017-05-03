@@ -27,4 +27,8 @@
 
     <string name="tutorials_call">CALL FOR HELP</string>
 
+    <string name="show_call_self">CALL SELF</string>
+    <string name="show_call_else">CALL EVERYONE</string>
+    <string name="show_ashalist_default">--ASHA Name--</string>
+
 </resources>

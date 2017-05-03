@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +39,12 @@ public class HostShowActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println("new activity");
+                Intent i = new Intent(getApplicationContext(), ShowActivity.class);
+                i.putExtra("show_id", show_id);
+                i.putExtra("time_of_air", time_of_air);
+                i.putExtra("audio_name", audio_name);
+                i.putExtra("ashalist", ashalist);
+                startActivity(i);
             }
         });
     }

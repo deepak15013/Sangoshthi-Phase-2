@@ -39,6 +39,8 @@ public class HomeActivity extends AppCompatActivity {
 
     public static final ArrayList<String> notifications_message = new ArrayList<>();
     public static final ArrayList<String> notifications_state = new ArrayList<>();
+    public static final ArrayList<String> notifications_message_id = new ArrayList<>();
+
     private String senderPhoneNum;
     Thread subscribeThread;
 
@@ -80,12 +82,60 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        // AMQP stuff
+        AMQPPublish.setupConnectionFactory();
+        AMQPPublish.publishToAMQP();
         setupConnectionFactory();
         subscribe();
+
+        try {
+            final JSONObject jsonObject = new JSONObject();
+            //primary key: <broadcaster, show_name>
+            jsonObject.put("objective", "app_launch_notify");
+            jsonObject.put("broadcaster_phoneno", senderPhoneNum);
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.queue.putLast(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        try {
+            final JSONObject jsonObject = new JSONObject();
+            //primary key: <broadcaster, show_name>
+            jsonObject.put("objective", "get_notifications");
+            jsonObject.put("broadcaster_phoneno", senderPhoneNum);
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.queue.putLast(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            final JSONObject jsonObject = new JSONObject();
+            //primary key: <broadcaster, show_name>
+            jsonObject.put("objective", "get_show_list");
+            jsonObject.put("broadcaster_phoneno", senderPhoneNum);
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.queue.putLast(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void onDestroy() {
+        if (AMQPPublish.publishThread != null)
+            AMQPPublish.publishThread.interrupt();
         if (subscribeThread != null)
             subscribeThread.interrupt();
         super.onDestroy();
@@ -93,6 +143,8 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        if (AMQPPublish.publishThread != null)
+            AMQPPublish.publishThread.interrupt();
         if (subscribeThread != null)
             subscribeThread.interrupt();
         super.onBackPressed();
@@ -123,7 +175,7 @@ public class HomeActivity extends AppCompatActivity {
                         Connection connection = factory.newConnection();
                         Channel channel = connection.createChannel();
 
-                        String queue_name = "server_to_broadcaster_" +  senderPhoneNum;
+                        String queue_name = "server_to_broadcaster_ivr_" +  senderPhoneNum;
                         // xxx: read http://www.rabbitmq.com/tutorials/tutorial-three-python.html, http://stackoverflow.com/questions/10620976/rabbitmq-amqp-single-queue-multiple-consumers-for-same-message
                         channel.queueDeclare(queue_name, false, false, false, null);
                         QueueingConsumer consumer = new QueueingConsumer(channel);
@@ -134,19 +186,22 @@ public class HomeActivity extends AppCompatActivity {
                             final JSONObject message = new JSONObject(new String(delivery.getBody()));
                             System.out.println("xxx:" + message.toString());
 
+                            show_id.clear();
+                            time_of_air.clear();
+                            audio_name.clear();
+                            ashalist.clear();
+
                             // populate hostShowList
                             if (message.getString("objective").equals("show_list_populate")) {
-                                String jsonStr = message.getString("info");
-                                if (jsonStr != null) {
+                                JSONArray jsonArr = message.getJSONArray("info");
+                                if (jsonArr != null) {
                                     try {
-                                        JSONObject jsonObj = new JSONObject(jsonStr);
-                                        JSONArray contacts = jsonObj.getJSONArray("result");
-                                        for (int i = 0; i < contacts.length(); i++) {
-                                            JSONObject c = contacts.getJSONObject(i);
+                                        for (int i = 0; i < jsonArr.length(); i++) {
+                                            JSONObject c = jsonArr.getJSONObject(i);
                                             show_id.add(c.getString("show_id"));
-                                            time_of_air.add(c.getString("time_of_air"));
+                                            time_of_air.add(c.getString("time_of_airing"));
                                             audio_name.add(c.getString("audio_name"));
-                                            ashalist.add(c.getString("ashalist"));
+                                            ashalist.add(c.getString("list_of_listeners"));
                                         }
                                     }
                                     catch (final JSONException e) {
@@ -161,16 +216,15 @@ public class HomeActivity extends AppCompatActivity {
                             }
 
                             // notifications
-                            if (message.getString("objective").equals("app_notify")) {
-                                String jsonStr = message.getString("info");
-                                if (jsonStr != null) {
+                            if (message.getString("objective").equals("notify")) {
+                                JSONArray jsonArr = message.getJSONArray("data");
+                                if (jsonArr != null) {
                                     try {
-                                        JSONObject jsonObj = new JSONObject(jsonStr);
-                                        JSONArray contacts = jsonObj.getJSONArray("result");
-                                        for (int i = 0; i < contacts.length(); i++) {
-                                            JSONObject c = contacts.getJSONObject(i);
-                                            notifications_message.add(c.getString("message"));
-                                            notifications_state.add(c.getString("state"));
+                                        for (int i = 0; i < jsonArr.length(); i++) {
+                                            JSONObject c = jsonArr.getJSONObject(i);
+                                            notifications_message.add(c.getString("body"));
+                                            notifications_state.add(c.getString("read_status"));
+                                            notifications_message_id.add(c.getString("msg_id"));
                                         }
                                     }
                                     catch (final JSONException e) {

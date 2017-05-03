@@ -18,7 +18,7 @@
         android:textSize="20sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/host_show_list_show_id"
+        android:layout_below="@+id/host_show_list_show_id"
         android:text="@string/host_show_nolisting"/>
 
     <TextView
@@ -28,7 +28,7 @@
         android:textSize="20sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/host_show_list_time_of_air"
+        android:layout_below="@+id/host_show_list_time_of_air"
         android:text="@string/host_show_nolisting"/>
     <TextView
         android:id="@+id/host_show_list_audio_name"
@@ -37,7 +37,7 @@
         android:textSize="20sp"
         android:paddingTop="5dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/host_show_list_asha_list"
+        android:layout_below="@+id/host_show_list_asha_list"
         android:text="@string/host_show_nolisting"/>
 
     <!--<ImageView-->

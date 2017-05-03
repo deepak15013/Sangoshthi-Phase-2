@@ -20,10 +20,10 @@ public class NotificationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
-        populateHostShowList(HomeActivity.notifications_message, HomeActivity.notifications_state);
+        populateNotificationsList(HomeActivity.notifications_message, HomeActivity.notifications_state);
     }
 
-    void populateHostShowList(final ArrayList<String> message, final ArrayList<String> state) {
+    void populateNotificationsList(final ArrayList<String> message, final ArrayList<String> state) {
         ListView list = (ListView)findViewById(R.id.notifications_list_master);
         NotificationsListAdapter adapter = new NotificationsListAdapter(this, message, state);
         adapter.setNotifyOnChange(true);

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/show_audio_frame">
+
+                <SurfaceView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/show_audio" />
+
+            </FrameLayout>
+
+            <Button
+                android:text="@string/show_call_self"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_call_self"
+                android:layout_centerHorizontal="true" />
+            <Button
+                android:text="@string/show_call_else"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_call_else"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/show_call_self"/>
+
+
+            <ListView
+                android:id="@+id/show_ashalist_master"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>
