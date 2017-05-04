@@ -8,19 +8,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/show_call_self"
-        android:layout_centerHorizontal="true" />
+        android:layout_toLeftOf="@+id/show_call_else"
+        android:layout_marginTop="20dp"/>
     <Button
         android:text="@string/show_call_else"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/show_call_else"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/show_call_self"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    <Button
+        android:text="@string/show_start_poll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_start_poll"
+        android:layout_toRightOf="@+id/show_call_else"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:text=""
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_start_poll_result_cumm"
+        android:layout_alignLeft="@+id/show_start_poll"
+        android:layout_below="@+id/show_start_poll"/>
 
     <ListView
         android:id="@+id/show_ashalist_master"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/show_call_else"/>
+        android:layout_below="@+id/show_call_else"
+        android:layout_marginTop="60dp"/>
 
 </RelativeLayout>

@@ -12,13 +12,23 @@
         android:layout_marginLeft="10dp"
         android:text="@string/show_ashalist_default" />
 
+    <TextView
+        android:id="@+id/show_ashalist_poll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:paddingTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:text=""
+        android:layout_toLeftOf="@+id/show_ashalist_mute"/>
+
     <ImageView
         android:id="@+id/show_ashalist_mute"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/speakernot"
         android:layout_toLeftOf="@+id/show_ashalist_query"/>
@@ -39,7 +49,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="5dp"
         android:src="@drawable/red"

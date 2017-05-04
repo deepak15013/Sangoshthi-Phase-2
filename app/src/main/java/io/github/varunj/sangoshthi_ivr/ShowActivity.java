@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -28,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -37,10 +40,12 @@ public class ShowActivity extends AppCompatActivity {
 
     private String senderPhoneNum;
     private String show_id, time_of_air, audio_name, ashalist;
+    private int poll = 0;
     ArrayList<String> ashaListNames;
     ArrayList<Integer> ashaListQuery;
     ArrayList<Integer> ashaListOnline;
     ArrayList<Integer> ashaListMute;
+    ArrayList<String> ashaListPoll;
     Thread subscribeThread;
 
     @Override
@@ -65,11 +70,12 @@ public class ShowActivity extends AppCompatActivity {
         ashalist = ""+i.getStringExtra("ashalist").toString();
 
         // build list
-        String[] temp1 = ashalist.replace("[","").replace("]","").replace("\"","").replace("\"","").split(",");
+        final String[] temp1 = ashalist.replace("[","").replace("]","").replace("\"","").replace("\"","").split(",");
         ashaListNames = new ArrayList<>(Arrays.asList(temp1));
         ashaListOnline = new ArrayList<>(Collections.nCopies(temp1.length, R.drawable.red));
         ashaListQuery = new ArrayList<>(Collections.nCopies(temp1.length, 0));
         ashaListMute = new ArrayList<>(Collections.nCopies(temp1.length, R.drawable.speakernot));
+        ashaListPoll = new ArrayList<>(Collections.nCopies(temp1.length, "-"));
         populateAshaList(ashaListNames);
 
         // call self
@@ -111,6 +117,55 @@ public class ShowActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 show_call_else.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_green));
+            }
+        });
+
+        // start poll
+        final Button show_start_poll = (Button) findViewById(R.id.show_start_poll);
+        show_start_poll.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
+        show_start_poll.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // start poll
+                if (poll%2 == 0) {
+                    try {
+                        final JSONObject jsonObject = new JSONObject();
+                        //primary key: <, >
+                        jsonObject.put("objective", "start_polling");
+                        jsonObject.put("show_id", show_id);
+                        jsonObject.put("poll_id", poll/2);
+                        jsonObject.put("no_options", "3");
+                        jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+                        AMQPPublish.queue.putLast(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    show_start_poll.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_green));
+                    poll++;
+                    // reset poll answers
+                    ashaListPoll = new ArrayList<>(Collections.nCopies(temp1.length, "-"));
+                    populateAshaList(ashaListNames);
+                }
+                // end poll
+                else {
+                    try {
+                        final JSONObject jsonObject = new JSONObject();
+                        //primary key: <, >
+                        jsonObject.put("objective", "stop_polling");
+                        jsonObject.put("show_id", show_id);
+                        jsonObject.put("poll_id", (poll-1)/2);
+                        jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+                        AMQPPublish.queue.putLast(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    show_start_poll.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
+                    poll++;
+                }
+
             }
         });
     }
@@ -159,7 +214,7 @@ public class ShowActivity extends AppCompatActivity {
 
     void populateAshaList(final ArrayList<String> ashaListNames) {
         ListView list = (ListView)findViewById(R.id.show_ashalist_master);
-        ShowListAdapter adapter = new ShowListAdapter(this, ashaListNames, ashaListOnline, ashaListQuery, ashaListMute);
+        ShowListAdapter adapter = new ShowListAdapter(this, ashaListNames, ashaListOnline, ashaListQuery, ashaListMute, ashaListPoll);
         adapter.setNotifyOnChange(true);
 
         list.setAdapter(adapter);
@@ -258,10 +313,9 @@ public class ShowActivity extends AppCompatActivity {
                                 });
 
                             }
+
                             // asha active
-                            else if (message.getString("objective").equals("conf_member_status") && message.getString("show_id").equals(show_id)
-                                    && !message.getString("phoneno").equals(senderPhoneNum)) {
-                                System.out.println("xxx:000");
+                            else if (message.getString("objective").equals("conf_member_status") && message.getString("show_id").equals(show_id) && !message.getString("phoneno").equals(senderPhoneNum)) {
                                 runOnUiThread(new Runnable() {
                                     public void run() {
                                         try {
@@ -278,6 +332,34 @@ public class ShowActivity extends AppCompatActivity {
                                         populateAshaList(ashaListNames);
                                     }
                                 });
+                            }
+
+                            // asha poll result
+                            if (message.getString("objective").equals("get_polling_result_response") && message.getString("show_id").equals(show_id)) {
+                                runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        try {
+                                            ashaListPoll.set(ashaListNames.indexOf(message.getString("phoneno")), message.getString("response"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        populateAshaList(ashaListNames);
+
+                                        // update text field
+                                        final TextView show_start_poll_result_cumm = (TextView) findViewById(R.id.show_start_poll_result_cumm);
+                                        Map<String, Integer> map = new HashMap<String, Integer>();
+                                        for (String x : ashaListPoll){
+                                            if (map.containsKey(x)) {
+                                                map.put(x, map.get(x) + 1);
+                                            }
+                                            else {
+                                                map.put(x, 0);
+                                            }
+                                        }
+                                        show_start_poll_result_cumm.setText(map.toString());
+                                    }
+                                });
+
                             }
                         }
                     } catch (InterruptedException e) {
