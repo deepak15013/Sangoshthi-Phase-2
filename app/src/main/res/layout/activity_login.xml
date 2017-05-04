@@ -38,7 +38,7 @@
         android:layout_marginTop="30dp"
         android:hint="Enter PhoneNo" />
 
-    <com.google.android.gms.common.SignInButton
+    <Button
         android:id="@+id/sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,5 +46,14 @@
         android:layout_marginTop="50dp"
         android:layout_below="@+id/phone"
         android:layout_centerHorizontal="true"/>
+
+    <!--<com.google.android.gms.common.SignInButton-->
+        <!--android:id="@+id/sign_in_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/login_signin"-->
+        <!--android:layout_marginTop="50dp"-->
+        <!--android:layout_below="@+id/phone"-->
+        <!--android:layout_centerHorizontal="true"/>-->
 
 </RelativeLayout>

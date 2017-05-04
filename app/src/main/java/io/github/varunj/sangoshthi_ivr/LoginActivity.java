@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -44,18 +46,49 @@ public class LoginActivity extends AppCompatActivity implements
         }
         else {
             setContentView(R.layout.activity_login);
-            findViewById(R.id.sign_in_button).setOnClickListener(this);
+
+            //----------------------
             editTextName = (EditText)findViewById(R.id.name);
             editTextPhone = (EditText)findViewById(R.id.phone);
-            // Configure sign-in to request the user's ID, email address, and basic profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestEmail()
-                    .build();
-            // Build a GoogleApiClient with access to the Google Sign-In API and the options specified by gso.
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                    .build();
+            final Button sign_in_button = (Button) findViewById(R.id.sign_in_button);
+            sign_in_button.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if(editTextName.getText().toString().length() >= Integer.parseInt(getString(R.string.login_minLen_name))) {
+                        if(editTextPhone.getText().toString().length() == Integer.parseInt(getString(R.string.login_len_phoneNum))) {
+                            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putString("name", editTextName.getText().toString());
+                            editor.putString("phoneNum", editTextPhone.getText().toString());
+                            editor.putBoolean("isLoggedIn" , true);
+                            editor.commit();
+                            Intent intent = new Intent(getApplicationContext(), SplashScreenActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_toast_wrong_phoneNum), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, getString(R.string.login_toast_wrong_name), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            //----------------------
+
+
+//            findViewById(R.id.sign_in_button).setOnClickListener(this);
+//            editTextName = (EditText)findViewById(R.id.name);
+//            editTextPhone = (EditText)findViewById(R.id.phone);
+//            // Configure sign-in to request the user's ID, email address, and basic profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+//            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                    .requestEmail()
+//                    .build();
+//            // Build a GoogleApiClient with access to the Google Sign-In API and the options specified by gso.
+//            mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                    .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
+//                    .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                    .build();
         }
     }
 
