@@ -28,6 +28,14 @@
         android:layout_toRightOf="@+id/show_call_else"
         android:layout_marginTop="20dp"/>
 
+    <Button
+        android:text="@string/show_play_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/show_play_pause"
+        android:layout_below="@+id/show_start_poll_result_cumm"
+        android:layout_centerHorizontal="true" />
+
     <TextView
         android:text=""
         android:layout_width="wrap_content"

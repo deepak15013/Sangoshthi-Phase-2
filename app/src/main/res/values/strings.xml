@@ -31,5 +31,6 @@
     <string name="show_call_else">CALL EVERYONE</string>
     <string name="show_start_poll">START POLL</string>
     <string name="show_start_poll_get_result">GET POLL RESULT</string>
+    <string name="show_play_pause">PLAY/PAUSE</string>
     <string name="show_ashalist_default">--ASHA Name--</string>
 </resources>

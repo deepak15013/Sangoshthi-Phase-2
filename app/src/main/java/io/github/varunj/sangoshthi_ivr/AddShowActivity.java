@@ -37,7 +37,7 @@ public class AddShowActivity extends AppCompatActivity {
     private static int REQUEST_PICK_AUDIO = 0;
     EditText create_show_list;
     private String senderPhoneNum;
-    public String showTime = "-1", showDate = "-1", showPath = "-1";
+    public String showTime = "-1", showDate = "-1", showPath = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +92,7 @@ public class AddShowActivity extends AppCompatActivity {
         });
 
         final Button create_show_audio_file = (Button) findViewById(R.id.create_show_audio_file);
-        create_show_audio_file.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
-        create_show_audio_file.setOnClickListener(new View.OnClickListener() {
+         create_show_audio_file.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setType("video/*");
@@ -107,7 +106,7 @@ public class AddShowActivity extends AppCompatActivity {
         create_show_ok.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (create_show_list.getText().toString().trim().length() > 0
-                        && !showPath.equals("-1") && !showDate.equals("-1") && !showTime.equals("-1")) {
+                        &&  !showDate.equals("-1") && !showTime.equals("-1")) {
                     try {
                         final JSONObject jsonObject = new JSONObject();
                         //primary key: <broadcaster, show_name>

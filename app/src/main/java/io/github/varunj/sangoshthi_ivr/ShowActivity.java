@@ -41,6 +41,7 @@ public class ShowActivity extends AppCompatActivity {
     private String senderPhoneNum;
     private String show_id, time_of_air, audio_name, ashalist;
     private int poll = 0;
+    private int playpause = 0;
     ArrayList<String> ashaListNames;
     ArrayList<Integer> ashaListQuery;
     ArrayList<Integer> ashaListOnline;
@@ -164,6 +165,51 @@ public class ShowActivity extends AppCompatActivity {
                     }
                     show_start_poll.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
                     poll++;
+                }
+
+            }
+        });
+
+        // play pause
+        final Button show_play_pause = (Button) findViewById(R.id.show_play_pause);
+        show_play_pause.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
+        show_play_pause.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // play
+                if (playpause%2 == 0) {
+                    try {
+                        final JSONObject jsonObject = new JSONObject();
+                        //primary key: <, >
+                        jsonObject.put("objective", "play_recorded_audio");
+                        jsonObject.put("show_id", show_id);
+                        jsonObject.put("audio_name", audio_name);
+                        jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+                        AMQPPublish.queue.putLast(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    show_start_poll.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_green));
+                    playpause++;
+                }
+                // pause
+                else {
+                    try {
+                        final JSONObject jsonObject = new JSONObject();
+                        //primary key: <, >
+                        jsonObject.put("objective", "pause_recorded_audio");
+                        jsonObject.put("show_id", show_id);
+                        jsonObject.put("audio_name", audio_name);
+                        jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+                        AMQPPublish.queue.putLast(jsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    show_play_pause.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
+                    playpause++;
                 }
 
             }
