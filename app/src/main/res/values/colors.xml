@@ -11,4 +11,6 @@
 
     <color name="add_show_green">#ff99cc00</color>
     <color name="add_show_red">#ffff4444</color>
+
+    <color name="btn_manage_listeners">#ff3366</color>
 </resources>

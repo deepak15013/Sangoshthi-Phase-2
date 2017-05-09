@@ -1,74 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="16dip"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context="io.github.varunj.sangoshthi_ivr.actvities.AddShowActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/create_show_heading"
-        android:id="@+id/create_show_heading"
-        android:layout_centerHorizontal="true"
-        android:textStyle="bold" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1.0">
 
-    <Button
-        android:text="@string/create_show_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_show_time"
-        android:layout_below="@+id/create_show_heading"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="29dp" />
+        <Button
+            android:id="@+id/create_show_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/create_show_time"
+            android:background="@color/home_add_show"
+            android:drawableTop="@drawable/ic_access_time_black_24dp"/>
 
-    <Button
-        android:text="@string/create_show_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_show_date"
-        android:layout_alignBaseline="@+id/create_show_time"
-        android:layout_alignBottom="@+id/create_show_time"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/create_show_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/create_show_date"
+            android:background="@color/home_host_show"
+            android:drawableTop="@drawable/ic_date_range_black_24dp"/>
 
-    <Button
-        android:text="@string/create_show_audio_file"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/create_show_audio_file"
-        android:layout_alignBaseline="@+id/create_show_date"
-        android:layout_alignBottom="@+id/create_show_date"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginEnd="20dp" />
+    </LinearLayout>
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/create_show_list"
-        android:hint="@string/create_show_list"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/create_show_time"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
 
-    <Button
-        android:text="@string/create_show_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="23dp"
-        android:id="@+id/create_show_ok"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/create_show_audio_file"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/create_show_audio_file"
+            android:background="@color/home_notifications"
+            android:drawableLeft="@drawable/ic_audiotrack_black_24dp"
+            android:paddingLeft="@dimen/home_left_icon_pad"/>
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/create_show_ok"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/create_show_listeners"
+            android:background="@color/btn_manage_listeners"
+            android:drawableLeft="@drawable/ic_noun_922383_cc"
+            android:paddingLeft="@dimen/home_left_icon_pad"/>
+
+    </LinearLayout>
+
+</LinearLayout>
