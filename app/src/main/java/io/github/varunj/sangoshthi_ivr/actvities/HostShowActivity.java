@@ -1,20 +1,16 @@
-package io.github.varunj.sangoshthi_ivr;
+package io.github.varunj.sangoshthi_ivr.actvities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
+import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.adapters.HostShowListAdapter;
 
 /**
  * Created by Varun on 12-Mar-17.

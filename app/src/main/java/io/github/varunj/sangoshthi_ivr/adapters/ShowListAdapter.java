@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr;
+package io.github.varunj.sangoshthi_ivr.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import io.github.varunj.sangoshthi_ivr.R;
 
 /**
  * Created by Varun Jain on 16-Apr-17.
@@ -48,5 +50,5 @@ public class ShowListAdapter extends ArrayAdapter<String> {
         groupvideo_ashalist_mute.setImageResource(img3.get(position));
         show_ashalist_poll.setText(ashapoll.get(position));
         return rowView;
-    };
+    }
 }

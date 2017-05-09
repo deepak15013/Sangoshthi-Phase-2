@@ -1,10 +1,8 @@
-package io.github.varunj.sangoshthi_ivr;
+package io.github.varunj.sangoshthi_ivr.actvities;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +12,9 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.Date;
+
+import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
 
 /**
  * Created by Varun on 12-Mar-17.

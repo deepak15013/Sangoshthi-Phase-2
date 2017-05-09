@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr;
+package io.github.varunj.sangoshthi_ivr.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import io.github.varunj.sangoshthi_ivr.R;
 
 /**
  * Created by Varun Jain on 16-Apr-17.
@@ -36,5 +38,5 @@ public class NotificationsListAdapter extends ArrayAdapter<String> {
         notifications_state.setText(state.get(position));
 
         return rowView;
-    };
+    }
 }

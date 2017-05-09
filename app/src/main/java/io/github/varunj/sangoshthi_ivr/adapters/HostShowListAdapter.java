@@ -1,14 +1,15 @@
-package io.github.varunj.sangoshthi_ivr;
+package io.github.varunj.sangoshthi_ivr.adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import io.github.varunj.sangoshthi_ivr.R;
 
 /**
  * Created by Varun Jain on 16-Apr-17.
@@ -46,5 +47,5 @@ public class HostShowListAdapter extends ArrayAdapter<String> {
         host_show_list_audio_name.setText(audio_name.get(position));
 
         return rowView;
-    };
+    }
 }

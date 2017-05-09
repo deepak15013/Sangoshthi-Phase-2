@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="16dip"
-    tools:context="io.github.varunj.sangoshthi_ivr.NotificationsActivity">
+    tools:context="io.github.varunj.sangoshthi_ivr.actvities.NotificationsActivity">
 
     <ListView
         android:id="@+id/notifications_list_master"

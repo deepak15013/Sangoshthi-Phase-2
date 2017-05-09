@@ -1,6 +1,4 @@
-package io.github.varunj.sangoshthi_ivr;
-
-import android.util.Log;
+package io.github.varunj.sangoshthi_ivr.utils;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
@@ -10,6 +8,8 @@ import org.json.JSONObject;
 
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
+
+import io.github.varunj.sangoshthi_ivr.actvities.LoginActivity;
 
 /**
  * Created by Varun on 22-Mar-17.

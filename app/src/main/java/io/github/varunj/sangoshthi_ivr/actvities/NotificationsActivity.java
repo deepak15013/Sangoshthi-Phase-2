@@ -1,13 +1,15 @@
-package io.github.varunj.sangoshthi_ivr;
+package io.github.varunj.sangoshthi_ivr.actvities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+
+import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.adapters.NotificationsListAdapter;
 
 /**
  * Created by Varun on 12-Mar-17.

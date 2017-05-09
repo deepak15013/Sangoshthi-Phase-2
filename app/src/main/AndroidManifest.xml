@@ -13,38 +13,38 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".actvities.LoginActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".SplashScreenActivity"
+        <activity android:name=".actvities.SplashScreenActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".HomeActivity"
+        <activity android:name=".actvities.HomeActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".AddShowActivity"
+        <activity android:name=".actvities.AddShowActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".HostShowActivity"
+        <activity android:name=".actvities.HostShowActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".NotificationsActivity"
+        <activity android:name=".actvities.NotificationsActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".TutorialsActivity"
+        <activity android:name=".actvities.TutorialsActivity"
             android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".ShowActivity"
+        <activity android:name=".actvities.ShowActivity"
             android:screenOrientation="portrait">
         </activity>
 

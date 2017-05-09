@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr;
+package io.github.varunj.sangoshthi_ivr.actvities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,14 +13,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,6 +29,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.adapters.ShowListAdapter;
+import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
 
 /**
  * Created by Varun on 12-Mar-17.
