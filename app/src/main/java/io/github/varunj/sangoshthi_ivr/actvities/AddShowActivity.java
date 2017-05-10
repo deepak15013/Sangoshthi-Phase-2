@@ -9,25 +9,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
-import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
@@ -36,12 +27,19 @@ import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
  * Created by Varun on 12-Mar-17.
  */
 
-public class AddShowActivity extends AppCompatActivity {
+public class AddShowActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static int REQUEST_PICK_AUDIO = 0;
-    EditText create_show_list;
+    private static final int REQUEST_PICK_AUDIO = 0;
     private String senderPhoneNum;
-    public String showTime = "-1", showDate = "-1", showPath = "";
+    private String showPath;
+    private String showTime;
+    private String showDate;
+
+    private Button createShowTime;
+    private Button createShowDate;
+    private Button createShowAudioFile;
+    private Button createShowList;
+    private Button createShowOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,37 +51,52 @@ public class AddShowActivity extends AppCompatActivity {
             actionBar.setTitle(getResources().getString(R.string.home_add_show));
         }
 
+        createShowTime = (Button) findViewById(R.id.create_show_time);
+        createShowDate = (Button) findViewById(R.id.create_show_date);
+        createShowAudioFile = (Button) findViewById(R.id.create_show_audio_file);
+        createShowList = (Button) findViewById(R.id.create_show_list);
+        createShowOk = (Button) findViewById(R.id.create_show_ok);
+
+        if(createShowTime != null)
+            createShowTime.setOnClickListener(this);
+
+        if(createShowDate != null)
+            createShowDate.setOnClickListener(this);
+
+        if(createShowAudioFile != null)
+            createShowAudioFile.setOnClickListener(this);
+
+        if(createShowList != null)
+            createShowList.setOnClickListener(this);
+
+        if(createShowOk != null)
+            createShowOk.setOnClickListener(this);
+
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         senderPhoneNum = pref.getString("phoneNum", "0000000000");
 
         // AMQP stuff
         AMQPPublish.setupConnectionFactory();
         AMQPPublish.publishToAMQP();
+    }
 
-        // initialise screen elements
-        create_show_list = (EditText)findViewById(R.id.create_show_list);
-
-        final Button create_show_time = (Button) findViewById(R.id.create_show_time);
-        create_show_time.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
-        create_show_time.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.create_show_time:
                 TimePickerDialog mTimePicker;
                 mTimePicker = new TimePickerDialog(AddShowActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         showTime = "" + selectedHour + ":" + selectedMinute + ":00" ;
-                        create_show_time.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_green));
+                        createShowTime.setText(getResources().getString(R.string.create_show_time) + " " + showTime);
                     }
                 }, 15 , 0 , false);
                 mTimePicker.setTitle("Select Time For the Show");
                 mTimePicker.show();
-            }
-        });
+                break;
 
-        final Button create_show_date = (Button) findViewById(R.id.create_show_date);
-        create_show_date.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_red));
-        create_show_date.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            case R.id.create_show_date:
                 Calendar c = Calendar.getInstance();
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
@@ -92,29 +105,25 @@ public class AddShowActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         showDate = "" + dayOfMonth + "/" + (monthOfYear+1) + "/" + year;
-                        create_show_date.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_green));
+                        createShowDate.setText(getResources().getString(R.string.create_show_date) + " " + showDate);
                     }
                 }
                 DatePickerDialog dialog = new DatePickerDialog(AddShowActivity.this, new mDateSetListener(), mYear, mMonth, mDay);
                 dialog.show();
-            }
-        });
+                break;
 
-        final Button create_show_audio_file = (Button) findViewById(R.id.create_show_audio_file);
-         create_show_audio_file.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+            case R.id.create_show_audio_file:
                 Intent intent = new Intent();
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Audio File"), REQUEST_PICK_AUDIO);
-                create_show_audio_file.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.add_show_green));
-            }
-        });
+                break;
 
-        final Button create_show_ok = (Button) findViewById(R.id.create_show_ok);
-        create_show_ok.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (create_show_list.getText().toString().trim().length() > 0
+            case R.id.create_show_list:
+                break;
+
+            case R.id.create_show_ok:
+               /* if (create_show_list.getText().toString().trim().length() > 0
                         &&  !showDate.equals("-1") && !showTime.equals("-1")) {
                     try {
                         final JSONObject jsonObject = new JSONObject();
@@ -139,10 +148,10 @@ public class AddShowActivity extends AppCompatActivity {
                 }
                 else {
                     Toast.makeText(AddShowActivity.this, "Enter Valid Data!", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 Toast.makeText(AddShowActivity.this, "Show Created! Press Back Now.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                break;
+        }
     }
 
     @Override
@@ -165,6 +174,7 @@ public class AddShowActivity extends AppCompatActivity {
             Uri selectedAudioURI = intent.getData();
             File audioFile = new File(getRealPathFromURI(selectedAudioURI));
             showPath = audioFile.getName();
+            createShowAudioFile.setText(getResources().getString(R.string.create_show_audio_file) + " " + showPath);
         }
     }
 

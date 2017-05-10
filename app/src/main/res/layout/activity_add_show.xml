@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:text="@string/create_show_time"
-            android:background="@color/home_add_show"
+            android:background="@color/btn_create_show_time"
             android:drawableTop="@drawable/ic_access_time_black_24dp"/>
 
         <Button
@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:text="@string/create_show_date"
-            android:background="@color/home_host_show"
+            android:background="@color/btn_create_show_date"
             android:drawableTop="@drawable/ic_date_range_black_24dp"/>
 
     </LinearLayout>
@@ -45,8 +45,18 @@
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:text="@string/create_show_audio_file"
-            android:background="@color/home_notifications"
+            android:background="@color/btn_create_show_audio_file"
             android:drawableLeft="@drawable/ic_audiotrack_black_24dp"
+            android:paddingLeft="@dimen/home_left_icon_pad"/>
+
+        <Button
+            android:id="@+id/create_show_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:text="@string/create_show_listeners"
+            android:background="@color/btn_manage_listeners"
+            android:drawableLeft="@drawable/ic_noun_922383_cc"
             android:paddingLeft="@dimen/home_left_icon_pad"/>
 
         <Button
@@ -54,9 +64,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
-            android:text="@string/create_show_listeners"
-            android:background="@color/btn_manage_listeners"
-            android:drawableLeft="@drawable/ic_noun_922383_cc"
+            android:text="@string/create_show_ok"
+            android:background="@color/btn_create_show_ok"
+            android:drawableLeft="@drawable/ic_add_circle_outline_black_24dp"
             android:paddingLeft="@dimen/home_left_icon_pad"/>
 
     </LinearLayout>
