@@ -23,23 +23,26 @@ dependencies {
 
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile files('libs/commons-cli-1.1.jar')
     compile files('libs/hamcrest-core.jar')
     compile files('libs/junit.jar')
     compile files('libs/rabbitmq-client.jar')
     compile files('libs/rabbitmq-client-tests.jar')
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
     compile files('libs/common-lang3.jar')
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
     compile 'com.google.android.exoplayer:exoplayer:r1.5.7'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.google.android.gms:play-services-auth:9.8.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }
+
+
 
 apply plugin: 'com.google.gms.google-services'

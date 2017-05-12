@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#009688</color>
 
+    <color name="colorBlack">#000000</color>
+
     <color name="home_help">#ffffff</color>
     <color name="home_notifications">#ff99cc00</color>
     <color name="home_add_show">#ff33b5e5</color>
@@ -17,4 +19,8 @@
     <color name="btn_create_show_audio_file">#00aedb</color>
     <color name="btn_manage_listeners">#f37735</color>
     <color name="btn_create_show_ok">#ffc425</color>
+
+    <color name="btn_add_listeners">#ffa700</color>
+    <color name="btn_delete_listeners">#d62d20</color>
+    <color name="btn_show_listeners">#008744</color>
 </resources>

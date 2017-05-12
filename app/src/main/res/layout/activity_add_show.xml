@@ -50,7 +50,7 @@
             android:paddingLeft="@dimen/home_left_icon_pad"/>
 
         <Button
-            android:id="@+id/create_show_list"
+            android:id="@+id/manage_listeners"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1.0"

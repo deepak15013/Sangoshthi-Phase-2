@@ -21,6 +21,7 @@
     <string name="create_show_audio_file">AUDIO FILE</string>
     <string name="create_show_list">Enter List of Phone Numbers \n (separated by a , )</string>
     <string name="create_show_ok">OK</string>
+
     <string name="create_show_listeners">Manage Listeners</string>
 
     <string name="host_show_nolisting">------</string>
@@ -34,4 +35,14 @@
     <string name="show_start_poll_get_result">GET POLL RESULT</string>
     <string name="show_play_pause">PLAY/PAUSE</string>
     <string name="show_ashalist_default">--ASHA Name--</string>
+
+    <!-- Strings for ManageListeners Activity -->
+    <string name="btn_add_listeners">Add Listeners</string>
+    <string name="btn_delete_listeners">Delete Listeners</string>
+    <string name="btn_show_listeners">Show Listeners</string>
+
+    <!-- Strings for Add Listeners -->
+    <string name="tv_add_listeners">Enter Listeners Number</string>
+    <string name="tv_phone_prefix">+91</string>
+
 </resources>

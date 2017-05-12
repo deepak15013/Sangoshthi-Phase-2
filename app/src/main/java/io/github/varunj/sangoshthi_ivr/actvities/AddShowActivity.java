@@ -54,7 +54,7 @@ public class AddShowActivity extends AppCompatActivity implements View.OnClickLi
         createShowTime = (Button) findViewById(R.id.create_show_time);
         createShowDate = (Button) findViewById(R.id.create_show_date);
         createShowAudioFile = (Button) findViewById(R.id.create_show_audio_file);
-        createShowList = (Button) findViewById(R.id.create_show_list);
+        createShowList = (Button) findViewById(R.id.manage_listeners);
         createShowOk = (Button) findViewById(R.id.create_show_ok);
 
         if(createShowTime != null)
@@ -119,7 +119,9 @@ public class AddShowActivity extends AppCompatActivity implements View.OnClickLi
                 startActivityForResult(Intent.createChooser(intent, "Select Audio File"), REQUEST_PICK_AUDIO);
                 break;
 
-            case R.id.create_show_list:
+            case R.id.manage_listeners:
+                Intent manageListenersIntent = new Intent(this, ManageListeners.class);
+                startActivity(manageListenersIntent);
                 break;
 
             case R.id.create_show_ok:
