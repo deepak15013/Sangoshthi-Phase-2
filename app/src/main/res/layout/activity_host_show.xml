@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="16dip"
-    tools:context="io.github.varunj.sangoshthi_ivr.actvities.HostShowActivity">
+    tools:context="io.github.varunj.sangoshthi_ivr.activities.HostShowActivity">
 
     <ListView
         android:id="@+id/host_show_list_master"

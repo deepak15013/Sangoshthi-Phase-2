@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr.actvities;
+package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import io.github.varunj.sangoshthi_ivr.R;
-import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
+import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -33,7 +33,7 @@ public class TutorialsActivity extends AppCompatActivity {
         senderPhoneNum = pref.getString("phoneNum", "0000000000");
 
         // AMQP stuff
-        AMQPPublish.setupConnectionFactory();
+        /*AMQPPublish.setupConnectionFactory();
         AMQPPublish.publishToAMQP();
 
         final Button tutorials_call = (Button) findViewById(R.id.tutorials_call);
@@ -53,11 +53,11 @@ public class TutorialsActivity extends AppCompatActivity {
                 }
                 System.out.println("Expect a call back soon.");
             }
-        });
+        });*/
 
     }
 
-    @Override
+   /* @Override
     protected void onDestroy() {
         if (AMQPPublish.publishThread != null)
             AMQPPublish.publishThread.interrupt();
@@ -69,6 +69,6 @@ public class TutorialsActivity extends AppCompatActivity {
         if (AMQPPublish.publishThread != null)
             AMQPPublish.publishThread.interrupt();
         super.onBackPressed();
-    }
+    }*/
 
 }

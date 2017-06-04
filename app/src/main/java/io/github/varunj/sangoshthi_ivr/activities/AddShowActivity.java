@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr.actvities;
+package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.Calendar;
 
 import io.github.varunj.sangoshthi_ivr.R;
-import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
+import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -76,8 +76,9 @@ public class AddShowActivity extends AppCompatActivity implements View.OnClickLi
         senderPhoneNum = pref.getString("phoneNum", "0000000000");
 
         // AMQP stuff
-        AMQPPublish.setupConnectionFactory();
-        AMQPPublish.publishToAMQP();
+        // Todo
+        /*AMQPPublish.setupConnectionFactory();
+        AMQPPublish.publishToAMQP();*/
     }
 
     @Override
@@ -156,7 +157,8 @@ public class AddShowActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
+    // Todo
+    /*@Override
     protected void onDestroy() {
         if (AMQPPublish.publishThread != null)
             AMQPPublish.publishThread.interrupt();
@@ -168,7 +170,7 @@ public class AddShowActivity extends AppCompatActivity implements View.OnClickLi
         if (AMQPPublish.publishThread != null)
             AMQPPublish.publishThread.interrupt();
         super.onBackPressed();
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {

@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr.actvities;
+package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;

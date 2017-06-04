@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".actvities.LoginActivity">
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,28 +24,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".actvities.SplashScreenActivity"
+            android:name=".activities.SplashScreenActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".actvities.HomeActivity"
+            android:name=".activities.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".actvities.AddShowActivity"
+            android:name=".activities.AddShowActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".actvities.HostShowActivity"
+            android:name=".activities.HostShowActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".actvities.NotificationsActivity"
+            android:name=".activities.NotificationsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".actvities.TutorialsActivity"
+            android:name=".activities.TutorialsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".actvities.ShowActivity"
+            android:name=".activities.ShowActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".actvities.ManageListeners" />
-        <activity android:name=".actvities.AddListeners"></activity>
+        <activity
+            android:name=".activities.ManageListeners"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.AddListeners"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

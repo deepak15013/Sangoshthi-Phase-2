@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr.actvities;
+package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr.actvities;
+package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.adapters.ShowListAdapter;
-import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
+import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -56,7 +56,7 @@ public class ShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        /*SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         senderPhoneNum = pref.getString("phoneNum", "0000000000");
 
         // AMQP stuff
@@ -310,10 +310,10 @@ public class ShowActivity extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
-    // subscribe to RabbitMQ
-    public static ConnectionFactory factory = new ConnectionFactory();
+        // subscribe to RabbitMQ
+    /*public static ConnectionFactory factory = new ConnectionFactory();
     public static  void setupConnectionFactory() {
         try {
             factory.setUsername(LoginActivity.SERVER_USERNAME);
@@ -326,8 +326,8 @@ public class ShowActivity extends AppCompatActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    void subscribe() {
+    }*/
+    /*void subscribe() {
         subscribeThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -425,6 +425,6 @@ public class ShowActivity extends AppCompatActivity {
             }
         });
         subscribeThread.start();
+    }*/
     }
-
 }

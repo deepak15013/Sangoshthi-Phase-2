@@ -1,4 +1,4 @@
-package io.github.varunj.sangoshthi_ivr.actvities;
+package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import io.github.varunj.sangoshthi_ivr.R;
-import io.github.varunj.sangoshthi_ivr.utils.AMQPPublish;
+import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -83,12 +83,14 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         // AMQP stuff
-        AMQPPublish.setupConnectionFactory();
-        AMQPPublish.publishToAMQP();
-        setupConnectionFactory();
-        subscribe();
+        // TODO: 03-06-2017
+        /*AMQPPublish.setupConnectionFactory();
+        AMQPPublish.publishToAMQP();*/
+        /*setupConnectionFactory();
+        subscribe();*/
 
-        try {
+        // TODO: 03-06-2017
+        /*try {
             final JSONObject jsonObject = new JSONObject();
             //primary key: <broadcaster, show_name>
             jsonObject.put("objective", "app_launch_notify");
@@ -99,11 +101,11 @@ public class HomeActivity extends AppCompatActivity {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         show_id.clear();
@@ -114,7 +116,8 @@ public class HomeActivity extends AppCompatActivity {
         notifications_message_id.clear();
         notifications_state.clear();
 
-        try {
+        // TODO: 03-06-2017
+       /* try {
             final JSONObject jsonObject = new JSONObject();
             //primary key: <broadcaster, show_name>
             jsonObject.put("objective", "get_notifications");
@@ -256,5 +259,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         subscribeThread.start();
+    }*/
     }
 }

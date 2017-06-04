@@ -5,6 +5,7 @@
     <color name="colorAccent">#009688</color>
 
     <color name="colorBlack">#000000</color>
+    <color name="colorWhite">#ffffff</color>
 
     <color name="home_help">#ffffff</color>
     <color name="home_notifications">#ff99cc00</color>

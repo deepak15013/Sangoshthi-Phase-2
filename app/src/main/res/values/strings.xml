@@ -1,11 +1,10 @@
 <resources>
     <string name="app_name">xSangoshthi_IVR</string>
 
-    <string name="login_minLen_name">1</string>
-    <string name="login_len_phoneNum">10</string>
-    <string name="login_heading">USER REGISTRATION</string>
-    <string name="login_signin">Sign In</string>
-    <string name="login_toast_wrong_name">Enter Name</string>
+    <string name="login_text_register">USER REGISTRATION</string>
+    <string name="login_hint_phone">Enter PhoneNo</string>
+    <string name="login_btn_sign_in">Sign In</string>
+
     <string name="login_toast_wrong_phoneNum">Enter Your 10 Digit Phone Number</string>
 
     <string name="splash_screen_text">Welcome</string>

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context="io.github.varunj.sangoshthi_ivr.actvities.HomeActivity">
+    tools:context="io.github.varunj.sangoshthi_ivr.activities.HomeActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
