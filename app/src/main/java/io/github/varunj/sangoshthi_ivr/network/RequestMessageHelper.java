@@ -10,17 +10,17 @@ import java.util.Date;
  * Created by deepak on 03-06-2017.
  */
 
-public class MessageHelper {
+public class RequestMessageHelper {
 
-    private static MessageHelper instance;
+    private static RequestMessageHelper instance;
 
-    private MessageHelper() {
+    private RequestMessageHelper() {
 
     }
 
-    public static synchronized MessageHelper getInstance() {
+    public static synchronized RequestMessageHelper getInstance() {
         if(instance == null) {
-            instance = new MessageHelper();
+            instance = new RequestMessageHelper();
         }
         return instance;
     }

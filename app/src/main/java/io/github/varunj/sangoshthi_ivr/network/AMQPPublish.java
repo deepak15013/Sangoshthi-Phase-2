@@ -1,11 +1,7 @@
 package io.github.varunj.sangoshthi_ivr.network;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
-import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -111,6 +107,14 @@ public class AMQPPublish {
 
     }
 
+    public void publishMessage(JSONObject message) {
+        try {
+            queue.putLast(message);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void subscribe(final String senderPhoneNum) {
         subscribeThread = new Thread(new Runnable() {
             @Override
@@ -128,7 +132,9 @@ public class AMQPPublish {
                         while (true) {
                             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
                             final JSONObject message = new JSONObject(new String(delivery.getBody()));
-                            Log.d("","[r] " + message.toString());
+                            Log.d(TAG, "[r] " + message.toString());
+
+                            ResponseMessageHelper.getInstance().handle(message);
 
                             /*Message msg = handler.obtainMessage();
                             Bundle bundle = new Bundle();
@@ -150,15 +156,6 @@ public class AMQPPublish {
             }
         });
         subscribeThread.start();
-    }
-
-    public void publishMessage(JSONObject message) {
-        try {
-            Log.d("","[q] " + message);
-            queue.putLast(message);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void interruptThreads() {

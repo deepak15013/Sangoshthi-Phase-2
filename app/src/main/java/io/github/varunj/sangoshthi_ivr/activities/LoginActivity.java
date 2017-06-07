@@ -1,8 +1,7 @@
 package io.github.varunj.sangoshthi_ivr.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,8 @@ import android.widget.EditText;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
-import io.github.varunj.sangoshthi_ivr.network.MessageHelper;
+import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
+import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
  * Created by Varun on 04-03-2017.
@@ -21,9 +21,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
 
-    private EditText etPhone;
-    private Button btnSignIn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,16 +29,30 @@ public class LoginActivity extends AppCompatActivity {
         AMQPPublish.getInstance().setupConnectionFactory();
         AMQPPublish.getInstance().publishToAMQP();
 
-        etPhone = (EditText) findViewById(R.id.et_phone);
-        btnSignIn = (Button) findViewById(R.id.btn_sign_in);
+        SharedPreferenceManager.getInstance().init(getApplicationContext());
+        if(!SharedPreferenceManager.getInstance().getSession()) {
+            // first time login, get phone number
+            final EditText etPhone = (EditText) findViewById(R.id.et_phone);
+            Button btnSignIn = (Button) findViewById(R.id.btn_sign_in);
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
-                MessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
-            }
-        });
+            btnSignIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(etPhone != null && !etPhone.getText().toString().equals("")) {
+                        SharedPreferenceManager.getInstance().setMobileNumber(etPhone.getText().toString());
+                        SharedPreferenceManager.getInstance().setSession();
+
+                        AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
+                        RequestMessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
+
+                        startNextActivity();
+                    }
+                }
+            });
+        } else {
+            // Login Procedure done, redirect to next activity
+            startNextActivity();
+        }
     }
 
     @Override
@@ -49,5 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onDestroy();
         Log.i(TAG, "Closing pub and sub threads");
         AMQPPublish.getInstance().interruptThreads();
+    }
+
+    private void startNextActivity() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }
