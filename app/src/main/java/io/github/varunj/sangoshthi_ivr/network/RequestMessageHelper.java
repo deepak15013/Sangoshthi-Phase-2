@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.util.Date;
 
+import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
+
 /**
  * Created by deepak on 03-06-2017.
  */
@@ -54,15 +56,13 @@ public class RequestMessageHelper {
      * Request - {"objective" : "get_upcoming_show", "broadcaster" : "9716517818", "cohort_id" : "3", "timestamp" : "erfs" }
      * Response - {"objective": "upcoming_show_data", "show_id": "show_3", "time_of_airing": "2017-06-15 18:00:00", "topic": "play and communication"}'
      *
-     * @param broadcaster
-     * @param cohort_id
      */
-    public void getUpcomingShow(String broadcaster, String cohort_id) {
+    public void getUpcomingShow() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "get_upcoming_show");
-            jsonObject.put("broadcaster", broadcaster);
-            jsonObject.put("cohort_id", cohort_id);
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
@@ -73,17 +73,14 @@ public class RequestMessageHelper {
     /**
      * Start Show
      *
-     * @param broadcaster
-     * @param cohort_id
-     * @param show_id
      */
-    public void startShow(String broadcaster, String cohort_id, String show_id) {
+    public void startShow() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "start_show");
-            jsonObject.put("broadcaster", broadcaster);
-            jsonObject.put("cohort_id", cohort_id);
-            jsonObject.put("show_id", show_id);
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
@@ -94,19 +91,15 @@ public class RequestMessageHelper {
     /**
      * Dial Listeners
      *
-     * @param broadcaster
-     * @param cohort_id
-     * @param show_id
-     * @param conference_name
      */
-    public void dialListeners(String broadcaster, String cohort_id, String show_id, String conference_name) {
+    public void dialListeners() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "dial_listeners");
-            jsonObject.put("broadcaster", broadcaster);
-            jsonObject.put("cohort_id", cohort_id);
-            jsonObject.put("show_id", show_id);
-            jsonObject.put("conference_name", conference_name);
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
             jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {

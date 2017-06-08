@@ -15,12 +15,16 @@ public class SharedPreferenceManager {
     private SharedPreferences sharedPreferences;
     private static SharedPreferenceManager instance;
 
-    private String mobileNumber = null;
+    private String broadcaster = null;
     private String cohortId = null;
+    private String showId = null;
+    private String conferenceName = null;
 
     private final String PREF_IS_LOGGED_IN = "isLoggedIn";
-    private final String PREF_USER_CONTACT_NUM = "userContactNum";
+    private final String PREF_BROADCASTER = "userContactNum";
     private final String PREF_COHORT_ID = "cohort_id";
+    private final String PREF_SHOW_ID = "show_id";
+    private final String PREF_CONFERENCE_NAME = "conference_name";
 
     private SharedPreferenceManager() { }
 
@@ -49,15 +53,15 @@ public class SharedPreferenceManager {
         return sharedPreferences != null && sharedPreferences.edit().putBoolean(PREF_IS_LOGGED_IN, false).commit();
     }
 
-    public boolean setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
-        return sharedPreferences != null && sharedPreferences.edit().putString(PREF_USER_CONTACT_NUM, mobileNumber).commit();
+    public boolean setBroadcaster(String broadcaster) {
+        this.broadcaster = broadcaster;
+        return sharedPreferences != null && sharedPreferences.edit().putString(PREF_BROADCASTER, broadcaster).commit();
     }
 
-    public String getMobileNumber() {
-        if(this.mobileNumber == null)
-            this.mobileNumber = sharedPreferences.getString(PREF_USER_CONTACT_NUM, "0123456789");
-        return this.mobileNumber;
+    public String getBroadcaster() {
+        if(this.broadcaster == null)
+            this.broadcaster = sharedPreferences.getString(PREF_BROADCASTER, "0123456789");
+        return this.broadcaster;
     }
 
     public boolean setCohortId(String cohortId) {
@@ -71,4 +75,27 @@ public class SharedPreferenceManager {
         return this.cohortId;
     }
 
+    public boolean setShowId(String showId) {
+        this.showId = showId;
+        return sharedPreferences != null && sharedPreferences.edit().putString(PREF_SHOW_ID, showId).commit();
+    }
+
+    public String getShowId() {
+        if(this.showId == null) {
+            this.showId = sharedPreferences.getString(PREF_SHOW_ID, "");
+        }
+        return this.showId;
+    }
+
+    public boolean setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
+        return sharedPreferences != null && sharedPreferences.edit().putString(PREF_CONFERENCE_NAME, conferenceName).commit();
+    }
+
+    public String getConferenceName() {
+        if(this.conferenceName == null) {
+            this.conferenceName = sharedPreferences.getString(PREF_CONFERENCE_NAME, "");
+        }
+        return this.conferenceName;
+    }
 }

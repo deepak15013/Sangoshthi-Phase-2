@@ -4,17 +4,18 @@
     android:layout_height="match_parent">
 
     <Button
+        android:id="@+id/show_call_self"
         android:text="@string/show_call_self"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/show_call_self"
+        android:layout_above="@+id/show_ashalist_master"
         android:layout_toLeftOf="@+id/show_call_else"
-        android:layout_marginTop="20dp"/>
+        android:layout_toStartOf="@+id/show_call_else" />
     <Button
+        android:id="@+id/show_call_else"
         android:text="@string/show_call_else"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/show_call_else"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"

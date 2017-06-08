@@ -1,46 +1,29 @@
 package io.github.varunj.sangoshthi_ivr.activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
-
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.QueueingConsumer;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import io.github.varunj.sangoshthi_ivr.R;
-import io.github.varunj.sangoshthi_ivr.adapters.ShowListAdapter;
-import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
+import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
+import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 
 /**
  * Created by Varun on 12-Mar-17.
  */
 
-public class ShowActivity extends AppCompatActivity {
+public class ShowActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String senderPhoneNum;
+    private static final String TAG = ShowActivity.class.getSimpleName();
+
+    /*private String senderPhoneNum;
     private String show_id, time_of_air, audio_name, ashalist;
     private int poll = 0;
     private int playpause = 0;
@@ -49,12 +32,38 @@ public class ShowActivity extends AppCompatActivity {
     ArrayList<Integer> ashaListOnline;
     ArrayList<Integer> ashaListMute;
     ArrayList<String> ashaListPoll;
-    Thread subscribeThread;
+    Thread subscribeThread;*/
+
+    private Button showCallSelf;
+    private Button showCallElse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
+
+        showCallSelf = (Button) findViewById(R.id.show_call_self);
+        showCallSelf.setOnClickListener(this);
+
+        showCallElse = (Button) findViewById(R.id.show_call_else);
+        showCallElse.setOnClickListener(this);
+
+        RequestMessageHelper.getInstance().getUpcomingShow();
+
+        final Handler incomingMessageHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
+                try {
+                    JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
 
         /*SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         senderPhoneNum = pref.getString("phoneNum", "0000000000");
@@ -426,5 +435,21 @@ public class ShowActivity extends AppCompatActivity {
         });
         subscribeThread.start();
     }*/
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.show_call_self:
+                RequestMessageHelper.getInstance().startShow();
+                break;
+
+            case R.id.show_call_else:
+                RequestMessageHelper.getInstance().dialListeners();
+                break;
+
+            default:
+                break;
+        }
     }
 }

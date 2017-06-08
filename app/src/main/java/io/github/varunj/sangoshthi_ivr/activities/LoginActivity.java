@@ -30,7 +30,8 @@ public class LoginActivity extends AppCompatActivity {
         AMQPPublish.getInstance().publishToAMQP();
 
         SharedPreferenceManager.getInstance().init(getApplicationContext());
-        if(!SharedPreferenceManager.getInstance().getSession()) {
+        //if(!SharedPreferenceManager.getInstance().getSession()) {
+        if(true) {
             // first time login, get phone number
             final EditText etPhone = (EditText) findViewById(R.id.et_phone);
             Button btnSignIn = (Button) findViewById(R.id.btn_sign_in);
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(etPhone != null && !etPhone.getText().toString().equals("")) {
-                        SharedPreferenceManager.getInstance().setMobileNumber(etPhone.getText().toString());
+                        SharedPreferenceManager.getInstance().setBroadcaster(etPhone.getText().toString());
                         SharedPreferenceManager.getInstance().setSession();
 
                         AMQPPublish.getInstance().subscribe(etPhone.getText().toString());

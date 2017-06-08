@@ -136,11 +136,6 @@ public class AMQPPublish {
 
                             ResponseMessageHelper.getInstance().handle(message);
 
-                            /*Message msg = handler.obtainMessage();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("msg", message);
-                            msg.setData(bundle);
-                            handler.sendMessage(msg);*/
                         }
                     } catch (InterruptedException e) {
                         break;
