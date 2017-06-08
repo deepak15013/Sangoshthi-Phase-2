@@ -109,6 +109,7 @@ public class AMQPPublish {
 
     public void publishMessage(JSONObject message) {
         try {
+            Log.d(TAG, "pushing message to queue - " + message);
             queue.putLast(message);
         } catch (InterruptedException e) {
             e.printStackTrace();
