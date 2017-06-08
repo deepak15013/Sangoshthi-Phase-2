@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,11 +20,17 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
     private List<String> moviesList;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
+        public TextView tvListenerNumber;
+        public ImageView ivMuteUnmute;
+        public ImageView ivQuestion;
+        public ImageView ivOnline;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.textView);
+            tvListenerNumber = (TextView) itemView.findViewById(R.id.tv_listener_number);
+            ivMuteUnmute = (ImageView) itemView.findViewById(R.id.iv_mute_unmute);
+            ivQuestion = (ImageView) itemView.findViewById(R.id.iv_question);
+            ivQuestion = (ImageView) itemView.findViewById(R.id.iv_online);
         }
     }
 
@@ -40,7 +47,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.textView.setText(moviesList.get(position));
+        holder.tvListenerNumber.setText(moviesList.get(position));
     }
 
     @Override

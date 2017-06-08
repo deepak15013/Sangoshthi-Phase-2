@@ -7,8 +7,6 @@
 
     <string name="login_toast_wrong_phoneNum">Enter Your 10 Digit Phone Number</string>
 
-    <string name="splash_screen_text">Welcome</string>
-
     <string name="home_add_show">CREATE SHOW</string>
     <string name="home_host_show">HOST SHOW</string>
     <string name="home_notifications">NOTIFICATIONS</string>
@@ -43,5 +41,13 @@
     <!-- Strings for Add Listeners -->
     <string name="tv_add_listeners">Enter Listeners Number</string>
     <string name="tv_phone_prefix">+91</string>
+
+    <!-- Dummy text strings -->
+    <string name="dummy_phone_num">0123456789</string>
+    
+    <!-- Content Desciptions -->
+    <string name="cd_iv_mute_unmute">Mute Unmute</string>
+    <string name="cd_iv_question">Question Asked</string>
+    <string name="cd_iv_online">User Online</string>
 
 </resources>
