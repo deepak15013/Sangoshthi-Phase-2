@@ -110,21 +110,18 @@ public class RequestMessageHelper {
     /**
      * Mute
      *
-     * @param broadcaster
-     * @param cohort_id
-     * @param show_id
-     * @param conference_name
      * @param listener_phoneno
      */
-    public void mute(String broadcaster, String cohort_id, String show_id, String conference_name, String listener_phoneno) {
+    public void mute(String listener_phoneno, int turn) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "mute");
-            jsonObject.put("broadcaster", broadcaster);
-            jsonObject.put("cohort_id", cohort_id);
-            jsonObject.put("show_id", show_id);
-            jsonObject.put("conference_name", conference_name);
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
             jsonObject.put("listener_phoneno", listener_phoneno);
+            jsonObject.put("turn", turn);
             jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
@@ -135,21 +132,18 @@ public class RequestMessageHelper {
     /**
      * Unmute
      *
-     * @param broadcaster
-     * @param cohort_id
-     * @param show_id
-     * @param conference_name
      * @param listener_phoneno
      */
-    public void unmute(String broadcaster, String cohort_id, String show_id, String conference_name, String listener_phoneno) {
+    public void unmute(String listener_phoneno, int turn) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("objective", "mute");
-            jsonObject.put("broadcaster", broadcaster);
-            jsonObject.put("cohort_id", cohort_id);
-            jsonObject.put("show_id", show_id);
-            jsonObject.put("conference_name", conference_name);
+            jsonObject.put("objective", "unmute");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
             jsonObject.put("listener_phoneno", listener_phoneno);
+            jsonObject.put("turn", turn);
             jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {

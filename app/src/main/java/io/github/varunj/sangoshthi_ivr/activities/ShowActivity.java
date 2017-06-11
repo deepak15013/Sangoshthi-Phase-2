@@ -20,6 +20,7 @@ import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.adapters.ListenersRecyclerViewAdapter;
+import io.github.varunj.sangoshthi_ivr.models.CallerState;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 
@@ -37,7 +38,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView rvListenersContent;
     private ListenersRecyclerViewAdapter mAdapter;
 
-    private List<String> moviesList;
+    private List<CallerState> callerStateList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +53,9 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         rvListenersContent = (RecyclerView) findViewById(R.id.rv_listeners_content);
 
-        moviesList = new ArrayList<>();
-        moviesList.add("Foo");
-        moviesList.add("Bar");
+        callerStateList = new ArrayList<>();
 
-        mAdapter = new ListenersRecyclerViewAdapter(moviesList);
+        mAdapter = new ListenersRecyclerViewAdapter(this, callerStateList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvListenersContent.setLayoutManager(layoutManager);
         rvListenersContent.setItemAnimator(new DefaultItemAnimator());
@@ -71,12 +70,45 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
 
+                    switch (jsonObject.getString("objective")) {
+                        case "conf_member_status":
+                            CallerState callerState = new CallerState(
+                                    jsonObject.getString("phoneno"),
+                                    true,
+                                    false,
+                                    jsonObject.getString("task"));
+
+                            int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
+                            if(callerId == -1) {
+                                callerStateList.add(callerState);
+                            } else {
+                                callerStateList.set(callerId, callerState);
+                            }
+
+                            Log.d(TAG, "notify data set changed");
+                            mAdapter.notifyDataSetChanged();
+                            break;
+
+                        default:
+                            Log.d(TAG, "objective not matched: " + jsonObject.toString());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         };
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
+    }
+
+    private int matchPhoneExists(List<CallerState> callerStateList, String phoneno) {
+        for(int i = 0; i < callerStateList.size(); i++) {
+            if(callerStateList.get(i).getPhoneNum().equals(phoneno)) {
+                Log.d(TAG, "update " + i + " position in caller list");
+                return i;
+            }
+        }
+        Log.d(TAG, "new caller");
+        return -1;
     }
 
     @Override

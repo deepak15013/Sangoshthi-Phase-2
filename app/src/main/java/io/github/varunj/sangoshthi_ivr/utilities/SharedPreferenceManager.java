@@ -20,8 +20,8 @@ public class SharedPreferenceManager {
     private String showId = null;
     private String conferenceName = null;
 
-    private final String PREF_IS_LOGGED_IN = "isLoggedIn";
-    private final String PREF_BROADCASTER = "userContactNum";
+    private final String PREF_IS_LOGGED_IN = "is_logged_in";
+    private final String PREF_BROADCASTER = "broadcaster";
     private final String PREF_COHORT_ID = "cohort_id";
     private final String PREF_SHOW_ID = "show_id";
     private final String PREF_CONFERENCE_NAME = "conference_name";

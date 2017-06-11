@@ -35,30 +35,30 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_mute_unmute"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginEnd="20dp"
                 android:contentDescription="@string/cd_iv_mute_unmute"
-                android:src="@drawable/speakernot" />
+                android:src="@drawable/mute" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_question"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:contentDescription="@string/cd_iv_question"
                 android:src="@drawable/query" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/iv_online"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
                 android:contentDescription="@string/cd_iv_online"
-                android:src="@drawable/red" />
+                android:src="@drawable/offline" />
 
         </LinearLayout>
 

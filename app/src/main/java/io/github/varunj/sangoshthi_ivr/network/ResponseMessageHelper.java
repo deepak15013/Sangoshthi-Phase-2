@@ -91,7 +91,7 @@ public class ResponseMessageHelper {
     }
 
     private void handleConfMemberStatus(JSONObject message) throws JSONException {
-        if(message.getString("task").equals("online") || message.getString("task").equals("offline")) {
+        if(message.getString("task").equals("offline") || message.getString("task").equals("online")) {
             sendCallbackToActivity(message);
         }
     }
