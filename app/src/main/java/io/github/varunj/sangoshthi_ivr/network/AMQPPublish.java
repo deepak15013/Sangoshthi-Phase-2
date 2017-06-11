@@ -2,6 +2,7 @@ package io.github.varunj.sangoshthi_ivr.network;
 
 import android.util.Log;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -79,8 +80,13 @@ public class AMQPPublish {
                                 channel.queueDeclare(QUEUE_NAME, false, false, false, null);
                                 channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, QUEUE_NAME);
 
-                                channel.basicPublish(EXCHANGE_NAME, QUEUE_NAME, null, message.toString().getBytes());
+                                channel.basicPublish(EXCHANGE_NAME,
+                                        QUEUE_NAME,
+                                        new AMQP.BasicProperties.Builder().expiration("10000").build(),
+                                        message.toString().getBytes());
+
                                 Log.d(TAG, "[s] " + message);
+
                                 channel.waitForConfirmsOrDie();
                             } catch (Exception e) {
                                 Log.e(TAG,"[f] " + message);
