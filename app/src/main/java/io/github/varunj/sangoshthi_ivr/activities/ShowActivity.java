@@ -23,6 +23,7 @@ import io.github.varunj.sangoshthi_ivr.adapters.ListenersRecyclerViewAdapter;
 import io.github.varunj.sangoshthi_ivr.models.CallerState;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
+import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -34,6 +35,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button showCallSelf;
     private Button showCallElse;
+    private Button showEndShow;
+    private Button showPlayPause;
 
     private RecyclerView rvListenersContent;
     private ListenersRecyclerViewAdapter mAdapter;
@@ -50,6 +53,12 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         showCallElse = (Button) findViewById(R.id.show_call_else);
         showCallElse.setOnClickListener(this);
+
+        showEndShow = (Button) findViewById(R.id.show_end_show);
+        showEndShow.setOnClickListener(this);
+
+        showPlayPause = (Button) findViewById(R.id.show_play_pause);
+        showPlayPause.setOnClickListener(this);
 
         rvListenersContent = (RecyclerView) findViewById(R.id.rv_listeners_content);
 
@@ -72,21 +81,15 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
                     switch (jsonObject.getString("objective")) {
                         case "conf_member_status":
-                            CallerState callerState = new CallerState(
-                                    jsonObject.getString("phoneno"),
-                                    true,
-                                    false,
-                                    jsonObject.getString("task"));
+                            handleConfMemberStatus(jsonObject);
+                            break;
 
-                            int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
-                            if(callerId == -1) {
-                                callerStateList.add(callerState);
-                            } else {
-                                callerStateList.set(callerId, callerState);
-                            }
+                        case "show_playback_metadata_response":
+                            handleShowPlaybackMetadataResponse(jsonObject);
+                            break;
 
-                            Log.d(TAG, "notify data set changed");
-                            mAdapter.notifyDataSetChanged();
+                        case "media_stopped":
+                            handleMediaStopped(jsonObject);
                             break;
 
                         default:
@@ -98,6 +101,45 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
+    }
+
+    private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
+        CallerState callerState = new CallerState(
+                jsonObject.getString("phoneno"),
+                true,
+                false,
+                jsonObject.getString("task"));
+
+        int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
+        if(callerId == -1) {
+            callerStateList.add(callerState);
+        } else {
+            callerStateList.set(callerId, callerState);
+        }
+
+        Log.d(TAG, "notify data set changed");
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void handleShowPlaybackMetadataResponse(JSONObject jsonObject) throws JSONException {
+        if(SharedPreferenceManager.getInstance().getFeedback()) {
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_play));
+            showPlayPause.setVisibility(View.VISIBLE);
+        } else if(SharedPreferenceManager.getInstance().getShowContent()) {
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+            showPlayPause.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void handleMediaStopped(JSONObject jsonObject) throws JSONException {
+        if(jsonObject.getString("case").equals("feedback")) {
+            if(SharedPreferenceManager.getInstance().getShowContent()) {
+                showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+                showPlayPause.setVisibility(View.VISIBLE);
+            }
+        } else if(jsonObject.getString("case").equals("show_content")) {
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+        }
     }
 
     private int matchPhoneExists(List<CallerState> callerStateList, String phoneno) {
@@ -115,17 +157,46 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.show_call_self:
-                Toast.makeText(this, "Calling", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Calling broadcaster", Toast.LENGTH_SHORT).show();
                 RequestMessageHelper.getInstance().startShow();
+                RequestMessageHelper.getInstance().showPlaybackMetadata();
                 break;
 
             case R.id.show_call_else:
-                Toast.makeText(this, "Calling broadcasters", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Calling listeners", Toast.LENGTH_SHORT).show();
                 RequestMessageHelper.getInstance().dialListeners();
+                break;
+
+            case R.id.show_end_show:
+                Toast.makeText(this, "End show", Toast.LENGTH_SHORT).show();
+                RequestMessageHelper.getInstance().showEndShow();
+                break;
+
+            case R.id.show_play_pause:
+                handleToggleShowPlayPause();
                 break;
 
             default:
                 break;
+        }
+    }
+
+    private void handleToggleShowPlayPause() {
+        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_play))) {
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
+            RequestMessageHelper.getInstance().playFeedback();
+        }
+        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_play));
+            RequestMessageHelper.getInstance().pauseShowContent();
+        }
+        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+            RequestMessageHelper.getInstance().playShowContent();
+        }
+        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+            RequestMessageHelper.getInstance().pauseShowContent();
         }
     }
 }

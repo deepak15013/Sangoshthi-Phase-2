@@ -28,6 +28,7 @@
 
     <string name="show_call_self">CALL SELF</string>
     <string name="show_call_else">CALL EVERYONE</string>
+    <string name="show_end_show">End Show</string>
     <string name="show_start_poll">START POLL</string>
     <string name="show_start_poll_get_result">GET POLL RESULT</string>
     <string name="show_play_pause">PLAY/PAUSE</string>
@@ -37,6 +38,11 @@
     <string name="btn_add_listeners">Add Listeners</string>
     <string name="btn_delete_listeners">Delete Listeners</string>
     <string name="btn_show_listeners">Show Listeners</string>
+
+    <string name="btn_show_play_pause_feedback_play">Play Feedback</string>
+    <string name="btn_show_play_pause_feedback_pause">Stop Feedback</string>
+    <string name="btn_show_play_pause_content_play">Play Content</string>
+    <string name="btn_show_play_pause_content_pause">Stop Content</string>
 
     <!-- Strings for Add Listeners -->
     <string name="tv_add_listeners">Enter Listeners Number</string>

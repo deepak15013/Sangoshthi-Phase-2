@@ -55,6 +55,14 @@ public class ResponseMessageHelper {
                     handleConfMemberStatus(message);
                     break;
 
+                case "show_playback_metadata_response":
+                    handleShowPlaybackMetadataResponse(message);
+                    break;
+
+                case "media_stopped":
+                    handleMediaStopped(message);
+                    break;
+
                 default:
                     Log.e(TAG, "Objective not matched " + message.toString());
             }
@@ -71,6 +79,7 @@ public class ResponseMessageHelper {
      */
     private void handleConfigurationData(JSONObject message) throws JSONException {
         SharedPreferenceManager.getInstance().setCohortId(message.getString("cohort_id"));
+        SharedPreferenceManager.getInstance().setCohortSize(message.getString("cohort_size"));
     }
 
     /**
@@ -96,6 +105,26 @@ public class ResponseMessageHelper {
         }
     }
 
+    private void handleShowPlaybackMetadataResponse(JSONObject message) throws JSONException {
+        if(message.getString("feedback").equals("yes")) {
+            SharedPreferenceManager.getInstance().setFeedback(true);
+        } else {
+            SharedPreferenceManager.getInstance().setFeedback(false);
+        }
+
+        if(message.getString("show_content").equals("yes")) {
+            SharedPreferenceManager.getInstance().setShowContent(true);
+        } else {
+            SharedPreferenceManager.getInstance().setShowContent(false);
+        }
+
+        sendCallbackToActivity(message);
+    }
+
+    private void handleMediaStopped(JSONObject message) throws JSONException {
+        sendCallbackToActivity(message);
+    }
+
     private void sendCallbackToActivity(JSONObject message) {
         Message msg = handler.obtainMessage();
         Bundle bundle = new Bundle();
@@ -103,4 +132,5 @@ public class ResponseMessageHelper {
         msg.setData(bundle);
         handler.sendMessage(msg);
     }
+
 }

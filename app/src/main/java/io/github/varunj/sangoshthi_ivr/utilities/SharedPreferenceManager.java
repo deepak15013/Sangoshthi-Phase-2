@@ -17,14 +17,18 @@ public class SharedPreferenceManager {
 
     private String broadcaster = null;
     private String cohortId = null;
+    private String cohortSize = null;
     private String showId = null;
     private String conferenceName = null;
 
     private final String PREF_IS_LOGGED_IN = "is_logged_in";
     private final String PREF_BROADCASTER = "broadcaster";
     private final String PREF_COHORT_ID = "cohort_id";
+    private final String PREF_COHORT_SIZE = "cohort_size";
     private final String PREF_SHOW_ID = "show_id";
     private final String PREF_CONFERENCE_NAME = "conference_name";
+    private final String PREF_FEEDBACK = "feedback";
+    private final String PREF_SHOW_CONTENT = "show_content";
 
     private SharedPreferenceManager() { }
 
@@ -75,6 +79,18 @@ public class SharedPreferenceManager {
         return this.cohortId;
     }
 
+    public boolean setCohortSize(String cohortSize) {
+        this.cohortSize = cohortSize;
+        return sharedPreferences != null && sharedPreferences.edit().putString(PREF_COHORT_SIZE, cohortSize).commit();
+    }
+
+    public String getCohortSize() {
+        if(this.cohortSize == null) {
+            this.cohortSize = sharedPreferences.getString(PREF_COHORT_SIZE, "-1");
+        }
+        return this.cohortSize;
+    }
+
     public boolean setShowId(String showId) {
         this.showId = showId;
         return sharedPreferences != null && sharedPreferences.edit().putString(PREF_SHOW_ID, showId).commit();
@@ -97,5 +113,21 @@ public class SharedPreferenceManager {
             this.conferenceName = sharedPreferences.getString(PREF_CONFERENCE_NAME, "");
         }
         return this.conferenceName;
+    }
+
+    public boolean getFeedback() {
+        return sharedPreferences.getBoolean(PREF_FEEDBACK, false);
+    }
+
+    public boolean setFeedback(boolean feedback) {
+        return sharedPreferences != null && sharedPreferences.edit().putBoolean(PREF_FEEDBACK, feedback).commit();
+    }
+
+    public boolean getShowContent() {
+        return sharedPreferences.getBoolean(PREF_SHOW_CONTENT, false);
+    }
+
+    public boolean setShowContent(boolean showContent) {
+        return sharedPreferences != null && sharedPreferences.edit().putBoolean(PREF_SHOW_CONTENT, showContent).commit();
     }
 }

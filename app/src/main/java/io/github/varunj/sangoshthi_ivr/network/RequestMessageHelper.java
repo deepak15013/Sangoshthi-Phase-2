@@ -193,7 +193,52 @@ public class RequestMessageHelper {
     public void pauseShowContent() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("objective", "pause_show_content");
+            jsonObject.put("objective", "pause_play_show_content");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.getInstance().publishMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void playFeedback() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("objective", "play_feedback");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.getInstance().publishMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showPlaybackMetadata() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("objective", "show_playback_metadata");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.getInstance().publishMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showEndShow() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("objective", "end_show_call");
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
