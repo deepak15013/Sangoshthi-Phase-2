@@ -47,6 +47,7 @@
         <activity
             android:name=".activities.AddListeners"
             android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

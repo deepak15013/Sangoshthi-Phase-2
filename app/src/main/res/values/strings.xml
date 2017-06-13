@@ -56,4 +56,9 @@
     <string name="cd_iv_question">Question Asked</string>
     <string name="cd_iv_online">User Online</string>
 
+    <!-- Placeholders -->
+    <string name="placeholder_tv_show_topic">Play and Communication</string>
+    <string name="placeholder_tv_show_date_of_airing">7 July 2017</string>
+    <string name="placeholder_tv_show_time_of_airing">14:00</string>
+
 </resources>

@@ -5,11 +5,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:gravity="center_horizontal"
     tools:context="io.github.varunj.sangoshthi_ivr.activities.HostShowActivity">
 
     <TextView
-        android:id="@+id/tv_show_details"
+        android:id="@+id/tv_show_topic"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/placeholder_tv_show_topic"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/tv_show_date_of_airing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/placeholder_tv_show_date_of_airing"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_marginTop="35dp"/>
+
+    <TextView
+        android:id="@+id/tv_show_time_of_airing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="@string/placeholder_tv_show_time_of_airing"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/btn_start_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:drawableTop="@drawable/btn_start_show"/>
 
 </LinearLayout>
