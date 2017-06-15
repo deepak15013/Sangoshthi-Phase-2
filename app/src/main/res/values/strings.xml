@@ -43,6 +43,9 @@
     <string name="btn_show_play_pause_feedback_pause">Stop Feedback</string>
     <string name="btn_show_play_pause_content_play">Play Content</string>
     <string name="btn_show_play_pause_content_pause">Stop Content</string>
+    <string name="btn_start_show">Start</string>
+    <string name="btn_call_broadcaster">Start Call</string>
+    <string name="btn_call_listeners">Call Asha Listeners</string>
 
     <!-- Strings for Add Listeners -->
     <string name="tv_add_listeners">Enter Listeners Number</string>
@@ -50,7 +53,7 @@
 
     <!-- Dummy text strings -->
     <string name="dummy_phone_num">0123456789</string>
-    
+
     <!-- Content Desciptions -->
     <string name="cd_iv_mute_unmute">Mute Unmute</string>
     <string name="cd_iv_question">Question Asked</string>
@@ -60,5 +63,8 @@
     <string name="placeholder_tv_show_topic">Play and Communication</string>
     <string name="placeholder_tv_show_date_of_airing">7 July 2017</string>
     <string name="placeholder_tv_show_time_of_airing">14:00</string>
+
+    <!-- Messages String -->
+    <string name="string_calling_broadcaster">Calling</string>
 
 </resources>

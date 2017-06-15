@@ -8,7 +8,11 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
@@ -22,7 +26,10 @@ public class HostShowActivity extends AppCompatActivity {
 
     private static final String TAG = HostShowActivity.class.getSimpleName();
 
-    private TextView tvShowDetails;
+    private TextView tvShowTopic;
+    private TextView tvShowDateOfAiring;
+    private TextView tvShowTimeOfAiring;
+    private Button btnStartShow;
 
     private Context context;
 
@@ -33,23 +40,40 @@ public class HostShowActivity extends AppCompatActivity {
 
         this.context = this;
 
-        tvShowDetails = (TextView) findViewById(R.id.tv_show_details);
+        tvShowTopic = (TextView) findViewById(R.id.tv_show_topic);
+        tvShowDateOfAiring = (TextView) findViewById(R.id.tv_show_date_of_airing);
+        tvShowTimeOfAiring = (TextView) findViewById(R.id.tv_show_time_of_airing);
+        btnStartShow = (Button) findViewById(R.id.btn_start_show);
 
         RequestMessageHelper.getInstance().getUpcomingShow();
 
         final Handler incomingMessageHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
-                tvShowDetails.setText(msg.getData().getString("msg"));
+                try {
+                    Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
+                    JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
+                    tvShowTopic.setText(jsonObject.getString("topic"));
+
+                    // 2017-06-20 14:20:59
+                    if(jsonObject.getString("time_of_airing") != null) {
+                        String[] dateTime = jsonObject.getString("time_of_airing").split(" ");
+                        tvShowDateOfAiring.setText(dateTime[0]);
+                        tvShowTimeOfAiring.setText(dateTime[1]);
+                    }
+
+                    btnStartShow.setVisibility(View.VISIBLE);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
 
-        tvShowDetails.setOnClickListener(new View.OnClickListener() {
+        btnStartShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ShowActivity.class);
+                Intent intent = new Intent(context, CallActivity.class);
                 startActivity(intent);
             }
         });

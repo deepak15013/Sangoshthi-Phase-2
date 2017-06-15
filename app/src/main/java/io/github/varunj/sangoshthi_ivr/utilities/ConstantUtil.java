@@ -14,6 +14,10 @@ public class ConstantUtil {
     public static final String SERVER_USERNAME = "root";
     public static final String SERVER_PASS = "root";
 
+    public static final String SERVER_NUM = "8860244278";
+
+    public static final long TWENTY_SECOND_CLOCK = 20 * 1000;
+
     /* IIITD global 103.25.231.2 */
     /*public static final String IP_ADDR = "103.25.231.30";
     public static final Integer SERVER_PORT = 5673;

@@ -21,6 +21,9 @@ public class SharedPreferenceManager {
     private String showId = null;
     private String conferenceName = null;
 
+    /* only in local cache not in share preferences */
+    private boolean callReceived = false;
+
     private final String PREF_IS_LOGGED_IN = "is_logged_in";
     private final String PREF_BROADCASTER = "broadcaster";
     private final String PREF_COHORT_ID = "cohort_id";
@@ -129,5 +132,13 @@ public class SharedPreferenceManager {
 
     public boolean setShowContent(boolean showContent) {
         return sharedPreferences != null && sharedPreferences.edit().putBoolean(PREF_SHOW_CONTENT, showContent).commit();
+    }
+
+    public boolean isCallReceived() {
+        return callReceived;
+    }
+
+    public void setCallReceived(boolean callReceived) {
+        this.callReceived = callReceived;
     }
 }

@@ -43,7 +43,11 @@
         android:id="@+id/btn_start_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Next"
-        android:drawableTop="@drawable/btn_start_show"/>
+        android:layout_marginTop="40dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_arrow_forward_48"
+        android:text="@string/btn_start_show"
+        android:textSize="20sp"
+        android:visibility="invisible" />
 
 </LinearLayout>

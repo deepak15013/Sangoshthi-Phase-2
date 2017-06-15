@@ -13,28 +13,6 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/show_call_self"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:text="@string/show_call_self"
-            android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimaryDark"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/show_call_else"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:text="@string/show_call_else"
-            android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimaryDark"
-            android:layout_weight="1"/>
-
-        <Button
             android:id="@+id/show_end_show"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
@@ -56,19 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_margin="5dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:text="@string/show_play_pause"
-            android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimaryDark"
-            android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/show_start_poll"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:text="@string/show_start_poll"
             android:textStyle="bold"
             android:textColor="@color/colorWhite"
             android:background="@color/colorPrimaryDark"

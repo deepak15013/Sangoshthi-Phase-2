@@ -33,8 +33,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = ShowActivity.class.getSimpleName();
 
-    private Button showCallSelf;
-    private Button showCallElse;
     private Button showEndShow;
     private Button showPlayPause;
 
@@ -47,12 +45,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
-
-        showCallSelf = (Button) findViewById(R.id.show_call_self);
-        showCallSelf.setOnClickListener(this);
-
-        showCallElse = (Button) findViewById(R.id.show_call_else);
-        showCallElse.setOnClickListener(this);
 
         showEndShow = (Button) findViewById(R.id.show_end_show);
         showEndShow.setOnClickListener(this);
@@ -69,8 +61,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         rvListenersContent.setLayoutManager(layoutManager);
         rvListenersContent.setItemAnimator(new DefaultItemAnimator());
         rvListenersContent.setAdapter(mAdapter);
-
-        RequestMessageHelper.getInstance().getUpcomingShow();
 
         final Handler incomingMessageHandler = new Handler() {
             @Override
@@ -101,6 +91,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             }
         };
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
+
+        RequestMessageHelper.getInstance().showPlaybackMetadata();
     }
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
@@ -156,17 +148,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.show_call_self:
-                Toast.makeText(this, "Calling broadcaster", Toast.LENGTH_SHORT).show();
-                RequestMessageHelper.getInstance().startShow();
-                RequestMessageHelper.getInstance().showPlaybackMetadata();
-                break;
-
-            case R.id.show_call_else:
-                Toast.makeText(this, "Calling listeners", Toast.LENGTH_SHORT).show();
-                RequestMessageHelper.getInstance().dialListeners();
-                break;
-
             case R.id.show_end_show:
                 Toast.makeText(this, "End show", Toast.LENGTH_SHORT).show();
                 RequestMessageHelper.getInstance().showEndShow();
