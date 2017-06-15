@@ -103,7 +103,6 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
                 }
             }
         });
-        
     }
 
     @Override
