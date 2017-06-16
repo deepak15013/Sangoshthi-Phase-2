@@ -51,15 +51,6 @@
                 android:contentDescription="@string/cd_iv_question"
                 android:src="@drawable/query" />
 
-            <ImageButton
-                android:id="@+id/iv_online"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginStart="20dp"
-                android:contentDescription="@string/cd_iv_online"
-                android:src="@drawable/offline" />
-
         </LinearLayout>
 
     </LinearLayout>

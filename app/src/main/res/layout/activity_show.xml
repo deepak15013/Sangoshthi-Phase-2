@@ -1,54 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_margin="5dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center_vertical"
+        android:id="@+id/relativeLayout">
 
-        <Button
-            android:id="@+id/show_end_show"
+        <TextView
+            android:id="@+id/tv_num_of_listeners"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
-            android:text="@string/show_end_show"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_tv_num_of_listeners"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimaryDark"
-            android:layout_weight="1"/>
+            android:layout_centerVertical="true"/>
 
-    </LinearLayout>
+        <Chronometer
+            android:id="@+id/chronometer_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    </RelativeLayout>
 
         <Button
             android:id="@+id/show_play_pause"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
             android:visibility="invisible"
             android:text="@string/show_play_pause"
-            android:textStyle="bold"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorPrimaryDark"
-            android:layout_weight="1"/>
+            android:drawableTop="@drawable/btn_play"
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_centerHorizontal="true" />
 
-    </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_listeners_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/show_play_pause"
+            android:layout_above="@+id/show_end_show" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_listeners_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:padding="5dp"
-        android:scrollbars="vertical"/>
+        <Button
+            android:id="@+id/show_end_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/show_end_show"
+            android:background="@android:color/transparent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
-</LinearLayout>
+</RelativeLayout>

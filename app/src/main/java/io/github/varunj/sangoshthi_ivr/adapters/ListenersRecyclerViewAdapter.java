@@ -31,14 +31,12 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
         public TextView tvListenerNumber;
         public ImageButton ivMuteUnmute;
         public ImageButton ivQuestion;
-        public ImageButton ivOnline;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             tvListenerNumber = (TextView) itemView.findViewById(R.id.tv_listener_number);
             ivMuteUnmute = (ImageButton) itemView.findViewById(R.id.iv_mute_unmute);
             ivQuestion = (ImageButton) itemView.findViewById(R.id.iv_question);
-            ivOnline = (ImageButton) itemView.findViewById(R.id.iv_online);
         }
     }
 
@@ -73,16 +71,6 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
         } else {
             // TODO: 09-06-2017  
-        }
-        
-        if(callerStateList.get(position).getOnlineState().equals("offline")) {
-            // TODO: 09-06-2017
-            // user is offline display online
-            holder.ivOnline.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.online));
-        } else {
-            // TODO: 09-06-2017
-            // user is online display offline
-            holder.ivOnline.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.offline));
         }
 
         holder.ivMuteUnmute.setOnClickListener(new View.OnClickListener() {

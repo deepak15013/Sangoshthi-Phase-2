@@ -50,6 +50,7 @@
     <!-- Strings for Add Listeners -->
     <string name="tv_add_listeners">Enter Listeners Number</string>
     <string name="tv_phone_prefix">+91</string>
+    <string name="tv_num_of_listeners">Asha : %1$s</string>
 
     <!-- Dummy text strings -->
     <string name="dummy_phone_num">0123456789</string>
@@ -63,6 +64,7 @@
     <string name="placeholder_tv_show_topic">Play and Communication</string>
     <string name="placeholder_tv_show_date_of_airing">7 July 2017</string>
     <string name="placeholder_tv_show_time_of_airing">14:00</string>
+    <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
 
     <!-- Messages String -->
     <string name="string_calling_broadcaster">Calling</string>

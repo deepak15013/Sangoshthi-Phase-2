@@ -14,15 +14,12 @@ public class CallerState {
     /* true - question, false - no-question */
     private boolean questionState;
 
-    private String onlineState;
-
     private int turn;
 
-    public CallerState(String phoneNum, boolean muteUnmuteState, boolean questionState, String onlineState) {
+    public CallerState(String phoneNum, boolean muteUnmuteState, boolean questionState) {
         this.phoneNum = phoneNum;
         this.muteUnmuteState = muteUnmuteState;
         this.questionState = questionState;
-        this.onlineState = onlineState;
     }
 
     public String getPhoneNum() {
@@ -47,14 +44,6 @@ public class CallerState {
 
     public void setQuestionState(boolean questionState) {
         this.questionState = questionState;
-    }
-
-    public String getOnlineState() {
-        return onlineState;
-    }
-
-    public void setOnlineState(String onlineState) {
-        this.onlineState = onlineState;
     }
 
     public int getTurn() {
