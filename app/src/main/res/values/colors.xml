@@ -3,11 +3,13 @@
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>
     <color name="colorAccent">#009688</color>
+    <color name="colorBackground">#ffd4b1</color>
 
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="colorGreen">#50c878</color>
 
-    <color name="home_help">#ffffff</color>
+    <color name="home_help">#ffc40d</color>
     <color name="home_notifications">#ff99cc00</color>
     <color name="home_add_show">#ff33b5e5</color>
     <color name="home_host_show">#ffff4444</color>
