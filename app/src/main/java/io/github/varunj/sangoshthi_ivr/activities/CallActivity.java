@@ -81,6 +81,7 @@ public class CallActivity extends AppCompatActivity {
                     Toast.makeText(CallActivity.this, "calling listeners", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ShowActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

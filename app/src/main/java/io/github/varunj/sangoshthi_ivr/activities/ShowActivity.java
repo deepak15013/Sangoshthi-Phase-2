@@ -1,9 +1,11 @@
 package io.github.varunj.sangoshthi_ivr.activities;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,7 +55,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_show);
 
         tvNumOfListeners = (TextView) findViewById(R.id.tv_num_of_listeners);
-        tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, SharedPreferenceManager.getInstance().getCohortSize()));
+        tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, 0, SharedPreferenceManager.getInstance().getCohortSize()));
+
         chronometerShow = (Chronometer) findViewById(R.id.chronometer_show);
         chronometerShow.start();
 
@@ -104,6 +107,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
 
         RequestMessageHelper.getInstance().showPlaybackMetadata();
+
+        SharedPreferenceManager.getInstance().setShowStarted(true);
     }
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
@@ -200,5 +205,31 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
             RequestMessageHelper.getInstance().pauseShowContent();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage(R.string.dialog_box_on_back_pressed_message)
+                .setCancelable(false)
+                .setTitle(R.string.dialog_box_on_back_pressed_title);
+
+        builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                onBackPressed();
+            }
+        });
+
+        builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }

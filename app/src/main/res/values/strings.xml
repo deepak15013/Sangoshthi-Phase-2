@@ -9,6 +9,7 @@
 
     <string name="home_add_show">CREATE SHOW</string>
     <string name="home_host_show">HOST SHOW</string>
+    <string name="home_show_running"></string>
     <string name="home_notifications">NOTIFICATIONS</string>
     <string name="home_help">TUTORIALS</string>
 
@@ -46,11 +47,13 @@
     <string name="btn_start_show">Start</string>
     <string name="btn_call_broadcaster">Start Call</string>
     <string name="btn_call_listeners">Call Asha Listeners</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
 
     <!-- Strings for Add Listeners -->
     <string name="tv_add_listeners">Enter Listeners Number</string>
     <string name="tv_phone_prefix">+91</string>
-    <string name="tv_num_of_listeners">Asha : %1$s</string>
+    <string name="tv_num_of_listeners">Asha : %1$d / %2$s</string>
 
     <!-- Dummy text strings -->
     <string name="dummy_phone_num">0123456789</string>
@@ -69,6 +72,8 @@
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">Calling</string>
     <string name="progress_dialog_please_wait">Please Wait</string>
+    <string name="dialog_box_on_back_pressed_message">Do you want to exit</string>
+    <string name="dialog_box_on_back_pressed_title">Exit Show</string>
 
     <string name="error_phone_not_registered">Phone not registered</string>
 

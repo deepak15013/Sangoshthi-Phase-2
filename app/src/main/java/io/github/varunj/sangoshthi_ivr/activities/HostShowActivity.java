@@ -75,6 +75,7 @@ public class HostShowActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(context, CallActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

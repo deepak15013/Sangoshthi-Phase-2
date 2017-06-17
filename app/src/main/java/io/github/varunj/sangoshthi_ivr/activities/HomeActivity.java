@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
+import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -23,6 +24,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
 
         btnHostShow = (Button) findViewById(R.id.btn_host_show);
+        if(SharedPreferenceManager.getInstance().isShowStarted()) {
+            btnHostShow.setText(getString(R.string.home_show_running));
+        } else {
+            btnHostShow.setText(getString(R.string.home_host_show));
+        }
 
         btnHostShow.setOnClickListener(this);
     }
