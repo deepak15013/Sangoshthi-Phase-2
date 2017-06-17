@@ -130,6 +130,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, callerStateList.size(), SharedPreferenceManager.getInstance().getCohortSize()));
         Log.d(TAG, "notify data set changed");
         mAdapter.notifyDataSetChanged();
     }
