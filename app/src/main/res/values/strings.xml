@@ -67,6 +67,9 @@
     <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
 
     <!-- Messages String -->
-    <string name="string_calling_broadcaster">Calling</string>
+    <string name="progress_dialog_calling_broadcaster">Calling</string>
+    <string name="progress_dialog_please_wait">Please Wait</string>
+
+    <string name="error_phone_not_registered">Phone not registered</string>
 
 </resources>

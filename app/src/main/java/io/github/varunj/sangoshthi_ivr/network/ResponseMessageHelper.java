@@ -78,8 +78,7 @@ public class ResponseMessageHelper {
      * @throws JSONException
      */
     private void handleConfigurationData(JSONObject message) throws JSONException {
-        SharedPreferenceManager.getInstance().setCohortId(message.getString("cohort_id"));
-        SharedPreferenceManager.getInstance().setCohortSize(message.getString("cohort_size"));
+        sendCallbackToActivity(message);
     }
 
     /**

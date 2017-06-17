@@ -52,8 +52,6 @@ public class AMQPPublish {
             factory.setNetworkRecoveryInterval(10000);
             factory.setHost(ConstantUtil.IP_ADDR);
             factory.setPort(ConstantUtil.SERVER_PORT);
-            factory.setUsername(ConstantUtil.SERVER_USERNAME);
-            factory.setPassword(ConstantUtil.SERVER_PASS);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -123,6 +121,7 @@ public class AMQPPublish {
     }
 
     public void subscribe(final String senderPhoneNum) {
+
         subscribeThread = new Thread(new Runnable() {
             @Override
             public void run() {

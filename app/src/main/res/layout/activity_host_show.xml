@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_horizontal"
-    android:background="@color/colorBackground"
     tools:context="io.github.varunj.sangoshthi_ivr.activities.HostShowActivity">
 
     <TextView

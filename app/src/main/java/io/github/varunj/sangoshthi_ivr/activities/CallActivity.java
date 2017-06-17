@@ -86,7 +86,7 @@ public class CallActivity extends AppCompatActivity {
         });
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getResources().getString(R.string.string_calling_broadcaster));
+        progressDialog.setMessage(getResources().getString(R.string.progress_dialog_calling_broadcaster));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
 
@@ -94,7 +94,7 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(ConstantUtil.TWENTY_SECOND_CLOCK);
+                    Thread.sleep(ConstantUtil.THIRTY_SECOND_CLOCK);
 
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();

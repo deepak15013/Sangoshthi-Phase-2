@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -34,5 +35,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AMQPPublish.getInstance().interruptThreads();
     }
 }

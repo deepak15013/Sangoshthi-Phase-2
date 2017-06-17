@@ -6,7 +6,6 @@
     android:padding="20dp"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@color/colorBackground"
     tools:context="io.github.varunj.sangoshthi_ivr.activities.LoginActivity">
 
     <TextView
