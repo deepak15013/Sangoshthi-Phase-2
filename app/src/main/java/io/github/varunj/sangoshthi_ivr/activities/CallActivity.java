@@ -11,7 +11,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -28,7 +29,8 @@ public class CallActivity extends AppCompatActivity {
     private static final String TAG = CallActivity.class.getSimpleName();
     private Context context;
 
-    private Button btnCall;
+    private ImageButton btnCall;
+    private TextView tvCall;
 
     public static ProgressDialog progressDialog;
     public static Thread dismissThread;
@@ -66,22 +68,24 @@ public class CallActivity extends AppCompatActivity {
         };
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
 
-        btnCall = (Button) findViewById(R.id.btn_call);
+        btnCall = (ImageButton) findViewById(R.id.btn_call);
+        tvCall = (TextView) findViewById(R.id.tv_call);
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(btnCall.getText().equals(getResources().getString(R.string.btn_call_broadcaster))) {
+                if(tvCall.getText().equals(getResources().getString(R.string.btn_call_broadcaster))) {
                     Toast.makeText(CallActivity.this, "calling broadcaster", Toast.LENGTH_SHORT).show();
                     RequestMessageHelper.getInstance().startShow();
                     progressDialog.show();
 
-                } else if(btnCall.getText().equals(getResources().getString(R.string.btn_call_listeners))) {
+                } else if(tvCall.getText().equals(getResources().getString(R.string.btn_call_listeners))) {
                     RequestMessageHelper.getInstance().dialListeners();
                     Toast.makeText(CallActivity.this, "calling listeners", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ShowActivity.class);
                     startActivity(intent);
                     finish();
+
                 }
             }
         });
@@ -113,9 +117,10 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 if(SharedPreferenceManager.getInstance().isCallReceived()) {
+
                     // call received, change button to call listeners
-                    btnCall.setText(getResources().getString(R.string.btn_call_listeners));
-                    btnCall.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(context, R.drawable.call_listeners), null, null);
+                    tvCall.setText(getResources().getString(R.string.btn_call_listeners));
+                    btnCall.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.call_listeners));
                 }
             }
         });

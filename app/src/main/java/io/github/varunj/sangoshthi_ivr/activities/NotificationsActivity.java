@@ -10,10 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,12 +83,17 @@ public class NotificationsActivity extends AppCompatActivity {
         Log.d(TAG, "notifications - " + notifications);
         if(notifications != null && !notifications.equals("") && !notifications.equals(" ")) {
             Gson gson = new Gson();
-            NotificationModel notificationModel = gson.fromJson(notifications, NotificationModel.class);
-            Log.d(TAG, "notificationModel - " + notificationModel);
-            if(notificationModel != null) {
-                notificationModelList.add(notificationModel);
-                mAdapter.notifyDataSetChanged();
+            Type listType = new TypeToken<List<NotificationModel>>(){}.getType();
+            List<NotificationModel> notificationModelList = gson.fromJson(notifications, listType);
+//            NotificationModel notificationModel = gson.fromJson(notifications, NotificationModel.class);
+            Log.d(TAG, "notificationModel size - " + notificationModelList.size());
+
+            for(NotificationModel notificationModel : notificationModelList) {
+                this.notificationModelList.clear();
+                this.notificationModelList.add(notificationModel);
             }
+
+            mAdapter.notifyDataSetChanged();
         }
     }
 }

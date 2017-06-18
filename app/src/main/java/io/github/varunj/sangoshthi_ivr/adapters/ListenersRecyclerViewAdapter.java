@@ -58,11 +58,9 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
         if(callerStateModelList.get(position).isMuteUnmuteState()) {
             // mute
-            // TODO: 09-06-2017
             holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
         } else {
             // unmute
-            // TODO: 09-06-2017
             holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
         }
 
