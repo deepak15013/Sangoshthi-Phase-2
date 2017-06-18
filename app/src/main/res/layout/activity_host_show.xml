@@ -77,8 +77,9 @@
             android:text="@string/placeholder_tv_chronometer_start_show"
             android:textStyle="bold"
             android:textSize="30sp"
-            android:visibility="visible"
-            android:textColor="@color/colorRed"/>
+            android:visibility="invisible"
+            android:textColor="@color/colorRed"
+            android:gravity="center"/>
 
     </RelativeLayout>
 

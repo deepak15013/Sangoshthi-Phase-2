@@ -71,6 +71,10 @@ public class ResponseMessageHelper {
                     handlePress1Event(message);
                     break;
 
+                case "notify":
+                    handleNotify(message);
+                    break;
+
                 default:
                     Log.e(TAG, "Objective not matched " + message.toString());
             }
@@ -137,6 +141,10 @@ public class ResponseMessageHelper {
     }
 
     private void handlePress1Event(JSONObject message) throws JSONException {
+        sendCallbackToActivity(message);
+    }
+
+    private void handleNotify(JSONObject message) throws JSONException {
         sendCallbackToActivity(message);
     }
 

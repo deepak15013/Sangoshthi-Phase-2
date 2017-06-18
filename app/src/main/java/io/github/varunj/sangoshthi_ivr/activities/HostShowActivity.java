@@ -93,10 +93,13 @@ public class HostShowActivity extends AppCompatActivity {
                                 @Override
                                 public void onTick(long millisUntilFinished) {
                                     int hours = (int) (millisUntilFinished / ConstantUtil.ONE_HOUR_CLOCK);
-                                    int mins = (int) (millisUntilFinished % ConstantUtil.ONE_HOUR_CLOCK);
-                                    Log.d(TAG, "Show start in " + hours + " : " + mins);
+                                    millisUntilFinished = millisUntilFinished % ConstantUtil.ONE_HOUR_CLOCK;
+                                    int mins = (int) (millisUntilFinished / (1000*60));
+                                    millisUntilFinished = millisUntilFinished % (1000 * 60);
+                                    int secs = (int) (millisUntilFinished / 1000);
+                                    //Log.d(TAG, "Show start in " + hours + " : " + mins + " : " + secs);
 
-                                    tvChronometerStartShow.setText(getString(R.string.tv_chronometer_start_show, hours, mins));
+                                    tvChronometerStartShow.setText(getString(R.string.tv_chronometer_start_show, hours, mins, secs));
                                 }
 
                                 @Override
@@ -109,8 +112,6 @@ public class HostShowActivity extends AppCompatActivity {
 
                         }
                     }
-
-                    llStartShow.setVisibility(View.VISIBLE);
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
                 }

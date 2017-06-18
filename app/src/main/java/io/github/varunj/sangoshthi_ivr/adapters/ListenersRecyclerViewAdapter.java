@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
-import io.github.varunj.sangoshthi_ivr.models.CallerState;
+import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 
 /**
@@ -24,7 +24,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
     private static final String TAG = ListenersRecyclerViewAdapter.class.getSimpleName();
 
-    private List<CallerState> callerStateList;
+    private List<CallerStateModel> callerStateModelList;
     private Context context;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -40,9 +40,9 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
         }
     }
 
-    public ListenersRecyclerViewAdapter(Context context, List<CallerState> moviesList) {
+    public ListenersRecyclerViewAdapter(Context context, List<CallerStateModel> moviesList) {
         this.context = context;
-        this.callerStateList = moviesList;
+        this.callerStateModelList = moviesList;
     }
 
     @Override
@@ -54,9 +54,9 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.tvListenerNumber.setText(callerStateList.get(position).getPhoneNum());
+        holder.tvListenerNumber.setText(callerStateModelList.get(position).getPhoneNum());
 
-        if(callerStateList.get(position).isMuteUnmuteState()) {
+        if(callerStateModelList.get(position).isMuteUnmuteState()) {
             // mute
             // TODO: 09-06-2017
             holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
@@ -66,7 +66,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
         }
 
-        if(callerStateList.get(position).isMuteUnmuteDisabled()) {
+        if(callerStateModelList.get(position).isMuteUnmuteDisabled()) {
             // disable the mute unmute button
             holder.ivMuteUnmute.setEnabled(false);
         } else {
@@ -74,7 +74,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             holder.ivMuteUnmute.setEnabled(true);
         }
         
-        if(callerStateList.get(position).isQuestionState()) {
+        if(callerStateModelList.get(position).isQuestionState()) {
             holder.ivQuestion.setVisibility(View.VISIBLE);
 
         } else {
@@ -86,17 +86,17 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             public void onClick(View v) {
                 Log.d(TAG, "position clicked: " + position);
                 holder.ivMuteUnmute.setEnabled(false);
-                if(callerStateList.get(position).isMuteUnmuteState()) {
+                if(callerStateModelList.get(position).isMuteUnmuteState()) {
                     // mute - set unmute
-                    callerStateList.get(position).setMuteUnmuteState(false);
-                    callerStateList.get(position).setTurn(callerStateList.get(position).getTurn()+1);
+                    callerStateModelList.get(position).setMuteUnmuteState(false);
+                    callerStateModelList.get(position).setTurn(callerStateModelList.get(position).getTurn()+1);
                     holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
-                    RequestMessageHelper.getInstance().unmute(callerStateList.get(position).getPhoneNum(), callerStateList.get(position).getTurn());
+                    RequestMessageHelper.getInstance().unmute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
                 } else {
                     // unmute - set mute
-                    callerStateList.get(position).setMuteUnmuteState(true);
+                    callerStateModelList.get(position).setMuteUnmuteState(true);
                     holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
-                    RequestMessageHelper.getInstance().mute(callerStateList.get(position).getPhoneNum(), callerStateList.get(position).getTurn());
+                    RequestMessageHelper.getInstance().mute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
                 }
             }
         });
@@ -104,7 +104,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
     @Override
     public int getItemCount() {
-        return callerStateList.size();
+        return callerStateModelList.size();
     }
 
 }

@@ -4,7 +4,7 @@ package io.github.varunj.sangoshthi_ivr.models;
  * Created by Deepak on 09-06-2017.
  */
 
-public class CallerState {
+public class CallerStateModel {
 
     private String phoneNum;
 
@@ -17,7 +17,7 @@ public class CallerState {
 
     private int turn;
 
-    public CallerState(String phoneNum, boolean muteUnmuteState, boolean questionState) {
+    public CallerStateModel(String phoneNum, boolean muteUnmuteState, boolean questionState) {
         this.phoneNum = phoneNum;
         this.muteUnmuteState = muteUnmuteState;
         this.questionState = questionState;

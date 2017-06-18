@@ -22,9 +22,6 @@
 
     <string name="create_show_listeners">Manage Listeners</string>
 
-    <string name="host_show_nolisting">------</string>
-
-
     <string name="tutorials_call">CALL FOR HELP</string>
 
     <string name="show_call_self">CALL SELF</string>
@@ -54,7 +51,7 @@
     <string name="tv_add_listeners">Enter Listeners Number</string>
     <string name="tv_phone_prefix">+91</string>
     <string name="tv_num_of_listeners">Asha : %1$d / %2$s</string>
-    <string name="tv_chronometer_start_show">Show will start in - %1$d : %2$d</string>
+    <string name="tv_chronometer_start_show">Show will start in - \n%1$d : %2$d : %3$d</string>
 
     <!-- Dummy text strings -->
     <string name="dummy_phone_num">0123456789</string>

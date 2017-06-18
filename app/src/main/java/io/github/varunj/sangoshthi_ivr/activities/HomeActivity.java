@@ -2,12 +2,20 @@ package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
+import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
+import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
@@ -16,7 +24,10 @@ import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = HomeActivity.class.getSimpleName();
+
     private Button btnHostShow;
+    private Button btnHomeNotifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +42,22 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         btnHostShow.setOnClickListener(this);
+
+        btnHomeNotifications = (Button) findViewById(R.id.btn_home_notifications);
+        btnHomeNotifications.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_host_show:
-                Intent intent = new Intent(this, HostShowActivity.class);
-                startActivity(intent);
+                Intent intentHostShow = new Intent(this, HostShowActivity.class);
+                startActivity(intentHostShow);
+                break;
+
+            case R.id.btn_home_notifications:
+                Intent intentNotifications = new Intent(this, NotificationsActivity.class);
+                startActivity(intentNotifications);
                 break;
         }
     }

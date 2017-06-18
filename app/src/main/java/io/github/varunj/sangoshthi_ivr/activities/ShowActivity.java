@@ -25,7 +25,7 @@ import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.adapters.ListenersRecyclerViewAdapter;
-import io.github.varunj.sangoshthi_ivr.models.CallerState;
+import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
@@ -47,7 +47,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView rvListenersContent;
     private ListenersRecyclerViewAdapter mAdapter;
 
-    private List<CallerState> callerStateList;
+    private List<CallerStateModel> callerStateModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +68,9 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         rvListenersContent = (RecyclerView) findViewById(R.id.rv_listeners_content);
 
-        callerStateList = new ArrayList<>();
+        callerStateModelList = new ArrayList<>();
 
-        mAdapter = new ListenersRecyclerViewAdapter(this, callerStateList);
+        mAdapter = new ListenersRecyclerViewAdapter(this, callerStateModelList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvListenersContent.setLayoutManager(layoutManager);
         rvListenersContent.setItemAnimator(new DefaultItemAnimator());
@@ -120,25 +120,25 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
-        CallerState callerState = new CallerState(
+        CallerStateModel callerStateModel = new CallerStateModel(
                 jsonObject.getString("phoneno"),
                 true,
                 false);
 
-        int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
+        int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
         if(callerId == -1) {
-            callerStateList.add(callerState);
+            callerStateModelList.add(callerStateModel);
         } else {
             if(jsonObject.getString("task").equals("online")) {
                 // online, change the state
-                callerStateList.set(callerId, callerState);
+                callerStateModelList.set(callerId, callerStateModel);
             } else {
                 // offline, remove the caller
-                callerStateList.remove(callerId);
+                callerStateModelList.remove(callerId);
             }
         }
 
-        tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, callerStateList.size(), SharedPreferenceManager.getInstance().getCohortSize()));
+        tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, callerStateModelList.size(), SharedPreferenceManager.getInstance().getCohortSize()));
         Log.d(TAG, "notify data set changed");
         mAdapter.notifyDataSetChanged();
     }
@@ -164,9 +164,9 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private int matchPhoneExists(List<CallerState> callerStateList, String phoneno) {
-        for(int i = 0; i < callerStateList.size(); i++) {
-            if(callerStateList.get(i).getPhoneNum().equals(phoneno)) {
+    private int matchPhoneExists(List<CallerStateModel> callerStateModelList, String phoneno) {
+        for(int i = 0; i < callerStateModelList.size(); i++) {
+            if(callerStateModelList.get(i).getPhoneNum().equals(phoneno)) {
                 Log.d(TAG, "update " + i + " position in caller list");
                 return i;
             }
@@ -177,10 +177,10 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleMuteUnmuteResponse(JSONObject jsonObject) throws JSONException {
         if(jsonObject.getString("info").equals("OK")) {
-            int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
+            int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
             if(callerId != -1) {
                 Toast.makeText(this, "State changed", Toast.LENGTH_SHORT).show();
-                callerStateList.get(callerId).setMuteUnmuteDisabled(false);
+                callerStateModelList.get(callerId).setMuteUnmuteDisabled(false);
                 mAdapter.notifyDataSetChanged();
             }
         } else {
@@ -189,9 +189,9 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handlePress1Event(JSONObject jsonObject) throws JSONException {
-        int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
+        int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
         if(callerId != -1) {
-            callerStateList.get(callerId).setQuestionState(true);
+            callerStateModelList.get(callerId).setQuestionState(true);
             mAdapter.notifyDataSetChanged();
         }
     }

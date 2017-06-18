@@ -250,4 +250,23 @@ public class RequestMessageHelper {
         }
     }
 
+    /**
+     * getNotifications in json format
+     * Request format - {"objective":"get_notifications","broadcaster":"9425592627","cohort_id":"2","show_id":"show_2","conference_name":"show_2_2017_06_17_16_30_02","timestamp":"18-Jun-2017 7:20:06 PM"}
+     */
+    public void getNotifications() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("objective", "get_notifications");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.getInstance().publishMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
