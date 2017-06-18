@@ -67,6 +67,10 @@ public class ResponseMessageHelper {
                     handleMuteUnmuteResponse(message);
                     break;
 
+                case "press_1_event":
+                    handlePress1Event(message);
+                    break;
+
                 default:
                     Log.e(TAG, "Objective not matched " + message.toString());
             }
@@ -129,6 +133,10 @@ public class ResponseMessageHelper {
     }
 
     private void handleMuteUnmuteResponse(JSONObject message) throws JSONException {
+        sendCallbackToActivity(message);
+    }
+
+    private void handlePress1Event(JSONObject message) throws JSONException {
         sendCallbackToActivity(message);
     }
 

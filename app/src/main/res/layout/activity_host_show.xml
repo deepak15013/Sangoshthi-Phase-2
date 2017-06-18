@@ -39,18 +39,47 @@
         android:gravity="center"
         android:layout_marginTop="10dp"/>
 
-    <Button
-        android:id="@+id/btn_start_show"
-        android:layout_width="200dp"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:padding="20dp"
-        android:background="@color/colorGreen"
-        android:drawableTop="@drawable/right_arrow"
-        android:text="@string/btn_start_show"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:visibility="visible" />
+        android:gravity="center"
+        android:layout_marginTop="40dp">
+
+        <LinearLayout
+            android:id="@+id/ll_start_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="invisible">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/right_arrow"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/cd_btn_start_show" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_start_show"
+                android:textColor="@color/colorGreen"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_chronometer_start_show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/placeholder_tv_chronometer_start_show"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:visibility="visible"
+            android:textColor="@color/colorRed"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

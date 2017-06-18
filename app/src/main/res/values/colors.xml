@@ -8,6 +8,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorGreen">#50c878</color>
+    <color name="colorRed">#D60027</color>
 
     <color name="home_help">#ffc40d</color>
     <color name="home_notifications">#3AB09E</color>

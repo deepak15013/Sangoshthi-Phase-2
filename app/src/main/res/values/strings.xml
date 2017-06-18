@@ -54,6 +54,7 @@
     <string name="tv_add_listeners">Enter Listeners Number</string>
     <string name="tv_phone_prefix">+91</string>
     <string name="tv_num_of_listeners">Asha : %1$d / %2$s</string>
+    <string name="tv_chronometer_start_show">Show will start in - %1$d : %2$d</string>
 
     <!-- Dummy text strings -->
     <string name="dummy_phone_num">0123456789</string>
@@ -62,12 +63,14 @@
     <string name="cd_iv_mute_unmute">Mute Unmute</string>
     <string name="cd_iv_question">Question Asked</string>
     <string name="cd_iv_online">User Online</string>
+    <string name="cd_btn_start_show">Start Show</string>
 
     <!-- Placeholders -->
     <string name="placeholder_tv_show_topic">Play and Communication</string>
     <string name="placeholder_tv_show_date_of_airing">7 July 2017</string>
     <string name="placeholder_tv_show_time_of_airing">14:00</string>
     <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
+    <string name="placeholder_tv_chronometer_start_show">00:00</string>
 
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">Calling</string>

@@ -75,11 +75,9 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
         }
         
         if(callerStateList.get(position).isQuestionState()) {
-            // TODO: 09-06-2017
             holder.ivQuestion.setVisibility(View.VISIBLE);
 
         } else {
-            // TODO: 09-06-2017
             holder.ivQuestion.setVisibility(View.INVISIBLE);
         }
 

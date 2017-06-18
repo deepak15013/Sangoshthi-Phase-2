@@ -100,6 +100,10 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                             handleMuteUnmuteResponse(jsonObject);
                             break;
 
+                        case "press_1_event":
+                            handlePress1Event(jsonObject);
+                            break;
+
                         default:
                             Log.d(TAG, "objective not matched: " + jsonObject.toString());
                     }
@@ -181,6 +185,14 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else {
             Toast.makeText(this, "State not changed", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void handlePress1Event(JSONObject jsonObject) throws JSONException {
+        int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
+        if(callerId != -1) {
+            callerStateList.get(callerId).setQuestionState(true);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
