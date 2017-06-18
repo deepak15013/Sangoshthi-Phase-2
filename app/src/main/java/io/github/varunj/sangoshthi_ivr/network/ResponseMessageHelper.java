@@ -63,6 +63,10 @@ public class ResponseMessageHelper {
                     handleMediaStopped(message);
                     break;
 
+                case "mute_unmute_response":
+                    handleMuteUnmuteResponse(message);
+                    break;
+
                 default:
                     Log.e(TAG, "Objective not matched " + message.toString());
             }
@@ -121,6 +125,10 @@ public class ResponseMessageHelper {
     }
 
     private void handleMediaStopped(JSONObject message) throws JSONException {
+        sendCallbackToActivity(message);
+    }
+
+    private void handleMuteUnmuteResponse(JSONObject message) throws JSONException {
         sendCallbackToActivity(message);
     }
 

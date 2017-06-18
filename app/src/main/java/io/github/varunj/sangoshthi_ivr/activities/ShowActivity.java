@@ -96,6 +96,10 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                             handleMediaStopped(jsonObject);
                             break;
 
+                        case "mute_unmute_response":
+                            handleMuteUnmuteResponse(jsonObject);
+                            break;
+
                         default:
                             Log.d(TAG, "objective not matched: " + jsonObject.toString());
                     }
@@ -165,6 +169,19 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         }
         Log.d(TAG, "new caller");
         return -1;
+    }
+
+    private void handleMuteUnmuteResponse(JSONObject jsonObject) throws JSONException {
+        if(jsonObject.getString("info").equals("OK")) {
+            int callerId = matchPhoneExists(callerStateList, jsonObject.getString("phoneno"));
+            if(callerId != -1) {
+                Toast.makeText(this, "State changed", Toast.LENGTH_SHORT).show();
+                callerStateList.get(callerId).setMuteUnmuteDisabled(false);
+                mAdapter.notifyDataSetChanged();
+            }
+        } else {
+            Toast.makeText(this, "State not changed", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

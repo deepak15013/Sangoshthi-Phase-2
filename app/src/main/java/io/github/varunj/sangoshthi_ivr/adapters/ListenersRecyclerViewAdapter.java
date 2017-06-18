@@ -65,18 +65,29 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             // TODO: 09-06-2017
             holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
         }
+
+        if(callerStateList.get(position).isMuteUnmuteDisabled()) {
+            // disable the mute unmute button
+            holder.ivMuteUnmute.setEnabled(false);
+        } else {
+            // enable the mute unmute button
+            holder.ivMuteUnmute.setEnabled(true);
+        }
         
         if(callerStateList.get(position).isQuestionState()) {
             // TODO: 09-06-2017
+            holder.ivQuestion.setVisibility(View.VISIBLE);
 
         } else {
-            // TODO: 09-06-2017  
+            // TODO: 09-06-2017
+            holder.ivQuestion.setVisibility(View.INVISIBLE);
         }
 
         holder.ivMuteUnmute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "position clicked: " + position);
+                holder.ivMuteUnmute.setEnabled(false);
                 if(callerStateList.get(position).isMuteUnmuteState()) {
                     // mute - set unmute
                     callerStateList.get(position).setMuteUnmuteState(false);

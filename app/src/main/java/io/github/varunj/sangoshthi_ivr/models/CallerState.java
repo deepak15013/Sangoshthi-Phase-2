@@ -10,6 +10,7 @@ public class CallerState {
 
     /* true - muted, false - unmuted */
     private boolean muteUnmuteState;
+    private boolean muteUnmuteDisabled;
 
     /* true - question, false - no-question */
     private boolean questionState;
@@ -20,6 +21,7 @@ public class CallerState {
         this.phoneNum = phoneNum;
         this.muteUnmuteState = muteUnmuteState;
         this.questionState = questionState;
+        this.muteUnmuteDisabled = false;
     }
 
     public String getPhoneNum() {
@@ -52,5 +54,13 @@ public class CallerState {
 
     public void setTurn(int turn) {
         this.turn = turn;
+    }
+
+    public boolean isMuteUnmuteDisabled() {
+        return muteUnmuteDisabled;
+    }
+
+    public void setMuteUnmuteDisabled(boolean muteUnmuteDisabled) {
+        this.muteUnmuteDisabled = muteUnmuteDisabled;
     }
 }
