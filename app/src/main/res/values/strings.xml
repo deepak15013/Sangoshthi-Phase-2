@@ -77,6 +77,7 @@
     <string name="progress_dialog_please_wait">Please Wait</string>
     <string name="dialog_box_end_show_message">Do you want to end show</string>
     <string name="dialog_box_end_show_title">End Show</string>
+    <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
 
     <string name="error_phone_not_registered">Phone not registered</string>
 

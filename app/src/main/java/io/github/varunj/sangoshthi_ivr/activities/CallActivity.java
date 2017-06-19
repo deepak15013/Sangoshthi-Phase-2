@@ -75,7 +75,6 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(tvCall.getText().equals(getResources().getString(R.string.btn_call_broadcaster))) {
-                    Toast.makeText(CallActivity.this, "calling broadcaster", Toast.LENGTH_SHORT).show();
                     RequestMessageHelper.getInstance().startShow();
                     progressDialog.show();
 

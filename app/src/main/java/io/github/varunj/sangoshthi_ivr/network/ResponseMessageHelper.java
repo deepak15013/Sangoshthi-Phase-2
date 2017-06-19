@@ -75,6 +75,10 @@ public class ResponseMessageHelper {
                     handleNotify(message);
                     break;
 
+                case "end_show_call_ack":
+                    sendCallbackToActivity(message);
+                    break;
+
                 default:
                     Log.e(TAG, "Objective not matched " + message.toString());
             }

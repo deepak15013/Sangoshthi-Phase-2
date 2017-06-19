@@ -7,6 +7,7 @@ import android.util.Log;
 import java.util.Date;
 
 import io.github.varunj.sangoshthi_ivr.activities.CallActivity;
+import io.github.varunj.sangoshthi_ivr.activities.ShowActivity;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
@@ -22,11 +23,10 @@ public class CallReceiver extends PhoneCallReceiver {
         super.onIncomingCallStarted(ctx, number, start);
         Log.d(TAG, "call incoming: " + number + " date start: " + start);
 
-        if(CallActivity.dismissThread != null) {
-            if(CallActivity.dismissThread.isAlive()) {
-                CallActivity.dismissThread.interrupt();
-            }
+        if(CallActivity.dismissThread != null && CallActivity.dismissThread.isAlive()) {
+            CallActivity.dismissThread.interrupt();
         }
+
     }
 
     @Override
@@ -34,54 +34,45 @@ public class CallReceiver extends PhoneCallReceiver {
         super.onIncomingCallEnded(ctx, number, start, end);
         Log.d(TAG, "call incoming ended: " + number + " date start: " + start + "date end: " + end);
         if(number.contains(ConstantUtil.SERVER_NUM)) {
-
-            if(CallActivity.progressDialog != null) {
-
-                Log.v(TAG, "Call disconnected in CallActivity");
-
-                if(CallActivity.progressDialog.isShowing()) {
-                    CallActivity.progressDialog.dismiss();
-                }
-
+            if(CallActivity.progressDialog != null && CallActivity.progressDialog.isShowing()) {
+                CallActivity.progressDialog.dismiss();
             }
-
         }
-
     }
 
     @Override
     public void onCallStateChanged(Context context, int state, String number) {
         super.onCallStateChanged(context, state, number);
 
-        if(state == 0 && number != null) {
+        Log.d(TAG, "state changed: " + state + " number: " + number);
 
+        if(state == 0 && number != null) {
             if(number.contains(ConstantUtil.SERVER_NUM) && SharedPreferenceManager.getInstance().isCallReceived()) {
-                Log.d(TAG, "call disconnected in other activity");
+                Log.d(TAG, "call disconnected");
                 SharedPreferenceManager.getInstance().setCallReceived(false);
-                if(CallActivity.progressDialog != null) {
-                        if(CallActivity.progressDialog.isShowing()) {
-                            CallActivity.progressDialog.dismiss();
-                        }
+                if(CallActivity.progressDialog != null && CallActivity.progressDialog.isShowing()) {
+                    CallActivity.progressDialog.dismiss();
+                }
+                if(ShowActivity.progressDialog != null && ShowActivity.progressDialog != null && SharedPreferenceManager.getInstance().isShowRunning()) {
+                    ShowActivity.progressDialog.show();
                 }
             }
         }
 
+        // incoming call status = 1
         if(state == 1 && number != null) {
             if(number.contains(ConstantUtil.SERVER_NUM)) {
-
                 SharedPreferenceManager.getInstance().setCallReceived(true);
-
             }
         }
 
-        Log.d(TAG, "state changed: " + state + " number: " + number);
         if(state == 2 && number != null) {
             if(number.contains(ConstantUtil.SERVER_NUM)) {
-
-                if(CallActivity.progressDialog != null) {
-                    if(CallActivity.progressDialog.isShowing()) {
-                        CallActivity.progressDialog.dismiss();
-                    }
+                if(CallActivity.progressDialog != null && CallActivity.progressDialog.isShowing()) {
+                    CallActivity.progressDialog.dismiss();
+                }
+                if(ShowActivity.progressDialog != null && ShowActivity.progressDialog.isShowing() && SharedPreferenceManager.getInstance().isShowRunning()) {
+                    ShowActivity.progressDialog.dismiss();
                 }
             }
         }

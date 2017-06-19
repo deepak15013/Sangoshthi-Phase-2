@@ -23,6 +23,7 @@ public class SharedPreferenceManager {
 
     /* only in local cache not in share preferences */
     private boolean callReceived = false;
+    private boolean showRunning = false;
 
     private final String PREF_IS_LOGGED_IN = "is_logged_in";
     private final String PREF_BROADCASTER = "broadcaster";
@@ -140,5 +141,13 @@ public class SharedPreferenceManager {
 
     public void setCallReceived(boolean callReceived) {
         this.callReceived = callReceived;
+    }
+
+    public boolean isShowRunning() {
+        return showRunning;
+    }
+
+    public void setShowRunning(boolean showRunning) {
+        this.showRunning = showRunning;
     }
 }

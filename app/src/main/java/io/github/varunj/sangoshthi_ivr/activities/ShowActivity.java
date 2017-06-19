@@ -1,5 +1,6 @@
 package io.github.varunj.sangoshthi_ivr.activities;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +29,7 @@ import io.github.varunj.sangoshthi_ivr.adapters.ListenersRecyclerViewAdapter;
 import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
+import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
@@ -48,6 +50,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     private ListenersRecyclerViewAdapter mAdapter;
 
     private List<CallerStateModel> callerStateModelList;
+
+    public static ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,12 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                             handlePress1Event(jsonObject);
                             break;
 
+                        case "end_show_call_ack":
+                            LoadingUtil.getInstance().hideLoading();
+                            chronometerShow.stop();
+                            finish();
+                            break;
+
                         default:
                             Log.d(TAG, "objective not matched: " + jsonObject.toString());
                     }
@@ -115,6 +125,13 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
 
         RequestMessageHelper.getInstance().showPlaybackMetadata();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.progress_dialog_reconnecting_call));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+
+        SharedPreferenceManager.getInstance().setShowRunning(true);
     }
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
@@ -220,9 +237,9 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "End show ok");
+                LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), ShowActivity.this);
                 RequestMessageHelper.getInstance().showEndShow();
-                chronometerShow.stop();
-                finish();
+                SharedPreferenceManager.getInstance().setShowRunning(false);
             }
         });
 
@@ -262,30 +279,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        builder.setMessage(R.string.dialog_box_end_show_message)
-                .setCancelable(false)
-                .setTitle(R.string.dialog_box_end_show_title);
-
-        builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                Log.d(TAG, "End show ok");
-                RequestMessageHelper.getInstance().showEndShow();
-                chronometerShow.stop();
-                finish();
-            }
-        });
-
-        builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.cancel();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
+        handleEndShow();
     }
 }
