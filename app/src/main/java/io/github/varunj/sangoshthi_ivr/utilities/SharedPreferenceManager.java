@@ -8,10 +8,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by Deepak on 07-06-2017.
- */
-
 public class SharedPreferenceManager {
 
     private static final String TAG = SharedPreferenceManager.class.getSimpleName();

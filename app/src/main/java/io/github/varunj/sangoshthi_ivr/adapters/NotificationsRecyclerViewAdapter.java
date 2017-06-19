@@ -59,7 +59,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
         } else {
             holder.cvNotification.setBackgroundColor(ContextCompat.getColor(context, R.color.cv_notification_read));
         }
-        holder.tvNotification.setText(notificationModelList.get(position).toString());
+        holder.tvNotification.setText(notificationModelList.get(position).getBody());
     }
 
     @Override

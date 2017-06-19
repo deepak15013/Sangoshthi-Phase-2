@@ -172,10 +172,12 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         if(jsonObject.getString("case").equals("feedback")) {
             if(SharedPreferenceManager.getInstance().getShowContent()) {
                 showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+                showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
                 showPlayPause.setVisibility(View.VISIBLE);
             }
         } else if(jsonObject.getString("case").equals("show_content")) {
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
         }
     }
 
