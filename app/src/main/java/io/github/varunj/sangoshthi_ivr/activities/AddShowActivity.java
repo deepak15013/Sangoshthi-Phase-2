@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017. Created by Deepak Sood
+ */
+
 package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.app.DatePickerDialog;
@@ -21,11 +25,6 @@ import java.io.File;
 import java.util.Calendar;
 
 import io.github.varunj.sangoshthi_ivr.R;
-import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
-
-/**
- * Created by Varun on 12-Mar-17.
- */
 
 public class AddShowActivity extends AppCompatActivity implements View.OnClickListener {
 

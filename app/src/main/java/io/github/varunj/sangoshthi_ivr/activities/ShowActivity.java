@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2017. Created by Deepak Sood
+ */
+
 package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.app.ProgressDialog;
@@ -31,10 +35,6 @@ import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
-
-/**
- * Created by Varun on 12-Mar-17.
- */
 
 public class ShowActivity extends AppCompatActivity implements View.OnClickListener {
 
