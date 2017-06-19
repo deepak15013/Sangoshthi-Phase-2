@@ -8,7 +8,6 @@ import android.widget.Button;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
-import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -34,26 +33,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if(SharedPreferenceManager.getInstance().isShowStarted()) {
-            btnHostShow.setText(getString(R.string.home_show_running));
-        } else {
-            btnHostShow.setText(getString(R.string.home_host_show));
-        }
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_host_show:
-                if(btnHostShow.getText().equals(getString(R.string.home_show_running))) {
-                    Intent intentShow = new Intent(this, ShowActivity.class);
-                    startActivity(intentShow);
-                } else {
-                    Intent intentHostShow = new Intent(this, HostShowActivity.class);
-                    startActivity(intentHostShow);
-                }
+                Intent intentHostShow = new Intent(this, HostShowActivity.class);
+                startActivity(intentHostShow);
                 break;
 
             case R.id.btn_home_notifications:

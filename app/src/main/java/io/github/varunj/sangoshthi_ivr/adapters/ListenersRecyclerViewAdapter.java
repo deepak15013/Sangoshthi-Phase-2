@@ -90,6 +90,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
                     callerStateModelList.get(position).setTurn(callerStateModelList.get(position).getTurn()+1);
                     holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
                     RequestMessageHelper.getInstance().unmute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
+                    callerStateModelList.get(position).setQuestionState(false);
                     holder.ivQuestion.setVisibility(View.INVISIBLE);
                 } else {
                     // unmute - set mute

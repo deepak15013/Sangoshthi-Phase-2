@@ -115,8 +115,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
 
         RequestMessageHelper.getInstance().showPlaybackMetadata();
-
-        SharedPreferenceManager.getInstance().setShowStarted(true);
     }
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
@@ -222,7 +220,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "End show ok");
-                SharedPreferenceManager.getInstance().setShowStarted(false);
                 RequestMessageHelper.getInstance().showEndShow();
                 chronometerShow.stop();
                 finish();
@@ -267,15 +264,17 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        builder.setMessage(R.string.dialog_box_on_back_pressed_message)
+        builder.setMessage(R.string.dialog_box_end_show_message)
                 .setCancelable(false)
-                .setTitle(R.string.dialog_box_on_back_pressed_title);
+                .setTitle(R.string.dialog_box_end_show_title);
 
         builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                SharedPreferenceManager.getInstance().setShowStarted(true);
-                ShowActivity.super.onBackPressed();
+                Log.d(TAG, "End show ok");
+                RequestMessageHelper.getInstance().showEndShow();
+                chronometerShow.stop();
+                finish();
             }
         });
 
