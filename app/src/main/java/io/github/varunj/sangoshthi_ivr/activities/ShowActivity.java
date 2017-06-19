@@ -256,24 +256,21 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleToggleShowPlayPause() {
         if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_play))) {
+            RequestMessageHelper.getInstance().playFeedback();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-            RequestMessageHelper.getInstance().playFeedback();
-        }
-        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
+        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
+            RequestMessageHelper.getInstance().pauseShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_play));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-            RequestMessageHelper.getInstance().pauseShowContent();
-        }
-        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
+        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
+            RequestMessageHelper.getInstance().playShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-            RequestMessageHelper.getInstance().playShowContent();
-        }
-        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
+        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
+            RequestMessageHelper.getInstance().pauseShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-            RequestMessageHelper.getInstance().pauseShowContent();
         }
     }
 
