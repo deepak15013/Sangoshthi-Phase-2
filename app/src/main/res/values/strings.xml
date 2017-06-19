@@ -9,7 +9,7 @@
 
     <string name="home_add_show">CREATE SHOW</string>
     <string name="home_host_show">HOST SHOW</string>
-    <string name="home_show_running"></string>
+    <string name="home_show_running">RESUME SHOW</string>
     <string name="home_notifications">NOTIFICATIONS</string>
     <string name="home_help">TUTORIALS</string>
 
@@ -62,6 +62,7 @@
     <string name="cd_iv_online">User Online</string>
     <string name="cd_btn_start_show">Start Show</string>
     <string name="cd_ib_call_broadcaster">Call broadcaster</string>
+    <string name="cd_image">Image</string>
 
     <!-- Placeholders -->
     <string name="placeholder_tv_show_topic">Play and Communication</string>

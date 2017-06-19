@@ -8,6 +8,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +26,7 @@ import io.github.varunj.sangoshthi_ivr.adapters.NotificationsRecyclerViewAdapter
 import io.github.varunj.sangoshthi_ivr.models.NotificationModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
+import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -33,6 +36,7 @@ public class NotificationsActivity extends AppCompatActivity {
 
     private static final String TAG = NotificationsActivity.class.getSimpleName();
 
+    private ImageView ivNoNotifications;
     private RecyclerView rvNotifications;
     private NotificationsRecyclerViewAdapter mAdapter;
 
@@ -42,6 +46,10 @@ public class NotificationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+
+        LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), NotificationsActivity.this);
+
+        ivNoNotifications = (ImageView) findViewById(R.id.iv_no_notifications);
 
         final Handler incomingMessageHandler = new Handler() {
             @Override
@@ -85,7 +93,6 @@ public class NotificationsActivity extends AppCompatActivity {
             Gson gson = new Gson();
             Type listType = new TypeToken<List<NotificationModel>>(){}.getType();
             List<NotificationModel> notificationModelList = gson.fromJson(notifications, listType);
-//            NotificationModel notificationModel = gson.fromJson(notifications, NotificationModel.class);
             Log.d(TAG, "notificationModel size - " + notificationModelList.size());
 
             for(NotificationModel notificationModel : notificationModelList) {
@@ -94,6 +101,18 @@ public class NotificationsActivity extends AppCompatActivity {
             }
 
             mAdapter.notifyDataSetChanged();
+            ivNoNotifications.setVisibility(View.GONE);
+            rvNotifications.setVisibility(View.VISIBLE);
+        } else {
+            ivNoNotifications.setVisibility(View.VISIBLE);
+            rvNotifications.setVisibility(View.GONE);
         }
+        LoadingUtil.getInstance().hideLoading();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

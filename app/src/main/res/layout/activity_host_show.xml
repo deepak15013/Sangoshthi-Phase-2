@@ -58,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/right_arrow"
                 android:background="@android:color/transparent"
-                android:contentDescription="@string/cd_btn_start_show" />
+                android:contentDescription="@string/cd_btn_start_show"
+                android:clickable="false"/>
 
             <TextView
                 android:layout_width="wrap_content"

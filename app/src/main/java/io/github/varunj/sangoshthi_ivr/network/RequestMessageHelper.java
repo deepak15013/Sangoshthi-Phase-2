@@ -193,7 +193,7 @@ public class RequestMessageHelper {
     public void pauseShowContent() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("objective", "pause_play_show_content");
+            jsonObject.put("objective", "pause_play_content");
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());

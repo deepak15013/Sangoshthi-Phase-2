@@ -47,9 +47,10 @@
 
             <ImageButton
                 android:id="@+id/iv_question"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:contentDescription="@string/cd_iv_question"
+                android:background="@android:color/transparent"
                 android:src="@drawable/query" />
 
         </LinearLayout>

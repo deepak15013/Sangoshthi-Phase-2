@@ -222,6 +222,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "End show ok");
+                SharedPreferenceManager.getInstance().setShowStarted(false);
                 RequestMessageHelper.getInstance().showEndShow();
                 chronometerShow.stop();
                 finish();
@@ -273,6 +274,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                SharedPreferenceManager.getInstance().setShowStarted(true);
                 ShowActivity.super.onBackPressed();
             }
         });

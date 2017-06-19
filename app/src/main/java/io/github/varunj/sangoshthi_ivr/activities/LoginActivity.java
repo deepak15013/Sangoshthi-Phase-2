@@ -35,18 +35,21 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     // constant for storing the runtime permission access for external storage media
-    private static final int MY_PERMISSION_WRITE_EXTERNAL_STORAGE = 44;
-    private static final int MY_PERMISSION_READ_PHONE_STATE = 45;
+    private static final int PERMISSION_CALLBACK_CONSTANT = 43;
+
+    String[] permissionsRequired = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        /* First check for permission for external storage, Uses runtime permission */
+        checkAndGetRuntimePermissions();
+
         AMQPPublish.getInstance().setupConnectionFactory();
         AMQPPublish.getInstance().publishToAMQP();
-
-
 
         SharedPreferenceManager.getInstance().init(getApplicationContext());
 
@@ -62,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG, "Sign in");
                     SharedPreferenceManager.getInstance().setBroadcaster(etPhone.getText().toString());
 
-                    LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), getApplicationContext());
+                    LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), LoginActivity.this);
 
                     AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
                     RequestMessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
@@ -75,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "broadcaster - " + SharedPreferenceManager.getInstance().getBroadcaster());
             if(!SharedPreferenceManager.getInstance().getBroadcaster().equals("0123456789")) {
                 Log.d(TAG, "start subscriber");
-                LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), getApplicationContext());
+                LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), LoginActivity.this);
                 AMQPPublish.getInstance().subscribe(SharedPreferenceManager.getInstance().getBroadcaster());
                 RequestMessageHelper.getInstance().appInstallNotify(SharedPreferenceManager.getInstance().getBroadcaster());
 
@@ -116,34 +119,19 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /* First check for permission for external storage, Uses runtime permission */
-        checkAndGetRuntimePermissions();
-    }
-
     /**
      * Check if permission for external storage available or not,
      * if not available, then get the permission from user.
      */
     private void checkAndGetRuntimePermissions() {
         if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                permissionsRequired[0])
+                != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, permissionsRequired[1]) != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSION_WRITE_EXTERNAL_STORAGE);
-        }
-
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_PHONE_STATE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_PHONE_STATE},
-                    MY_PERMISSION_READ_PHONE_STATE);
+                    permissionsRequired,
+                    PERMISSION_CALLBACK_CONSTANT);
         }
     }
 
@@ -158,28 +146,26 @@ public class LoginActivity extends AppCompatActivity {
      */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case MY_PERMISSION_WRITE_EXTERNAL_STORAGE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "Permission Granted for write_external_storage");
-                }
-                else {
-                    Toast.makeText(this, "Storage Access Denied", Toast.LENGTH_SHORT).show();
-                    finish();
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == PERMISSION_CALLBACK_CONSTANT) {
+            boolean allgranted = false;
+            for (int grantResult : grantResults) {
+                if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                    allgranted = true;
+                } else {
+                    allgranted = false;
+                    break;
                 }
             }
 
-            case MY_PERMISSION_READ_PHONE_STATE: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "Permission Granted for record_audio");
-                }
-                else {
-                    Toast.makeText(this, "Record Audio Access Denied", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+            if(allgranted) {
+                Log.d(TAG, "Permission granted");
+            } else {
+                Log.d(TAG, "Permission denied");
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                finish();
             }
+
         }
     }
 

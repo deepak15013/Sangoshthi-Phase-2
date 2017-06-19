@@ -2,20 +2,12 @@ package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
-import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
-import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
@@ -35,12 +27,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
 
         btnHostShow = (Button) findViewById(R.id.btn_host_show);
-        if(SharedPreferenceManager.getInstance().isShowStarted()) {
-            btnHostShow.setText(getString(R.string.home_show_running));
-        } else {
-            btnHostShow.setText(getString(R.string.home_host_show));
-        }
-
         btnHostShow.setOnClickListener(this);
 
         btnHomeNotifications = (Button) findViewById(R.id.btn_home_notifications);
@@ -48,11 +34,26 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(SharedPreferenceManager.getInstance().isShowStarted()) {
+            btnHostShow.setText(getString(R.string.home_show_running));
+        } else {
+            btnHostShow.setText(getString(R.string.home_host_show));
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_host_show:
-                Intent intentHostShow = new Intent(this, HostShowActivity.class);
-                startActivity(intentHostShow);
+                if(btnHostShow.getText().equals(getString(R.string.home_show_running))) {
+                    Intent intentShow = new Intent(this, ShowActivity.class);
+                    startActivity(intentShow);
+                } else {
+                    Intent intentHostShow = new Intent(this, HostShowActivity.class);
+                    startActivity(intentHostShow);
+                }
                 break;
 
             case R.id.btn_home_notifications:

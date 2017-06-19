@@ -31,16 +31,17 @@ public class LoadingUtil {
     public void showLoading(String message, Context context) {
         Log.d(TAG, "showing loading");
         this.context = context;
-        if(progressDialog != null) {
-            progressDialog = new ProgressDialog(context);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setIndeterminate(true);
-            progressDialog.setMessage(message);
-            progressDialog.show();
-        }
+
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(message);
+        progressDialog.show();
+
     }
 
     public void hideLoading() {
+        Log.d(TAG, "hideLoading");
         if(progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }

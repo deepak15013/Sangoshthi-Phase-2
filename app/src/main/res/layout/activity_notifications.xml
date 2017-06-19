@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dip"
+    android:gravity="center"
     tools:context="io.github.varunj.sangoshthi_ivr.activities.NotificationsActivity">
+
+    <ImageView
+        android:id="@+id/iv_no_notifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/no_notification"
+        android:visibility="visible"
+        android:contentDescription="@string/cd_image"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_notifications"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:visibility="gone"/>
 
-</LinearLayout>
+</RelativeLayout>

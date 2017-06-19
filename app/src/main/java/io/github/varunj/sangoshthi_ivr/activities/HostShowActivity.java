@@ -24,6 +24,7 @@ import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
+import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 
 /**
  * Created by Varun on 12-Mar-17.
@@ -46,6 +47,8 @@ public class HostShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_show);
 
+        LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait),HostShowActivity.this);
+
         this.context = this;
 
         tvShowTopic = (TextView) findViewById(R.id.tv_show_topic);
@@ -53,8 +56,6 @@ public class HostShowActivity extends AppCompatActivity {
         tvShowTimeOfAiring = (TextView) findViewById(R.id.tv_show_time_of_airing);
         llStartShow = (LinearLayout) findViewById(R.id.ll_start_show);
         tvChronometerStartShow = (TextView) findViewById(R.id.tv_chronometer_start_show);
-
-        RequestMessageHelper.getInstance().getUpcomingShow();
 
         final Handler incomingMessageHandler = new Handler() {
             @Override
@@ -108,9 +109,8 @@ public class HostShowActivity extends AppCompatActivity {
                                     tvChronometerStartShow.setVisibility(View.GONE);
                                 }
                             }.start();
-
-
                         }
+                        LoadingUtil.getInstance().hideLoading();
                     }
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
@@ -118,6 +118,8 @@ public class HostShowActivity extends AppCompatActivity {
             }
         };
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
+
+        RequestMessageHelper.getInstance().getUpcomingShow();
 
         llStartShow.setOnClickListener(new View.OnClickListener() {
             @Override
