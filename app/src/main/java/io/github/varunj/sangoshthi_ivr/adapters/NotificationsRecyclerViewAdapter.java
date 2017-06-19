@@ -1,6 +1,8 @@
 package io.github.varunj.sangoshthi_ivr.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +27,12 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvNotification;
+        public CardView cvNotification;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             tvNotification = (TextView) itemView.findViewById(R.id.tv_notification);
+            cvNotification = (CardView) itemView.findViewById(R.id.cv_notification);
         }
     }
 
@@ -46,6 +50,11 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        if(notificationModelList.get(position).getRead_status() == 0) {
+            holder.cvNotification.setBackgroundColor(ContextCompat.getColor(context, R.color.cv_notification_unread));
+        } else {
+            holder.cvNotification.setBackgroundColor(ContextCompat.getColor(context, R.color.cv_notification_read));
+        }
         holder.tvNotification.setText(notificationModelList.get(position).toString());
     }
 

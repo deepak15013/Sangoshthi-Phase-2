@@ -69,12 +69,15 @@
     <string name="placeholder_tv_show_time_of_airing">14:00</string>
     <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
     <string name="placeholder_tv_chronometer_start_show">00:00</string>
+    <string name="placeholder_tv_notification">Notification</string>
 
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">Calling</string>
     <string name="progress_dialog_please_wait">Please Wait</string>
     <string name="dialog_box_on_back_pressed_message">Do you want to exit</string>
     <string name="dialog_box_on_back_pressed_title">Exit Show</string>
+    <string name="dialog_box_end_show_message">Do you want to end show</string>
+    <string name="dialog_box_end_show_title">End Show</string>
 
     <string name="error_phone_not_registered">Phone not registered</string>
 

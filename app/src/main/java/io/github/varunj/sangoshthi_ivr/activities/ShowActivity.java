@@ -177,7 +177,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleMuteUnmuteResponse(JSONObject jsonObject) throws JSONException {
         if(jsonObject.getString("info").equals("OK")) {
-            int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
+            int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("listener_phoneno"));
             if(callerId != -1) {
                 Toast.makeText(this, "State changed", Toast.LENGTH_SHORT).show();
                 callerStateModelList.get(callerId).setMuteUnmuteDisabled(false);
@@ -200,9 +200,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.show_end_show:
-                Toast.makeText(this, "End show", Toast.LENGTH_SHORT).show();
-                RequestMessageHelper.getInstance().showEndShow();
-                chronometerShow.stop();
+                handleEndShow();
                 break;
 
             case R.id.show_play_pause:
@@ -212,6 +210,33 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 break;
         }
+    }
+
+    private void handleEndShow() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.dialog_box_end_show_message)
+                .setCancelable(false)
+                .setTitle(R.string.dialog_box_end_show_title);
+
+        builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Log.d(TAG, "End show ok");
+                RequestMessageHelper.getInstance().showEndShow();
+                chronometerShow.stop();
+                finish();
+            }
+        });
+
+        builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void handleToggleShowPlayPause() {
@@ -248,7 +273,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                onBackPressed();
+                ShowActivity.super.onBackPressed();
             }
         });
 

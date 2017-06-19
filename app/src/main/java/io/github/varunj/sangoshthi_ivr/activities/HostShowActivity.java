@@ -80,13 +80,13 @@ public class HostShowActivity extends AppCompatActivity {
                         if(diff <= ConstantUtil.ONE_HOUR_CLOCK) {
                             // 1 hour left to start show, move to next screen
                             llStartShow.setVisibility(View.VISIBLE);
-                            tvChronometerStartShow.setVisibility(View.INVISIBLE);
+                            tvChronometerStartShow.setVisibility(View.GONE);
                         } else {
                             // start show time not passed
-                            llStartShow.setVisibility(View.INVISIBLE);
+                            llStartShow.setVisibility(View.GONE);
                             tvChronometerStartShow.setVisibility(View.VISIBLE);
                             // minimize 1 hour from the diff, because 1 hour before the startShow button gets enabled
-                            diff = diff - ConstantUtil.ONE_HOUR_CLOCK;
+                            diff = diff - ConstantUtil.FIFTEEN_MINUTES_CLOCK;
 
                             Log.d(TAG, "diff - " + diff);
                             new CountDownTimer(diff, 1000) {
@@ -105,7 +105,7 @@ public class HostShowActivity extends AppCompatActivity {
                                 @Override
                                 public void onFinish() {
                                     llStartShow.setVisibility(View.VISIBLE);
-                                    tvChronometerStartShow.setVisibility(View.INVISIBLE);
+                                    tvChronometerStartShow.setVisibility(View.GONE);
                                 }
                             }.start();
 

@@ -9,6 +9,7 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorGreen">#50c878</color>
     <color name="colorRed">#D60027</color>
+    <color name="colorBlue">#1D4999</color>
 
     <color name="home_help">#ffc40d</color>
     <color name="home_notifications">#3AB09E</color>
@@ -26,4 +27,7 @@
     <color name="btn_add_listeners">#ffa700</color>
     <color name="btn_delete_listeners">#d62d20</color>
     <color name="btn_show_listeners">#008744</color>
+
+    <color name="cv_notification_read">#d3d3d3</color>
+    <color name="cv_notification_unread">#ffdab9</color>
 </resources>
