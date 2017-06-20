@@ -50,7 +50,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.CallActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <receiver android:name=".callhandler.CallReceiver">
             <intent-filter>
@@ -61,6 +61,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".activities.PlayTutorialActivity"></activity>
     </application>
 
 </manifest>

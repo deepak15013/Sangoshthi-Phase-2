@@ -1,0 +1,9 @@
+<!--
+  ~ Copyright (c) 2017. Created by Deepak Sood
+  -->
+
+<vector android:height="24dp" android:viewportHeight="535.578"
+    android:viewportWidth="535.578" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#FFFFFF" android:pathData="M231.6,516.3c0,10.7 -8.6,19.3 -19.3,19.3H106.2c-10.7,0 -19.3,-8.6 -19.3,-19.3V19.3c0,-10.7 8.6,-19.3 19.3,-19.3h106.2c10.7,0 19.3,8.6 19.3,19.3V516.3z"/>
+    <path android:fillColor="#FFFFFF" android:pathData="M448.7,516.3c0,10.7 -8.6,19.3 -19.3,19.3h-106.2c-10.7,0 -19.3,-8.6 -19.3,-19.3V19.3c0,-10.7 8.6,-19.3 19.3,-19.3h106.2c10.7,0 19.3,8.6 19.3,19.3V516.3z"/>
+</vector>
