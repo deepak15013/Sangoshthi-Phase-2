@@ -231,9 +231,9 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleEndShow() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(R.string.dialog_box_end_show_message)
-                .setCancelable(false)
-                .setTitle(R.string.dialog_box_end_show_title);
+        builder.setTitle(R.string.dialog_box_end_show_title)
+                .setMessage(R.string.dialog_box_end_show_message)
+                .setCancelable(false);
 
         builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
             @Override
@@ -242,6 +242,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), ShowActivity.this);
                 RequestMessageHelper.getInstance().showEndShow();
                 SharedPreferenceManager.getInstance().setShowRunning(false);
+                SharedPreferenceManager.getInstance().setShowUpdateStatus(true);
             }
         });
 

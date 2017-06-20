@@ -43,7 +43,7 @@ public class TutorialsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorials);
 
-        LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), this);
+        LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), TutorialsActivity.this);
 
         final Handler incomingMessageHandler = new Handler() {
             @Override

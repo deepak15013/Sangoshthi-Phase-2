@@ -286,4 +286,19 @@ public class RequestMessageHelper {
         }
     }
 
+    public void updateShowStatus() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("objective", "update_show_status");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
+            jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.getInstance().publishMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

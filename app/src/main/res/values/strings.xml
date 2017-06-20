@@ -44,6 +44,8 @@
     <string name="btn_call_listeners">Call Asha Listeners</string>
     <string name="btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_yes">YES</string>
+    <string name="btn_no">NO</string>
 
     <!-- Strings for Add Listeners -->
     <string name="tv_add_listeners">Enter Listeners Number</string>
@@ -74,9 +76,11 @@
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">Calling</string>
     <string name="progress_dialog_please_wait">Please Wait</string>
-    <string name="dialog_box_end_show_message">Do you want to end show</string>
-    <string name="dialog_box_end_show_title">End Show</string>
     <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
+    <string name="dialog_box_end_show_title">End Show</string>
+    <string name="dialog_box_end_show_message">Do you want to end show</string>
+    <string name="dialog_box_update_show_status_title">Show End Confirmation</string>
+    <string name="dialog_box_update_show_status_message">If you are ready for the next show, then press yes. Otherwise press no.</string>
 
     <string name="error_phone_not_registered">Phone not registered</string>
 
