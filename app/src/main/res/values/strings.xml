@@ -5,8 +5,6 @@
     <string name="login_hint_phone">Enter PhoneNo</string>
     <string name="login_btn_sign_in">Sign In</string>
 
-    <string name="login_toast_wrong_phoneNum">Enter Your 10 Digit Phone Number</string>
-
     <string name="home_add_show">CREATE SHOW</string>
     <string name="home_host_show">HOST SHOW</string>
     <string name="home_show_running">RESUME SHOW</string>
@@ -81,5 +79,7 @@
     <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
 
     <string name="error_phone_not_registered">Phone not registered</string>
+
+    <string name="toast_back_disabled">You cannot go back!</string>
 
 </resources>

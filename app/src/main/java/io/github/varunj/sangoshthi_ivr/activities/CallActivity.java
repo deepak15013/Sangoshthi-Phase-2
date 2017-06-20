@@ -39,6 +39,8 @@ public class CallActivity extends AppCompatActivity {
     public static ProgressDialog progressDialog;
     public static Thread dismissThread;
 
+    private boolean callStarted = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +83,7 @@ public class CallActivity extends AppCompatActivity {
                 if(tvCall.getText().equals(getResources().getString(R.string.btn_call_broadcaster))) {
                     RequestMessageHelper.getInstance().startShow();
                     progressDialog.show();
+                    callStarted = true;
 
                 } else if(tvCall.getText().equals(getResources().getString(R.string.btn_call_listeners))) {
                     RequestMessageHelper.getInstance().dialListeners();
@@ -127,6 +130,14 @@ public class CallActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    @Override
+    public void onBackPressed() {
+        if(callStarted) {
+            Toast.makeText(this, getString(R.string.toast_back_disabled), Toast.LENGTH_SHORT).show();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

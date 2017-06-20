@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
@@ -93,7 +94,7 @@ public class NotificationsActivity extends AppCompatActivity {
     private void handleNotify(JSONObject jsonObject) throws JSONException {
         String notifications = jsonObject.getString("info");
         Log.d(TAG, "notifications - " + notifications);
-        if(notifications != null && !notifications.equals("") && !notifications.equals(" ")) {
+        if(notifications != null && !notifications.equals("") && !notifications.equals(" ") && !notifications.equals("-1")) {
             Gson gson = new Gson();
             Type listType = new TypeToken<List<NotificationModel>>(){}.getType();
             List<NotificationModel> notificationModelList = gson.fromJson(notifications, listType);
@@ -103,6 +104,8 @@ public class NotificationsActivity extends AppCompatActivity {
             for(NotificationModel notificationModel : notificationModelList) {
                 this.notificationModelList.add(notificationModel);
             }
+
+            Collections.reverse(notificationModelList);
 
             mAdapter.notifyDataSetChanged();
             ivNoNotifications.setVisibility(View.GONE);

@@ -83,6 +83,10 @@ public class ResponseMessageHelper {
                     sendCallbackToActivity(message);
                     break;
 
+                case "get_show_id_for_gallery_ack":
+                    sendCallbackToActivity(message);
+                    break;
+
                 default:
                     Log.e(TAG, "Objective not matched " + message.toString());
             }

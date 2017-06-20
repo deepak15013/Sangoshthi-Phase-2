@@ -273,4 +273,17 @@ public class RequestMessageHelper {
         }
     }
 
+    public void getShowIdForGallery() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("objective", "get_show_id_for_gallery");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.getInstance().publishMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
