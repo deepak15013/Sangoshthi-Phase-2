@@ -99,8 +99,8 @@ public class NotificationsActivity extends AppCompatActivity {
             List<NotificationModel> notificationModelList = gson.fromJson(notifications, listType);
             Log.d(TAG, "notificationModel size - " + notificationModelList.size());
 
+            this.notificationModelList.clear();
             for(NotificationModel notificationModel : notificationModelList) {
-                this.notificationModelList.clear();
                 this.notificationModelList.add(notificationModel);
             }
 
