@@ -104,7 +104,7 @@ public class AMQPPublish {
                         try {
                             Thread.sleep(5000);
                         } catch (InterruptedException e1) {
-                            Log.e(TAG, "Interrupted Exception thrown: " + e);
+                            Log.e(TAG, "Interrupted Exception thrown: " + e1);
                             break;
                         }
                     }
