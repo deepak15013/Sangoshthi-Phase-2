@@ -40,22 +40,22 @@
         android:layout_marginBottom="40dp">
 
         <Button
-            android:id="@+id/btn_home_notifications"
+            android:id="@+id/btn_notifications"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/home_notifications"
-            android:layout_weight="1.0"
-            android:text="@string/home_notifications"
-            android:textSize="20sp"
-            android:drawableTop="@drawable/home_notification"
-            android:paddingTop="@dimen/home_left_icon_pad"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginTop="10dp"
+            android:layout_weight="1.0"
+            android:background="@color/home_notifications"
+            android:drawableTop="@drawable/home_notification"
+            android:paddingTop="@dimen/home_left_icon_pad"
+            android:text="@string/home_notifications"
+            android:textSize="20sp" />
 
         <Button
-            android:id="@+id/home_help"
+            android:id="@+id/btn_tutorials"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/home_help"

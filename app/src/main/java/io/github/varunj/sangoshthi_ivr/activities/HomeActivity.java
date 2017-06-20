@@ -23,6 +23,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button btnHostShow;
     private Button btnHomeNotifications;
+    private Button btnTutorials;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         btnHostShow = (Button) findViewById(R.id.btn_host_show);
         btnHostShow.setOnClickListener(this);
 
-        btnHomeNotifications = (Button) findViewById(R.id.btn_home_notifications);
+        btnHomeNotifications = (Button) findViewById(R.id.btn_notifications);
         btnHomeNotifications.setOnClickListener(this);
+
+        btnTutorials = (Button) findViewById(R.id.btn_tutorials);
+        btnTutorials.setOnClickListener(this);
     }
 
     @Override
@@ -44,10 +48,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intentHostShow);
                 break;
 
-            case R.id.btn_home_notifications:
+            case R.id.btn_notifications:
                 Intent intentNotifications = new Intent(this, NotificationsActivity.class);
                 startActivity(intentNotifications);
                 break;
+
+            case R.id.btn_tutorials:
+                Intent intentTutorials = new Intent(this, TutorialsActivity.class);
+                startActivity(intentTutorials);
         }
     }
 

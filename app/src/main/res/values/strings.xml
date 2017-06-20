@@ -71,6 +71,7 @@
     <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
     <string name="placeholder_tv_chronometer_start_show">00:00</string>
     <string name="placeholder_tv_notification">Notification</string>
+    <string name="placeholder_tv_tutorial">Tutorial</string>
 
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">Calling</string>
