@@ -12,14 +12,16 @@ public class TutorialModel {
 
     private String tutorialName;
     private String fileName;
+    private String showName;
 
-    /* Lock - true, Unlock = false */
+    /* Locked - true, Unlocked = false */
     private boolean locked;
 
-    public TutorialModel(String tutorialName, String fileName, boolean locked) {
+    public TutorialModel(String tutorialName, String fileName, String showName) {
         this.tutorialName = tutorialName;
         this.fileName = fileName;
-        this.locked = locked;
+        this.showName = showName;
+        this.locked = true;
     }
 
     public String getTutorialName() {
@@ -36,6 +38,14 @@ public class TutorialModel {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getShowName() {
+        return showName;
+    }
+
+    public void setShowName(String showName) {
+        this.showName = showName;
     }
 
     public boolean isLocked() {

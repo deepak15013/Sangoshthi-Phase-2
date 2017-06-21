@@ -21,6 +21,8 @@ public class SharedPreferenceManager {
     private String showId = null;
     private String conferenceName = null;
 
+    private String tutorialsActivityData = null;
+
     /* only in local cache not in share preferences */
     private boolean callReceived = false;
     private boolean showRunning = false;
@@ -34,6 +36,7 @@ public class SharedPreferenceManager {
     private final String PREF_CONFERENCE_NAME = "conference_name";
     private final String PREF_FEEDBACK = "feedback";
     private final String PREF_SHOW_CONTENT = "show_content";
+    private final String PREF_TUTORIALS_ACTIVITY_DATA = "tutorials_activity_data";
 
     private SharedPreferenceManager() { }
 
@@ -158,5 +161,16 @@ public class SharedPreferenceManager {
 
     public void setShowUpdateStatus(boolean showUpdateStatus) {
         this.showUpdateStatus = showUpdateStatus;
+    }
+
+    public String getTutorialsActivityData() {
+        if(this.tutorialsActivityData == null)
+            this.tutorialsActivityData = sharedPreferences.getString(PREF_TUTORIALS_ACTIVITY_DATA, "NONE");
+        return this.tutorialsActivityData;
+    }
+
+    public boolean setTutorialsActivityData(String tutorialsActivityData) {
+        this.tutorialsActivityData = tutorialsActivityData;
+        return sharedPreferences != null && sharedPreferences.edit().putString(PREF_TUTORIALS_ACTIVITY_DATA, tutorialsActivityData).commit();
     }
 }

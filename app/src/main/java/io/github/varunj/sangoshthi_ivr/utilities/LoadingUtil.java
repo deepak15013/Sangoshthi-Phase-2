@@ -40,6 +40,7 @@ public class LoadingUtil {
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
     }

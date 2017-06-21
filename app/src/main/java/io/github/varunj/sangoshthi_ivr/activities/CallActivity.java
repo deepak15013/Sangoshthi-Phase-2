@@ -100,6 +100,7 @@ public class CallActivity extends AppCompatActivity {
         progressDialog.setMessage(getResources().getString(R.string.progress_dialog_calling_broadcaster));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
 
         dismissThread = new Thread(new Runnable() {
             @Override

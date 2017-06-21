@@ -130,6 +130,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setMessage(getResources().getString(R.string.progress_dialog_reconnecting_call));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(true);
 
         SharedPreferenceManager.getInstance().setShowRunning(true);
     }
