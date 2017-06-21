@@ -67,54 +67,59 @@ public class HostShowActivity extends AppCompatActivity {
                 try {
                     Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
                     JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
-                    tvShowTopic.setText(jsonObject.getString("topic"));
+                    if(!jsonObject.getString("show_id").equals("none")) {
+                        tvShowTopic.setText(jsonObject.getString("topic"));
 
-                    // 2017-06-20 14:20:59
-                    if(jsonObject.getString("time_of_airing") != null) {
-                        String dateTime = jsonObject.getString("time_of_airing");
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
-                        Calendar showDateTime = Calendar.getInstance();
-                        showDateTime.setTime(simpleDateFormat.parse(dateTime));
+                        // 2017-06-20 14:20:59
+                        if(jsonObject.getString("time_of_airing") != null) {
+                            String dateTime = jsonObject.getString("time_of_airing");
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+                            Calendar showDateTime = Calendar.getInstance();
+                            showDateTime.setTime(simpleDateFormat.parse(dateTime));
 
-                        tvShowDateOfAiring.setText(String.format(Locale.ENGLISH, "%1$te %1$tb, %1$tY", showDateTime));
-                        tvShowTimeOfAiring.setText(String.format(Locale.ENGLISH, "%1$tH : %1$tM", showDateTime));
+                            tvShowDateOfAiring.setText(String.format(Locale.ENGLISH, "%1$te %1$tb, %1$tY", showDateTime));
+                            tvShowTimeOfAiring.setText(String.format(Locale.ENGLISH, "%1$tH : %1$tM", showDateTime));
 
                         /* compare time, if time passed then show start show button, if not then show chronometer countdown */
-                        Calendar currentDateTime = Calendar.getInstance();
-                        long diff = showDateTime.getTimeInMillis() - currentDateTime.getTimeInMillis();
-                        if(diff <= ConstantUtil.ONE_HOUR_CLOCK) {
-                            // 1 hour left to start show, move to next screen
-                            llStartShow.setVisibility(View.VISIBLE);
-                            tvChronometerStartShow.setVisibility(View.GONE);
-                        } else {
-                            // start show time not passed
-                            llStartShow.setVisibility(View.GONE);
-                            tvChronometerStartShow.setVisibility(View.VISIBLE);
-                            // minimize 1 hour from the diff, because 1 hour before the startShow button gets enabled
-                            diff = diff - ConstantUtil.FIFTEEN_MINUTES_CLOCK;
+                            Calendar currentDateTime = Calendar.getInstance();
+                            long diff = showDateTime.getTimeInMillis() - currentDateTime.getTimeInMillis();
+                            if(diff <= ConstantUtil.ONE_HOUR_CLOCK) {
+                                // 1 hour left to start show, move to next screen
+                                llStartShow.setVisibility(View.VISIBLE);
+                                tvChronometerStartShow.setVisibility(View.GONE);
+                            } else {
+                                // start show time not passed
+                                llStartShow.setVisibility(View.GONE);
+                                tvChronometerStartShow.setVisibility(View.VISIBLE);
+                                // minimize 1 hour from the diff, because 1 hour before the startShow button gets enabled
+                                diff = diff - ConstantUtil.FIFTEEN_MINUTES_CLOCK;
 
-                            Log.d(TAG, "diff - " + diff);
-                            new CountDownTimer(diff, 1000) {
-                                @Override
-                                public void onTick(long millisUntilFinished) {
-                                    int hours = (int) (millisUntilFinished / ConstantUtil.ONE_HOUR_CLOCK);
-                                    millisUntilFinished = millisUntilFinished % ConstantUtil.ONE_HOUR_CLOCK;
-                                    int mins = (int) (millisUntilFinished / (1000*60));
-                                    millisUntilFinished = millisUntilFinished % (1000 * 60);
-                                    int secs = (int) (millisUntilFinished / 1000);
-                                    //Log.d(TAG, "Show start in " + hours + " : " + mins + " : " + secs);
+                                Log.d(TAG, "diff - " + diff);
+                                new CountDownTimer(diff, 1000) {
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
+                                        int hours = (int) (millisUntilFinished / ConstantUtil.ONE_HOUR_CLOCK);
+                                        millisUntilFinished = millisUntilFinished % ConstantUtil.ONE_HOUR_CLOCK;
+                                        int mins = (int) (millisUntilFinished / (1000*60));
+                                        millisUntilFinished = millisUntilFinished % (1000 * 60);
+                                        int secs = (int) (millisUntilFinished / 1000);
+                                        //Log.d(TAG, "Show start in " + hours + " : " + mins + " : " + secs);
 
-                                    tvChronometerStartShow.setText(getString(R.string.tv_chronometer_start_show, hours, mins, secs));
-                                }
+                                        tvChronometerStartShow.setText(getString(R.string.tv_chronometer_start_show, hours, mins, secs));
+                                    }
 
-                                @Override
-                                public void onFinish() {
-                                    llStartShow.setVisibility(View.VISIBLE);
-                                    tvChronometerStartShow.setVisibility(View.GONE);
-                                }
-                            }.start();
+                                    @Override
+                                    public void onFinish() {
+                                        llStartShow.setVisibility(View.VISIBLE);
+                                        tvChronometerStartShow.setVisibility(View.GONE);
+                                    }
+                                }.start();
+                            }
+                            LoadingUtil.getInstance().hideLoading();
                         }
-                        LoadingUtil.getInstance().hideLoading();
+                    } else {
+                        Log.d(TAG, "no show present");
+                        tvShowTopic.setText(getString(R.string.placeholder_tv_show_topic));
                     }
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();

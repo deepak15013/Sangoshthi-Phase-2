@@ -128,6 +128,8 @@ public class CallActivity extends AppCompatActivity {
                     // call received, change button to call listeners
                     tvCall.setText(getResources().getString(R.string.btn_call_listeners));
                     btnCall.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.call_listeners));
+                } else {
+                    onBackPressed();
                 }
             }
         });

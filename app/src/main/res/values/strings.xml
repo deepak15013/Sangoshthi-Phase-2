@@ -36,9 +36,12 @@
     <string name="btn_show_listeners">Show Listeners</string>
 
     <string name="btn_show_play_pause_feedback_play">Play Feedback</string>
-    <string name="btn_show_play_pause_feedback_pause">Stop Feedback</string>
+    <string name="btn_show_play_pause_feedback_pause">Pause Feedback</string>
+    <string name="btn_show_play_pause_feedback_resume">Resume Feedback</string>
     <string name="btn_show_play_pause_content_play">Play Content</string>
-    <string name="btn_show_play_pause_content_pause">Stop Content</string>
+    <string name="btn_show_play_pause_content_pause">Pause Content</string>
+    <string name="btn_show_play_pause_content_resume">Resume Content</string>
+
     <string name="btn_start_show">Start</string>
     <string name="btn_call_broadcaster">Start Call</string>
     <string name="btn_call_listeners">Call Asha Listeners</string>
@@ -65,9 +68,7 @@
     <string name="cd_image">Image</string>
 
     <!-- Placeholders -->
-    <string name="placeholder_tv_show_topic">Play and Communication</string>
-    <string name="placeholder_tv_show_date_of_airing">7 July 2017</string>
-    <string name="placeholder_tv_show_time_of_airing">14:00</string>
+    <string name="placeholder_tv_show_topic">Coming Soon</string>
     <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
     <string name="placeholder_tv_chronometer_start_show">00:00</string>
     <string name="placeholder_tv_notification">Notification</string>

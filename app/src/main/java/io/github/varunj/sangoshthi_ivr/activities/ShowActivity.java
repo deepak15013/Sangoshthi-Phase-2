@@ -265,16 +265,24 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
         } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
             RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_play));
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_resume));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_resume))) {
+            RequestMessageHelper.getInstance().pauseShowContent();
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
+            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
         } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
             RequestMessageHelper.getInstance().playShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
         } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
             RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_resume))) {
+            RequestMessageHelper.getInstance().pauseShowContent();
+            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
         }
     }
 

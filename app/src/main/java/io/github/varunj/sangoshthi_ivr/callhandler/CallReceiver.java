@@ -66,12 +66,13 @@ public class CallReceiver extends PhoneCallReceiver {
         // incoming call status = 1
         if(state == 1 && number != null) {
             if(number.contains(ConstantUtil.SERVER_NUM)) {
-                SharedPreferenceManager.getInstance().setCallReceived(true);
+                // incoming call
             }
         }
 
         if(state == 2 && number != null) {
             if(number.contains(ConstantUtil.SERVER_NUM)) {
+                SharedPreferenceManager.getInstance().setCallReceived(true);
                 if(CallActivity.progressDialog != null && CallActivity.progressDialog.isShowing()) {
                     CallActivity.progressDialog.dismiss();
                 }
