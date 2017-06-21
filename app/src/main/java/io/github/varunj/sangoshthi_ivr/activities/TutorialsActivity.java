@@ -27,7 +27,6 @@ import io.github.varunj.sangoshthi_ivr.adapters.TutorialsRecyclerViewAdapter;
 import io.github.varunj.sangoshthi_ivr.models.TutorialModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
-import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
@@ -47,8 +46,6 @@ public class TutorialsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorials);
-
-        LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), TutorialsActivity.this);
 
         final Gson gson = new Gson();
         tutorialList = new ArrayList<>();
@@ -72,9 +69,8 @@ public class TutorialsActivity extends AppCompatActivity {
                             }
 
                             SharedPreferenceManager.getInstance().setTutorialsActivityData(gson.toJson(tutorialList));
-
+                            mAdapter.notifyDataSetChanged();
                         }
-                        LoadingUtil.getInstance().hideLoading();
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "" + e);
