@@ -130,7 +130,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setMessage(getResources().getString(R.string.progress_dialog_reconnecting_call));
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(true);
+        progressDialog.setCancelable(false);
 
         SharedPreferenceManager.getInstance().setShowRunning(true);
     }
@@ -194,15 +194,16 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleMuteUnmuteResponse(JSONObject jsonObject) throws JSONException {
-        if(jsonObject.getString("info").equals("OK")) {
-            int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("listener_phoneno"));
-            if(callerId != -1) {
+        int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("listener_phoneno"));
+        if(callerId != -1) {
+            if(jsonObject.getString("info").equals("OK")) {
                 Toast.makeText(this, "State changed", Toast.LENGTH_SHORT).show();
                 callerStateModelList.get(callerId).setMuteUnmuteDisabled(false);
                 mAdapter.notifyDataSetChanged();
+            } else {
+                callerStateModelList.get(callerId).setMuteUnmuteDisabled(true);
+                Toast.makeText(this, "State not changed", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this, "State not changed", Toast.LENGTH_SHORT).show();
         }
     }
 

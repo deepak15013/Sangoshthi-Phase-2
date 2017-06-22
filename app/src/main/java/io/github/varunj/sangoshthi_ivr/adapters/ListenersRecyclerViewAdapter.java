@@ -70,7 +70,9 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
         if(callerStateModelList.get(position).isMuteUnmuteDisabled()) {
             // disable the mute unmute button
-            holder.ivMuteUnmute.setEnabled(false);
+            holder.ivMuteUnmute.setEnabled(true);
+            callerStateModelList.get(position).setMuteUnmuteState(true);
+            holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
         } else {
             // enable the mute unmute button
             holder.ivMuteUnmute.setEnabled(true);
@@ -90,16 +92,18 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
                 holder.ivMuteUnmute.setEnabled(false);
                 if(callerStateModelList.get(position).isMuteUnmuteState()) {
                     // mute - set unmute
+                    RequestMessageHelper.getInstance().unmute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
                     callerStateModelList.get(position).setMuteUnmuteState(false);
                     callerStateModelList.get(position).setTurn(callerStateModelList.get(position).getTurn()+1);
                     holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
-                    RequestMessageHelper.getInstance().unmute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
+                    holder.ivMuteUnmute.setEnabled(false);
                     callerStateModelList.get(position).setQuestionState(false);
                     holder.ivQuestion.setVisibility(View.INVISIBLE);
                 } else {
                     // unmute - set mute
                     callerStateModelList.get(position).setMuteUnmuteState(true);
                     holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
+                    holder.ivMuteUnmute.setEnabled(false);
                     RequestMessageHelper.getInstance().mute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
                 }
             }
