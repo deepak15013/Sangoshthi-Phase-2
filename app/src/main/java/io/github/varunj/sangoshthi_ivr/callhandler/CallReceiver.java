@@ -25,23 +25,23 @@ public class CallReceiver extends PhoneCallReceiver {
     @Override
     protected void onIncomingCallStarted(Context ctx, String number, Date start) {
         super.onIncomingCallStarted(ctx, number, start);
-        Log.d(TAG, "call incoming: " + number + " date start: " + start);
+        /*Log.d(TAG, "call incoming: " + number + " date start: " + start);
 
         if(CallActivity.dismissThread != null && CallActivity.dismissThread.isAlive()) {
             CallActivity.dismissThread.interrupt();
-        }
+        }*/
 
     }
 
     @Override
     protected void onIncomingCallEnded(Context ctx, String number, Date start, Date end) {
         super.onIncomingCallEnded(ctx, number, start, end);
-        Log.d(TAG, "call incoming ended: " + number + " date start: " + start + "date end: " + end);
+        /*Log.d(TAG, "call incoming ended: " + number + " date start: " + start + "date end: " + end);
         if(number.contains(ConstantUtil.SERVER_NUM)) {
             if(CallActivity.progressDialog != null && CallActivity.progressDialog.isShowing()) {
                 CallActivity.progressDialog.dismiss();
             }
-        }
+        }*/
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CallReceiver extends PhoneCallReceiver {
         Log.d(TAG, "state changed: " + state + " number: " + number);
 
         if(state == 0 && number != null) {
-            if(number.contains(ConstantUtil.SERVER_NUM) && SharedPreferenceManager.getInstance().isCallReceived()) {
+            if(number.contains(ConstantUtil.SERVER_NUM)) {
                 Log.d(TAG, "call disconnected");
                 SharedPreferenceManager.getInstance().setCallReceived(false);
                 if(CallActivity.progressDialog != null && CallActivity.progressDialog.isShowing()) {
