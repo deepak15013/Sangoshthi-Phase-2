@@ -1,35 +1,32 @@
 <resources>
-    <string name="app_name">xSangoshthi_IVR</string>
+    <string name="app_name">Sangoshthi IVR</string>
 
     <string name="login_text_register">USER REGISTRATION</string>
-    <string name="login_hint_phone">Enter PhoneNo</string>
+    <string name="login_hint_phone">अपना फोन नंबर डालें</string>
     <string name="login_btn_sign_in">Sign In</string>
 
-    <string name="home_host_show">HOST SHOW</string>
-    <string name="home_notifications">NOTIFICATIONS</string>
-    <string name="home_help">TUTORIALS</string>
+    <string name="home_host_show">प्रोग्राम देखें</string>
+    <string name="home_notifications">सूचना/ दिशा निर्देश</string>
+    <string name="home_help">विषय सूची</string>
 
     <string name="show_play_pause">PLAY/PAUSE</string>
 
-    <string name="btn_show_play_pause_feedback_play">Play Feedback</string>
-    <string name="btn_show_play_pause_feedback_pause">Pause Feedback</string>
-    <string name="btn_show_play_pause_feedback_resume">Resume Feedback</string>
-    <string name="btn_show_play_pause_content_play">Play Content</string>
-    <string name="btn_show_play_pause_content_pause">Pause Content</string>
-    <string name="btn_show_play_pause_content_resume">Resume Content</string>
+    <string name="btn_show_play_pause_feedback_play">डॉक्टर की राय  सुने</string>
+    <string name="btn_show_play_pause_feedback_pause">रोकें</string>
+    <string name="btn_show_play_pause_feedback_resume">चलाएँ</string>
+    <string name="btn_show_play_pause_content_play">आज का विचार सुने</string>
+    <string name="btn_show_play_pause_content_pause">रोकें</string>
+    <string name="btn_show_play_pause_content_resume">चलाएँ</string>
 
     <string name="btn_start_show">Start</string>
     <string name="btn_call_broadcaster">Start Call</string>
-    <string name="btn_call_listeners">Call Asha Listeners</string>
+    <string name="btn_call_listeners">Call आशा Listeners</string>
     <string name="btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_yes">YES</string>
     <string name="btn_no">NO</string>
 
-    <!-- Strings for Add Listeners -->
-    <string name="tv_add_listeners">Enter Listeners Number</string>
-    <string name="tv_phone_prefix">+91</string>
-    <string name="tv_num_of_listeners">Asha : %1$d / %2$s</string>
+    <string name="tv_num_of_listeners">आशा : %1$d / %2$s</string>
     <string name="tv_chronometer_start_show">Show will start in - \n%1$d : %2$d : %3$d</string>
 
     <!-- Dummy text strings -->
@@ -40,24 +37,24 @@
     <string name="cd_iv_question">Question Asked</string>
     <string name="cd_iv_online">User Online</string>
     <string name="cd_btn_start_show">Start Show</string>
-    <string name="cd_ib_call_broadcaster">Call broadcaster</string>
+    <string name="cd_ib_call_broadcaster">कॉल की प्रतीक्षा करें</string>
     <string name="cd_image">Image</string>
 
     <!-- Placeholders -->
     <string name="placeholder_tv_show_topic">Coming Soon</string>
-    <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
+    <string name="placeholder_tv_num_of_listeners">आशा : 3</string>
     <string name="placeholder_tv_chronometer_start_show">00:00</string>
-    <string name="placeholder_tv_notification">Notification</string>
-    <string name="placeholder_tv_tutorial">Tutorial</string>
+    <string name="placeholder_tv_notification">सूचना/ दिशा निर्देश</string>
+    <string name="placeholder_tv_tutorial">विषय सूची</string>
 
     <!-- Messages String -->
-    <string name="progress_dialog_calling_broadcaster">Calling</string>
+    <string name="progress_dialog_calling_broadcaster">कॉल की प्रतीक्षा करें</string>
     <string name="progress_dialog_please_wait">Please Wait</string>
     <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
     <string name="dialog_box_end_show_title">End Show</string>
-    <string name="dialog_box_end_show_message">Do you want to end show</string>
-    <string name="dialog_box_update_show_status_title">Show End Confirmation</string>
-    <string name="dialog_box_update_show_status_message">If you are ready for the next show, then press yes. Otherwise press no.</string>
+    <string name="dialog_box_end_show_message">क्या आप इस प्रोग्राम की कॉल को सही मे ख़तम करना चाहतें हैं</string>
+    <string name="dialog_box_update_show_status_title">क्या आज का प्रोग्राम सही से हो गया?</string>
+    <string name="dialog_box_update_show_status_message">अगर आप अगले प्रोग्राम के तैयार तो हाँ दबाए और अगर अभी आपको और कॉल करने की ज़रुरत हैं तो फिर नही दबाए |</string>
 
     <string name="error_phone_not_registered">Phone not registered</string>
 

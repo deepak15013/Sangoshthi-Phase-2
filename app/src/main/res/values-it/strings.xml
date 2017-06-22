@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017. Created by Deepak Sood
+  -->
+
+<resources>
+    <string name="app_name">Sangoshthi IVR</string>
+    <string name="btn_call_broadcaster">Start Call</string>
+    <string name="btn_call_listeners">Call Asha Listeners</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_no">NO</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_show_play_pause_content_pause">Pause Content</string>
+    <string name="btn_show_play_pause_content_play">Play Content</string>
+    <string name="btn_show_play_pause_content_resume">Resume Content</string>
+    <string name="btn_show_play_pause_feedback_pause">Pause Feedback</string>
+    <string name="btn_show_play_pause_feedback_play">Play Feedback</string>
+    <string name="btn_show_play_pause_feedback_resume">Resume Feedback</string>
+    <string name="btn_start_show">Start</string>
+    <string name="btn_yes">YES</string>
+    <string name="cd_btn_start_show">Start Show</string>
+    <string name="cd_ib_call_broadcaster">Call broadcaster</string>
+    <string name="cd_image">Image</string>
+    <string name="cd_iv_mute_unmute">Mute Unmute</string>
+    <string name="cd_iv_online">User Online</string>
+    <string name="cd_iv_question">Question Asked</string>
+    <string name="dialog_box_end_show_message">Do you want to end show</string>
+    <string name="dialog_box_end_show_title">End Show</string>
+    <string name="dialog_box_update_show_status_message">If you are ready for the next show, then press yes. Otherwise press no.</string>
+    <string name="dialog_box_update_show_status_title">Show End Confirmation</string>
+    <string name="dummy_phone_num">0123456789</string>
+    <string name="error_phone_not_registered">Phone not registered</string>
+    <string name="home_help">TUTORIALS</string>
+    <string name="home_host_show">HOST SHOW</string>
+    <string name="home_notifications">NOTIFICATIONS</string>
+    <string name="login_btn_sign_in">Sign In</string>
+    <string name="login_hint_phone">Enter PhoneNo</string>
+    <string name="login_text_register">USER REGISTRATION</string>
+    <string name="placeholder_tv_chronometer_start_show">00:00</string>
+    <string name="placeholder_tv_notification">Notification</string>
+    <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
+    <string name="placeholder_tv_show_topic">Coming Soon</string>
+    <string name="placeholder_tv_tutorial">Tutorial</string>
+    <string name="progress_dialog_calling_broadcaster">Calling</string>
+    <string name="progress_dialog_please_wait">Please Wait</string>
+    <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
+    <string name="show_play_pause">PLAY/PAUSE</string>
+    <string name="toast_back_disabled">You cannot go back!</string>
+    <string name="tv_chronometer_start_show">\"Show will start in - \"</string>
+    <string name="tv_num_of_listeners">%1$d : %2$d : %3$d</string>
+</resources>

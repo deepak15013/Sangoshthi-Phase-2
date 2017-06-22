@@ -120,6 +120,7 @@ public class HostShowActivity extends AppCompatActivity {
                     } else {
                         Log.d(TAG, "no show present");
                         tvShowTopic.setText(getString(R.string.placeholder_tv_show_topic));
+                        LoadingUtil.getInstance().hideLoading();
                     }
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
