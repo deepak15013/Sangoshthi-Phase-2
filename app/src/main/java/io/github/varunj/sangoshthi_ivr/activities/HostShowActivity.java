@@ -83,7 +83,7 @@ public class HostShowActivity extends AppCompatActivity {
                         /* compare time, if time passed then show start show button, if not then show chronometer countdown */
                             Calendar currentDateTime = Calendar.getInstance();
                             long diff = showDateTime.getTimeInMillis() - currentDateTime.getTimeInMillis();
-                            if(diff <= ConstantUtil.ONE_HOUR_CLOCK) {
+                            if(diff <= ConstantUtil.FIFTEEN_MINUTES_CLOCK) {
                                 // 1 hour left to start show, move to next screen
                                 llStartShow.setVisibility(View.VISIBLE);
                                 tvChronometerStartShow.setVisibility(View.GONE);
