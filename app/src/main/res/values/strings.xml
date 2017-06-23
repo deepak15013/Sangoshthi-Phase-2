@@ -1,15 +1,15 @@
 <resources>
-    <string name="app_name">Sangoshthi IVR</string>
+    <string name="app_name">संगोष्ठि</string>
 
-    <string name="login_text_register">USER REGISTRATION</string>
+    <string name="login_text_register">अपना फोन नंबर डालें</string>
     <string name="login_hint_phone">अपना फोन नंबर डालें</string>
-    <string name="login_btn_sign_in">Sign In</string>
+    <string name="login_btn_sign_in">जमा करें</string>
 
     <string name="home_host_show">प्रोग्राम देखें</string>
     <string name="home_notifications">सूचना/ दिशा निर्देश</string>
     <string name="home_help">विषय सूची</string>
 
-    <string name="show_play_pause">PLAY/PAUSE</string>
+    <string name="show_play_pause">रोकें/चलाएँ</string>
 
     <string name="btn_show_play_pause_feedback_play">डॉक्टर की राय  सुने</string>
     <string name="btn_show_play_pause_feedback_pause">रोकें</string>
@@ -18,16 +18,16 @@
     <string name="btn_show_play_pause_content_pause">रोकें</string>
     <string name="btn_show_play_pause_content_resume">चलाएँ</string>
 
-    <string name="btn_start_show">Start</string>
-    <string name="btn_call_broadcaster">Start Call</string>
-    <string name="btn_call_listeners">Call आशा Listeners</string>
-    <string name="btn_ok">OK</string>
-    <string name="btn_cancel">Cancel</string>
-    <string name="btn_yes">YES</string>
-    <string name="btn_no">NO</string>
+    <string name="btn_start_show">शुरू करें</string>
+    <string name="btn_call_broadcaster">कॉल करें</string>
+    <string name="btn_call_listeners">बाकी सभी आशा को जोड़े</string>
+    <string name="btn_ok">सही</string>
+    <string name="btn_cancel">छोड़े</string>
+    <string name="btn_yes">हाँ</string>
+    <string name="btn_no">नही</string>
 
     <string name="tv_num_of_listeners">आशा : %1$d / %2$s</string>
-    <string name="tv_chronometer_start_show">Show will start in - \n%1$d : %2$d : %3$d</string>
+    <string name="tv_chronometer_start_show">इंतजार का समय - \n%1$d : %2$d : %3$d</string>
 
     <!-- Dummy text strings -->
     <string name="dummy_phone_num">0123456789</string>
@@ -41,7 +41,7 @@
     <string name="cd_image">Image</string>
 
     <!-- Placeholders -->
-    <string name="placeholder_tv_show_topic">Coming Soon</string>
+    <string name="placeholder_tv_show_topic">नये प्रोग्राम की जानकारी जल्द ही आएगी</string>
     <string name="placeholder_tv_num_of_listeners">आशा : 3</string>
     <string name="placeholder_tv_chronometer_start_show">00:00</string>
     <string name="placeholder_tv_notification">सूचना/ दिशा निर्देश</string>
@@ -49,15 +49,15 @@
 
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">कॉल की प्रतीक्षा करें</string>
-    <string name="progress_dialog_please_wait">Please Wait</string>
-    <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
-    <string name="dialog_box_end_show_title">End Show</string>
+    <string name="progress_dialog_please_wait">कृपया रुकिये</string>
+    <string name="progress_dialog_reconnecting_call">कॉल की प्रतीक्षा करें</string>
+    <string name="dialog_box_end_show_title">प्रोग्राम अंत करें</string>
     <string name="dialog_box_end_show_message">क्या आप इस प्रोग्राम की कॉल को सही मे ख़तम करना चाहतें हैं</string>
     <string name="dialog_box_update_show_status_title">क्या आज का प्रोग्राम सही से हो गया?</string>
     <string name="dialog_box_update_show_status_message">अगर आप अगले प्रोग्राम के तैयार तो हाँ दबाए और अगर अभी आपको और कॉल करने की ज़रुरत हैं तो फिर नही दबाए |</string>
 
-    <string name="error_phone_not_registered">Phone not registered</string>
+    <string name="error_phone_not_registered">फोन रिजिस्टर्ड नही हैं</string>
 
-    <string name="toast_back_disabled">You cannot go back!</string>
+    <string name="toast_back_disabled">खेद ! वापस नही जा सकते</string>
 
 </resources>
