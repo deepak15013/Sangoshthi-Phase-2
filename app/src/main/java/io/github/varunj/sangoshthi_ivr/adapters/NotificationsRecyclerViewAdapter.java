@@ -29,13 +29,15 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
     private Context context;
     private List<NotificationModel> notificationModelList;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvNotification;
-        public CardView cvNotification;
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView tvNotification;
+        TextView tvNotificationDate;
+        CardView cvNotification;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
             tvNotification = (TextView) itemView.findViewById(R.id.tv_notification);
+            tvNotificationDate = (TextView) itemView.findViewById(R.id.tv_notification_date);
             cvNotification = (CardView) itemView.findViewById(R.id.cv_notification);
         }
     }
@@ -60,6 +62,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
             holder.cvNotification.setBackgroundColor(ContextCompat.getColor(context, R.color.cv_notification_read));
         }
         holder.tvNotification.setText(notificationModelList.get(position).getBody());
+        holder.tvNotificationDate.setText(notificationModelList.get(position).getTimestamp());
     }
 
     @Override

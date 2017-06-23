@@ -13,6 +13,7 @@ public class NotificationModel {
     private String body;
     private int read_status;
     private int msg_id;
+    private String timestamp;
 
     public String getBody() {
         return body;
@@ -38,12 +39,21 @@ public class NotificationModel {
         this.msg_id = msg_id;
     }
 
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
     @Override
     public String toString() {
         return "NotificationModel{" +
                 "body='" + body + '\'' +
                 ", read_status=" + read_status +
                 ", msg_id=" + msg_id +
+                ", timestamp='" + timestamp + '\'' +
                 '}';
     }
 }
