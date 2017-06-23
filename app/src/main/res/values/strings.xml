@@ -6,7 +6,7 @@
     <string name="login_btn_sign_in">जमा करें</string>
 
     <string name="home_host_show">प्रोग्राम देखें</string>
-    <string name="home_notifications">सूचना/ दिशा निर्देश</string>
+    <string name="home_notifications">सूचना</string>
     <string name="home_help">विषय सूची</string>
 
     <string name="show_play_pause">रोकें/चलाएँ</string>
@@ -27,7 +27,7 @@
     <string name="btn_no">नही</string>
 
     <string name="tv_num_of_listeners">आशा : %1$d / %2$s</string>
-    <string name="tv_chronometer_start_show">इंतजार का समय - \n%1$d : %2$d : %3$d</string>
+    <string name="tv_chronometer_start_show">इंतजार का समय \n%1$d : %2$d : %3$d</string>
 
     <!-- Dummy text strings -->
     <string name="dummy_phone_num">0123456789</string>

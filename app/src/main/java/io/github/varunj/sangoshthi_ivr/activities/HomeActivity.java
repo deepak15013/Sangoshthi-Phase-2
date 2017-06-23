@@ -70,6 +70,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
+
+            SharedPreferenceManager.getInstance().setShowUpdateStatus(false);
         }
     }
 
