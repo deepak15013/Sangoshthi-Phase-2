@@ -111,7 +111,7 @@ public class CallActivity extends AppCompatActivity {
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
-
+                    Log.d(TAG, "dismiss progress bar from thread");
                 } catch (InterruptedException e) {
                     Log.d(TAG, "thread stopped because incoming call received");
                     Log.e(TAG, "" + e);
@@ -123,6 +123,7 @@ public class CallActivity extends AppCompatActivity {
         progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
+                Log.d(TAG, "Call received: " + SharedPreferenceManager.getInstance().isCallReceived());
                 if(SharedPreferenceManager.getInstance().isCallReceived()) {
                     // call received, change button to call listeners
                     tvCall.setText(getResources().getString(R.string.btn_call_listeners));

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 
 import io.github.varunj.sangoshthi_ivr.R;
-import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
@@ -97,12 +96,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AMQPPublish.getInstance().interruptThreads();
+        finishAffinity();
     }
 }
