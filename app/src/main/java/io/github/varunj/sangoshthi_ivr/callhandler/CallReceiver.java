@@ -61,11 +61,14 @@ public class CallReceiver extends PhoneCallReceiver {
                 if(ShowActivity.progressDialog != null && ShowActivity.progressDialog != null && SharedPreferenceManager.getInstance().isShowRunning()) {
                     ShowActivity.progressDialog.show();
                 } else {
-                    Log.d(TAG, "Not in show activity");
-
-                    Intent startHomeActivity = new Intent(context, HomeActivity.class);
-                    startHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    context.startActivity(startHomeActivity);
+                    if(!SharedPreferenceManager.getInstance().isShowUpdateStatus()) {
+                        Intent startHomeActivity = new Intent(context, HomeActivity.class);
+                        startHomeActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(startHomeActivity);
+                        Log.d(TAG, "Not in show activity");
+                    } else {
+                        Log.d(TAG, "inside show activity after end show");
+                    }
                 }
             }
         }

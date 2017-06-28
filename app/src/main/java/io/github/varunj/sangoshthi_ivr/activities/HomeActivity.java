@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     RequestMessageHelper.getInstance().updateShowStatus();
+                    SharedPreferenceManager.getInstance().setShowUpdateStatus(false);
                 }
             });
 
@@ -64,13 +65,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     dialogInterface.cancel();
+                    SharedPreferenceManager.getInstance().setShowUpdateStatus(false);
                 }
             });
 
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
-
-            SharedPreferenceManager.getInstance().setShowUpdateStatus(false);
         }
     }
 

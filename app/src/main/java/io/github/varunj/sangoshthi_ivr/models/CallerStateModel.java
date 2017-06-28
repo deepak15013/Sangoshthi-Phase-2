@@ -19,13 +19,18 @@ public class CallerStateModel {
     /* true - question, false - no-question */
     private boolean questionState;
 
+    private String task;
+    private boolean reconnection;
+
     private int turn;
 
-    public CallerStateModel(String phoneNum, boolean muteUnmuteState, boolean questionState) {
+    public CallerStateModel(String phoneNum, boolean muteUnmuteState, boolean questionState, String task) {
         this.phoneNum = phoneNum;
         this.muteUnmuteState = muteUnmuteState;
         this.questionState = questionState;
+        this.task = task;
         this.muteUnmuteDisabled = false;
+        this.reconnection = false;
     }
 
     public String getPhoneNum() {
@@ -66,5 +71,21 @@ public class CallerStateModel {
 
     public void setMuteUnmuteDisabled(boolean muteUnmuteDisabled) {
         this.muteUnmuteDisabled = muteUnmuteDisabled;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
+    }
+
+    public boolean isReconnection() {
+        return reconnection;
+    }
+
+    public void setReconnection(boolean reconnection) {
+        this.reconnection = reconnection;
     }
 }

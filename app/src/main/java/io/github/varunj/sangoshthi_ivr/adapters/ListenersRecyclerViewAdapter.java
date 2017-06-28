@@ -6,12 +6,14 @@ package io.github.varunj.sangoshthi_ivr.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,16 +33,20 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
     private List<CallerStateModel> callerStateModelList;
     private Context context;
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvListenerNumber;
-        public ImageButton ivMuteUnmute;
-        public ImageButton ivQuestion;
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        CardView cvListenerItemRow;
+        TextView tvListenerNumber;
+        ImageButton ivMuteUnmute;
+        ImageButton ivQuestion;
+        ImageView ivReconnection;
 
-        public MyViewHolder(View itemView) {
+        MyViewHolder(View itemView) {
             super(itemView);
+            cvListenerItemRow = (CardView) itemView.findViewById(R.id.cv_listener_item_row);
             tvListenerNumber = (TextView) itemView.findViewById(R.id.tv_listener_number);
             ivMuteUnmute = (ImageButton) itemView.findViewById(R.id.iv_mute_unmute);
             ivQuestion = (ImageButton) itemView.findViewById(R.id.iv_question);
+            ivReconnection = (ImageView) itemView.findViewById(R.id.iv_reconnection);
         }
     }
 
@@ -59,6 +65,22 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         holder.tvListenerNumber.setText(callerStateModelList.get(position).getPhoneNum());
+
+        if(callerStateModelList.get(position).getTask().equals("online")) {
+            // user is online show its state
+            holder.cvListenerItemRow.setVisibility(View.VISIBLE);
+        } else {
+            // user is offline remove it
+            holder.cvListenerItemRow.setVisibility(View.GONE);
+        }
+
+        if(callerStateModelList.get(position).isReconnection()) {
+            // show reconnection
+            holder.ivReconnection.setVisibility(View.VISIBLE);
+        } else {
+            // don't show reconnection
+            holder.ivReconnection.setVisibility(View.GONE);
+        }
 
         if(callerStateModelList.get(position).isMuteUnmuteState()) {
             // mute

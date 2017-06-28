@@ -136,27 +136,37 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
-        CallerStateModel callerStateModel = new CallerStateModel(
-                jsonObject.getString("phoneno"),
-                true,
-                false);
-
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
         if(callerId == -1) {
+            // new caller is added
+            CallerStateModel callerStateModel = new CallerStateModel(
+                    jsonObject.getString("phoneno"),
+                    true,
+                    false,
+                    jsonObject.getString("task"));
             callerStateModelList.add(callerStateModel);
         } else {
-            if(jsonObject.getString("task").equals("online")) {
-                // online, change the state
-                callerStateModelList.set(callerId, callerStateModel);
-            } else {
-                // offline, remove the caller
-                callerStateModelList.remove(callerId);
+            // caller exists
+            callerStateModelList.get(callerId).setTask(jsonObject.getString("task"));
+            if(!callerStateModelList.get(callerId).isMuteUnmuteState()) {
+                // old state was - unmuted, show reconnection
+                callerStateModelList.get(callerId).setReconnection(true);
             }
         }
 
-        tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, callerStateModelList.size(), SharedPreferenceManager.getInstance().getCohortSize()));
+        tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, getOnlineListeners(), SharedPreferenceManager.getInstance().getCohortSize()));
         Log.d(TAG, "notify data set changed");
         mAdapter.notifyDataSetChanged();
+    }
+
+    private int getOnlineListeners() {
+        int count = 0;
+        for(CallerStateModel callerStateModel : callerStateModelList) {
+            if(callerStateModel.getTask().equals("online")) {
+                count++;
+            }
+        }
+        return count;
     }
 
     private void handleShowPlaybackMetadataResponse(JSONObject jsonObject) throws JSONException {
