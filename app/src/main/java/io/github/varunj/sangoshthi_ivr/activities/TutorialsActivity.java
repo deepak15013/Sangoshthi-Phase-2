@@ -64,7 +64,7 @@ public class TutorialsActivity extends AppCompatActivity {
                             break;
 
                         case "broadcaster_content_listen_event_ack":
-
+                            Log.d(TAG, "tutorial telemetry ack");
                             break;
                     }
                 } catch (JSONException e) {
