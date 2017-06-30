@@ -86,7 +86,7 @@ public class TutorialsActivity extends AppCompatActivity {
             Log.d(TAG, "No tutorial data present");
             tutorialList.add(new TutorialModel("Tutorial 1", "Tutorial1.mp3", "show_7"));
             tutorialList.add(new TutorialModel("Tutorial 2", "Tutorial2.mp3", "show_8"));
-            tutorialList.add(new TutorialModel("Tutorial 3", "Tutorial3.mp3", "show_3"));
+            tutorialList.add(new TutorialModel("Tutorial 3", "Tutorial3.mp3", "show_11"));
 
             SharedPreferenceManager.getInstance().setTutorialsActivityData(gson.toJson(tutorialList));
 

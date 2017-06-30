@@ -57,6 +57,8 @@ public class PlaybackFragment extends DialogFragment {
     long minutes = 0;
     long seconds = 0;
 
+    private int count;
+
     AssetFileDescriptor afd;
 
     public PlaybackFragment newInstance(RecordingItem item) {
@@ -177,7 +179,7 @@ public class PlaybackFragment extends DialogFragment {
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         return builder.create();
-}
+    }
 
     @Override
     public void onStart() {
@@ -330,7 +332,7 @@ public class PlaybackFragment extends DialogFragment {
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
                         - TimeUnit.MINUTES.toSeconds(minutes);
                 mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
-
+                Log.d(TAG, "count - " + ++count);
                 updateSeekBar();
             }
         }

@@ -113,8 +113,7 @@ public class CallActivity extends AppCompatActivity {
                     }
                     Log.d(TAG, "dismiss progress bar from thread");
                 } catch (InterruptedException e) {
-                    Log.d(TAG, "thread stopped because incoming call received");
-                    Log.e(TAG, "" + e);
+                    Log.d(TAG, "thread stopped because incoming call received " + e);
                 }
             }
         });

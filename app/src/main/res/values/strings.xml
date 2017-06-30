@@ -60,5 +60,6 @@
     <string name="error_phone_not_registered">फोन रिजिस्टर्ड नही हैं</string>
 
     <string name="toast_back_disabled">खेद ! वापस नही जा सकते</string>
+    <string name="toast_no_internet">No internet connection</string>
 
 </resources>

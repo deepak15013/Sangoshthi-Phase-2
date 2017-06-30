@@ -5,6 +5,7 @@
 package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -27,12 +28,8 @@ import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.AMQPPublish;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
-import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
+import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
-
-/**
- * Created by Varun on 04-03-2017.
- */
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
 
     String[] permissionsRequired = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE};
+
+    public ProgressDialog progressDialog;
+    private Thread dismissThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,12 @@ public class LoginActivity extends AppCompatActivity {
         final EditText etPhone = (EditText) findViewById(R.id.et_phone);
         Button btnSignIn = (Button) findViewById(R.id.btn_sign_in);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.progress_dialog_please_wait));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,7 +75,8 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(TAG, "Sign in");
                     SharedPreferenceManager.getInstance().setBroadcaster(etPhone.getText().toString());
 
-                    LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), LoginActivity.this);
+                    progressDialog.show();
+                    startLoadingThread();
 
                     AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
                     RequestMessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
@@ -82,7 +89,9 @@ public class LoginActivity extends AppCompatActivity {
             Log.d(TAG, "broadcaster - " + SharedPreferenceManager.getInstance().getBroadcaster());
             if(!SharedPreferenceManager.getInstance().getBroadcaster().equals("0123456789")) {
                 Log.d(TAG, "start subscriber");
-                LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), LoginActivity.this);
+                progressDialog.show();
+                startLoadingThread();
+
                 AMQPPublish.getInstance().subscribe(SharedPreferenceManager.getInstance().getBroadcaster());
                 RequestMessageHelper.getInstance().appInstallNotify(SharedPreferenceManager.getInstance().getBroadcaster());
 
@@ -110,7 +119,11 @@ public class LoginActivity extends AppCompatActivity {
                             SharedPreferenceManager.getInstance().setCohortSize(jsonObject.getString("cohort_size"));
                             startNextActivity();
                         }
-                        LoadingUtil.getInstance().hideLoading();
+
+                        if(dismissThread != null)
+                            dismissThread.interrupt();
+
+                        progressDialog.dismiss();
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "" + e);
@@ -171,6 +184,41 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void startLoadingThread() {
+        try {
+            dismissThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(ConstantUtil.FIVE_SECOND_CLOCK);
+
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
+                        Log.d(TAG, "progressDialog dismissed");
+                        LoginActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(LoginActivity.this, getString(R.string.toast_no_internet), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        if(SharedPreferenceManager.getInstance().getSession()) {
+                            startNextActivity();
+                        }
+
+                    } catch (InterruptedException e) {
+                        Log.d(TAG, "thread stopped because interrupted " + e);
+                    }
+                }
+            });
+            dismissThread.start();
+        } catch(Exception e) {
+            Log.e(TAG, "" + e);
+        }
+
     }
 
     private void startNextActivity() {
