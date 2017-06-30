@@ -151,6 +151,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             if(!callerStateModelList.get(callerId).isMuteUnmuteState()) {
                 // old state was - unmuted, show reconnection
                 callerStateModelList.get(callerId).setReconnection(true);
+                callerStateModelList.get(callerId).setMuteUnmuteState(true);
             }
         }
 
