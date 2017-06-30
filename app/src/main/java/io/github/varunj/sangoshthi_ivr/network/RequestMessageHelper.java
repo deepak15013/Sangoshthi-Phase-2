@@ -302,7 +302,7 @@ public class RequestMessageHelper {
         }
     }
 
-    public void broadcasterContentListenEvent(TutorialListenModel tutorialListenModel) {
+    public void broadcasterContentListenEvent(TutorialListenModel tutorialListenModel, int packetId) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "broadcaster_content_listen_event");
@@ -313,6 +313,7 @@ public class RequestMessageHelper {
             jsonObject.put("show_status", tutorialListenModel.getShow_status());
             jsonObject.put("listen_timestamp", tutorialListenModel.getListen_timestamp());
             jsonObject.put("topic", tutorialListenModel.getTopic());
+            jsonObject.put("packet_id", String.valueOf(packetId));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

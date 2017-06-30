@@ -42,6 +42,7 @@ public class TutorialsActivity extends AppCompatActivity {
     private TutorialsRecyclerViewAdapter mAdapter;
 
     private List<TutorialModel> tutorialList;
+    private List<TutorialListenModel> tutorialListenModelList;
     final Gson gson = new Gson();
 
     @Override
@@ -65,6 +66,13 @@ public class TutorialsActivity extends AppCompatActivity {
 
                         case "broadcaster_content_listen_event_ack":
                             Log.d(TAG, "tutorial telemetry ack");
+                            // TODO: 01-07-2017 ack can be out of sync then tutorialModelList can be smaller then given packet_id
+                            if(jsonObject.getString("msg").equals("OK") && !jsonObject.getString("packet_id").equals("")) {
+                                int packetId = Integer.parseInt(jsonObject.getString("packet_id"));
+                                if(packetId < tutorialListenModelList.size()) {
+                                    tutorialListenModelList.remove(Integer.parseInt(jsonObject.getString("packet_id")));
+                                }
+                            }
                             break;
                     }
                 } catch (JSONException e) {
@@ -100,12 +108,11 @@ public class TutorialsActivity extends AppCompatActivity {
 
         String json = SharedPreferenceManager.getInstance().getTutorialListenData();
         if(!json.equals("NONE")) {
-            List<TutorialListenModel> tutorialListenModelList;
             Type type = new TypeToken<List<TutorialListenModel>>(){}.getType();
             tutorialListenModelList = gson.fromJson(json, type);
 
             for(TutorialListenModel tutorialListenModel : tutorialListenModelList) {
-                RequestMessageHelper.getInstance().broadcasterContentListenEvent(tutorialListenModel);
+                RequestMessageHelper.getInstance().broadcasterContentListenEvent(tutorialListenModel, tutorialListenModelList.indexOf(tutorialListenModel));
             }
         }
     }
