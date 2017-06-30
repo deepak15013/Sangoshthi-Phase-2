@@ -24,6 +24,7 @@ import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.adapters.TutorialsRecyclerViewAdapter;
+import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
 import io.github.varunj.sangoshthi_ivr.models.TutorialModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
@@ -41,13 +42,13 @@ public class TutorialsActivity extends AppCompatActivity {
     private TutorialsRecyclerViewAdapter mAdapter;
 
     private List<TutorialModel> tutorialList;
+    final Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorials);
 
-        final Gson gson = new Gson();
         tutorialList = new ArrayList<>();
 
         final Handler incomingMessageHandler = new Handler() {
@@ -57,20 +58,14 @@ public class TutorialsActivity extends AppCompatActivity {
                     Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
                     JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
 
-                    if(jsonObject.getString("objective").equals("get_show_id_for_gallery_ack")) {
-                        if(!jsonObject.getString("show_id").equals("") && !jsonObject.getString("show_id").equals(" ") &&!jsonObject.getString("show_id").equals("-1")) {
-                            String showId = jsonObject.getString("show_id");
-                            Log.d(TAG, "show_id - " + showId);
+                    switch (jsonObject.getString("objective")) {
+                        case "get_show_id_for_gallery_ack":
+                            handlegetShowIdForGalleryAck(jsonObject);
+                            break;
 
-                            for(int i = 0; i < tutorialList.size(); i++) {
-                                if(tutorialList.get(i).getShowName().equals(showId)) {
-                                    tutorialList.get(i).setLocked(false);
-                                }
-                            }
+                        case "broadcaster_content_listen_event_ack":
 
-                            SharedPreferenceManager.getInstance().setTutorialsActivityData(gson.toJson(tutorialList));
-                            mAdapter.notifyDataSetChanged();
-                        }
+                            break;
                     }
                 } catch (JSONException e) {
                     Log.e(TAG, "" + e);
@@ -102,5 +97,32 @@ public class TutorialsActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvTutorials.setLayoutManager(layoutManager);
         rvTutorials.setAdapter(mAdapter);
+
+        String json = SharedPreferenceManager.getInstance().getTutorialListenData();
+        if(!json.equals("NONE")) {
+            List<TutorialListenModel> tutorialListenModelList;
+            Type type = new TypeToken<List<TutorialListenModel>>(){}.getType();
+            tutorialListenModelList = gson.fromJson(json, type);
+
+            for(TutorialListenModel tutorialListenModel : tutorialListenModelList) {
+                RequestMessageHelper.getInstance().broadcasterContentListenEvent(tutorialListenModel);
+            }
+        }
+    }
+
+    private void handlegetShowIdForGalleryAck(JSONObject jsonObject) throws JSONException {
+        if(!jsonObject.getString("show_id").equals("") && !jsonObject.getString("show_id").equals(" ") &&!jsonObject.getString("show_id").equals("-1")) {
+            String showId = jsonObject.getString("show_id");
+            Log.d(TAG, "show_id - " + showId);
+
+            for(int i = 0; i < tutorialList.size(); i++) {
+                if(tutorialList.get(i).getShowName().equals(showId)) {
+                    tutorialList.get(i).setLocked(false);
+                }
+            }
+
+            SharedPreferenceManager.getInstance().setTutorialsActivityData(gson.toJson(tutorialList));
+            mAdapter.notifyDataSetChanged();
+        }
     }
 }

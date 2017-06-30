@@ -13,15 +13,21 @@ import android.os.Parcelable;
 public class RecordingItem implements Parcelable {
     private String mName; // file name
     private String mFilePath; //file path
+    private String mShowName;
+    private String mTopic;
 
-    public RecordingItem(String mName, String mFilePath) {
+    public RecordingItem(String mName, String mFilePath, String mShowName, String mTopic) {
         this.mName = mName;
         this.mFilePath = mFilePath;
+        this.mShowName = mShowName;
+        this.mTopic = mTopic;
     }
 
     public RecordingItem(Parcel in) {
         mName = in.readString();
         mFilePath = in.readString();
+        mShowName = in.readString();
+        mTopic = in.readString();
     }
 
     public String getFilePath() {
@@ -40,6 +46,22 @@ public class RecordingItem implements Parcelable {
         mName = name;
     }
 
+    public String getShowName() {
+        return mShowName;
+    }
+
+    public void setShowName(String mShowName) {
+        this.mShowName = mShowName;
+    }
+
+    public String getTopic() {
+        return mTopic;
+    }
+
+    public void setTopic(String mTopic) {
+        this.mTopic = mTopic;
+    }
+
     public static final Parcelable.Creator<RecordingItem> CREATOR = new Parcelable.Creator<RecordingItem>() {
         public RecordingItem createFromParcel(Parcel in) {
             return new RecordingItem(in);
@@ -54,6 +76,8 @@ public class RecordingItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(mFilePath);
         dest.writeString(mName);
+        dest.writeString(mShowName);
+        dest.writeString(mTopic);
     }
 
     @Override

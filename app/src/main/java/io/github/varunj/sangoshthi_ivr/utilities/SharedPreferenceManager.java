@@ -8,6 +8,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
+
 public class SharedPreferenceManager {
 
     private static final String TAG = SharedPreferenceManager.class.getSimpleName();
@@ -22,6 +31,8 @@ public class SharedPreferenceManager {
     private String conferenceName = null;
 
     private String tutorialsActivityData = null;
+    private String tutorialListenData = null;
+    private List<TutorialListenModel> tutorialListenModelList;
 
     /* only in local cache not in share preferences */
     private boolean callReceived = false;
@@ -37,6 +48,7 @@ public class SharedPreferenceManager {
     private final String PREF_FEEDBACK = "feedback";
     private final String PREF_SHOW_CONTENT = "show_content";
     private final String PREF_TUTORIALS_ACTIVITY_DATA = "tutorials_activity_data";
+    private final String PREF_TUTORIAL_LISTEN_DATA = "tutorial_listen_data";
 
     private SharedPreferenceManager() { }
 
@@ -172,5 +184,31 @@ public class SharedPreferenceManager {
     public boolean setTutorialsActivityData(String tutorialsActivityData) {
         this.tutorialsActivityData = tutorialsActivityData;
         return sharedPreferences != null && sharedPreferences.edit().putString(PREF_TUTORIALS_ACTIVITY_DATA, tutorialsActivityData).commit();
+    }
+
+    public String getTutorialListenData() {
+        if(this.tutorialListenData == null)
+            this.tutorialListenData = sharedPreferences.getString(PREF_TUTORIAL_LISTEN_DATA, "NONE");
+        return this.tutorialListenData;
+    }
+
+    public boolean setTutorialListenData(String tutorialListenData) {
+        this.tutorialListenData = tutorialListenData;
+        return sharedPreferences != null && sharedPreferences.edit().putString(PREF_TUTORIAL_LISTEN_DATA, tutorialListenData).commit();
+    }
+
+    public void addTutorialListenData(TutorialListenModel tutorialListenModel) {
+        final Gson gson = new Gson();
+        if(tutorialListenModelList == null) {
+            tutorialListenModelList = new ArrayList<>();
+            String json = SharedPreferenceManager.getInstance().getTutorialListenData();
+            if(!json.equals("NONE")) {
+                Type type = new TypeToken<List<TutorialListenModel>>(){}.getType();
+                tutorialListenModelList = gson.fromJson(json, type);
+            }
+        }
+        tutorialListenModelList.add(tutorialListenModel);
+
+        setTutorialListenData(gson.toJson(tutorialListenModelList));
     }
 }

@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.util.Date;
 
+import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
@@ -295,6 +296,23 @@ public class RequestMessageHelper {
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
             jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            AMQPPublish.getInstance().publishMessage(jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void broadcasterContentListenEvent(TutorialListenModel tutorialListenModel) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("objective", "broadcaster_content_listen_event");
+            jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
+            jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
+            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("content_id", tutorialListenModel.getShow_id());
+            jsonObject.put("show_status", tutorialListenModel.getShow_status());
+            jsonObject.put("listen_timestamp", tutorialListenModel.getListen_timestamp());
+            jsonObject.put("topic", tutorialListenModel.getTopic());
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();

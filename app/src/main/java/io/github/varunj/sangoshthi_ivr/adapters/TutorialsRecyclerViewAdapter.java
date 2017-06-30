@@ -77,11 +77,13 @@ public class TutorialsRecyclerViewAdapter extends RecyclerView.Adapter<Tutorials
                     if (tutorialList.get(position).isLocked()) {
                         Toast.makeText(context, "content is locked", Toast.LENGTH_SHORT).show();
                     } else {
-                        Log.d(TAG, "Playing audio");
+                        Log.d(TAG, "Playing audio - " + tutorialList.get(position).getShowName());
 
                         PlaybackFragment playbackFragment =
                                 new PlaybackFragment().newInstance(new RecordingItem(tutorialList.get(position).getTutorialName(),
-                                        tutorialList.get(position).getFileName()));
+                                        tutorialList.get(position).getFileName(),
+                                        tutorialList.get(position).getShowName(),
+                                        tutorialList.get(position).getTutorialName()));
 
                         FragmentTransaction transaction = ((FragmentActivity) context)
                                 .getSupportFragmentManager()

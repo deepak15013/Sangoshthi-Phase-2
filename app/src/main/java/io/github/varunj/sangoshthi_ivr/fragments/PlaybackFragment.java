@@ -25,10 +25,16 @@ import android.widget.TextView;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.models.RecordingItem;
+import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
+import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 /**
  * Created by Daniel on 1/1/2015.
@@ -51,13 +57,13 @@ public class PlaybackFragment extends DialogFragment {
     private TextView mFileLengthTextView = null;
 
     //stores whether or not the mediaplayer is currently playing audio
-    private boolean isPlaying = false;
+    private volatile boolean isPlaying = false;
 
     //stores minutes and seconds of the length of the file.
     long minutes = 0;
     long seconds = 0;
 
-    private int count;
+    private volatile int count;
 
     AssetFileDescriptor afd;
 
@@ -177,6 +183,9 @@ public class PlaybackFragment extends DialogFragment {
 
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+        // start Count Thread
+        startCountThread();
 
         return builder.create();
     }
@@ -332,7 +341,6 @@ public class PlaybackFragment extends DialogFragment {
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
                         - TimeUnit.MINUTES.toSeconds(minutes);
                 mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
-                Log.d(TAG, "count - " + ++count);
                 updateSeekBar();
             }
         }
@@ -340,5 +348,34 @@ public class PlaybackFragment extends DialogFragment {
 
     private void updateSeekBar() {
         mHandler.postDelayed(mRunnable, 1000);
+    }
+
+    private void startCountThread() {
+        final Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(isPlaying) {
+                    Log.d(TAG, "count - " + ++count);
+                    if(count > 30) {
+                        Log.d(TAG, "show_name - " + item.getShowName());
+                        Log.d(TAG, "current_show_id - " + SharedPreferenceManager.getInstance().getShowId());
+                        String show_status = "done";
+                        if(SharedPreferenceManager.getInstance().getShowId().equals(item.getShowName())) {
+                            show_status = "due";
+                        }
+                        TutorialListenModel tutorialListenModel =
+                                new TutorialListenModel(item.getShowName(),
+                                        show_status,
+                                        DateFormat.getDateTimeInstance().format(new Date()),
+                                        item.getTopic());
+                        Log.d(TAG, "New listen event added - " + tutorialListenModel.toString());
+
+                        SharedPreferenceManager.getInstance().addTutorialListenData(tutorialListenModel);
+                        timer.cancel();
+                    }
+                }
+            }
+        }, 0, 1000);
     }
 }

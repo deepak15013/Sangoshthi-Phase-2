@@ -87,6 +87,10 @@ public class ResponseMessageHelper {
                     sendCallbackToActivity(message);
                     break;
 
+                case "broadcaster_content_listen_event_ack":
+                    sendCallbackToActivity(message);
+                    break;
+
                 default:
                     Log.e(TAG, "Objective not matched " + message.toString());
             }
