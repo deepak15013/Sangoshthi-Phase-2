@@ -67,7 +67,7 @@ public class TutorialsActivity extends AppCompatActivity {
                         case "broadcaster_content_listen_event_ack":
                             Log.d(TAG, "tutorial telemetry ack");
                             // TODO: 01-07-2017 ack can be out of sync then tutorialModelList can be smaller then given packet_id
-                            if(jsonObject.getString("msg").equals("OK") && !jsonObject.getString("packet_id").equals("")) {
+                            if(jsonObject.getString("info").equals("OK") && !jsonObject.getString("packet_id").equals("")) {
                                 int packetId = Integer.parseInt(jsonObject.getString("packet_id"));
                                 if(packetId < tutorialListenModelList.size()) {
                                     tutorialListenModelList.remove(Integer.parseInt(jsonObject.getString("packet_id")));
@@ -87,7 +87,7 @@ public class TutorialsActivity extends AppCompatActivity {
         Log.d(TAG, "TutorialsActivityData - " + SharedPreferenceManager.getInstance().getTutorialsActivityData());
         if(SharedPreferenceManager.getInstance().getTutorialsActivityData().equals("NONE")) {
             Log.d(TAG, "No tutorial data present");
-            tutorialList.add(new TutorialModel("Tutorial 1", "Tutorial1.mp3", "show_7"));
+            tutorialList.add(new TutorialModel("Tutorial 1", "Tutorial1.mp3", "show_13"));
             tutorialList.add(new TutorialModel("Tutorial 2", "Tutorial2.mp3", "show_8"));
             tutorialList.add(new TutorialModel("Tutorial 3", "Tutorial3.mp3", "show_11"));
 

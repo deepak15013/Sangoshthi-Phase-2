@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.activities.ShowActivity;
 import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 
@@ -74,9 +75,39 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             holder.cvListenerItemRow.setVisibility(View.GONE);
         }
 
+        Log.d(TAG, "Reconnection - " + callerStateModelList.get(position).isReconnection());
         if(callerStateModelList.get(position).isReconnection()) {
             // show reconnection
-            holder.ivReconnection.setVisibility(View.VISIBLE);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        ShowActivity showActivity = (ShowActivity) context;
+                        int blink = 0;
+                        while(blink <= 12) {
+                            if(blink % 2 == 0) {
+                                showActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        holder.ivReconnection.setVisibility(View.VISIBLE);
+                                    }
+                                });
+                            } else {
+                                showActivity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        holder.ivReconnection.setVisibility(View.INVISIBLE);
+                                    }
+                                });
+                            }
+                            blink++;
+                            Thread.sleep(1000);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         } else {
             // don't show reconnection
             holder.ivReconnection.setVisibility(View.GONE);
