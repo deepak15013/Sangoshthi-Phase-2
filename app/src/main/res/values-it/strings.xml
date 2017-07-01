@@ -46,7 +46,7 @@
     <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
     <string name="show_play_pause">PLAY/PAUSE</string>
     <string name="toast_back_disabled">You cannot go back!</string>
-    <string name="tv_chronometer_start_show">\"Show will start in - \"</string>
+    <string name="tv_chronometer_start_show">Show will start in \n%1$d : %2$d : %3$d</string>
     <string name="tv_num_of_listeners">Asha: %1$d / %2$s</string>
     <string name="toast_no_internet">No internet connection</string>
 </resources>
