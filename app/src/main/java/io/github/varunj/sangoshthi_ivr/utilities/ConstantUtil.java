@@ -4,9 +4,6 @@
 
 package io.github.varunj.sangoshthi_ivr.utilities;
 
-/**
- * Created by deepa on 03-06-2017.
- */
 
 public class ConstantUtil {
 

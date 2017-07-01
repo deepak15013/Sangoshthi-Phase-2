@@ -14,9 +14,6 @@ import io.github.varunj.sangoshthi_ivr.activities.ShowActivity;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
-/**
- * Created by deepaksood619 on 27/6/16.
- */
 public class CallReceiver extends PhoneCallReceiver {
 
     private static final String TAG = CallReceiver.class.getSimpleName();

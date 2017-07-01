@@ -19,9 +19,6 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
 
-/**
- * Created by Varun on 22-Mar-17.
- */
 
 public class AMQPPublish {
 

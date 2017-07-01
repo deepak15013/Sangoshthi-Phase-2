@@ -13,9 +13,6 @@ import java.util.Date;
 import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
-/**
- * Created by deepak on 03-06-2017.
- */
 
 public class RequestMessageHelper {
 

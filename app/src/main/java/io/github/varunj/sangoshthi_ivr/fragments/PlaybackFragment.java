@@ -36,9 +36,6 @@ import io.github.varunj.sangoshthi_ivr.models.RecordingItem;
 import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
-/**
- * Created by Daniel on 1/1/2015.
- */
 public class PlaybackFragment extends DialogFragment {
 
     private static final String TAG = PlaybackFragment.class.getSimpleName();

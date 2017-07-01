@@ -7,9 +7,7 @@ package io.github.varunj.sangoshthi_ivr.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Daniel on 12/30/2014.
- */
+
 public class RecordingItem implements Parcelable {
     private String mName; // file name
     private String mFilePath; //file path

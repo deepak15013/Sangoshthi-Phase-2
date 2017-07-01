@@ -6,19 +6,18 @@ package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.callhandler.CallReceiver;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
-
-/**
- * Created by Varun on 12-Mar-17.
- */
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -28,12 +27,18 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private Button btnHomeNotifications;
     private Button btnTutorials;
 
+    private CallReceiver callReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        Log.d(TAG, "Register Receiver");
+        callReceiver = new CallReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.intent.action.PHONE_STATE");
+        registerReceiver(callReceiver, intentFilter);
 
         btnHostShow = (Button) findViewById(R.id.btn_host_show);
         btnHostShow.setOnClickListener(this);
@@ -105,6 +110,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "Unregister Receiver");
+        unregisterReceiver(callReceiver);
     }
 
 }

@@ -12,9 +12,6 @@ import android.widget.Toast;
 
 import io.github.varunj.sangoshthi_ivr.R;
 
-/**
- * Created by Deepak on 17-06-2017.
- */
 
 public class LoadingUtil {
 

@@ -14,10 +14,6 @@ import org.json.JSONObject;
 
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
-/**
- * Created by Deepak on 07-06-2017.
- */
-
 public class ResponseMessageHelper {
 
     private static final String TAG = ResponseMessageHelper.class.getSimpleName();

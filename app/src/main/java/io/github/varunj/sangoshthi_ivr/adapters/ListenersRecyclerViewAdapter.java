@@ -23,10 +23,6 @@ import io.github.varunj.sangoshthi_ivr.activities.ShowActivity;
 import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 
-/**
- * Created by Deepak on 08-06-2017.
- */
-
 public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<ListenersRecyclerViewAdapter.MyViewHolder> {
 
     private static final String TAG = ListenersRecyclerViewAdapter.class.getSimpleName();

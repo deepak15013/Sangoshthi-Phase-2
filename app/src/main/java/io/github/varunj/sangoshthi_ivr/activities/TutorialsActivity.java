@@ -30,9 +30,6 @@ import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
-/**
- * Created by Varun on 12-Mar-17.
- */
 
 public class TutorialsActivity extends AppCompatActivity {
 

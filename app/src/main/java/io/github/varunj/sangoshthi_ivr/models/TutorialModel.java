@@ -4,9 +4,6 @@
 
 package io.github.varunj.sangoshthi_ivr.models;
 
-/**
- * Created by Deepak on 20-06-2017.
- */
 
 public class TutorialModel {
 

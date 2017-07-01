@@ -4,10 +4,6 @@
 
 package io.github.varunj.sangoshthi_ivr.models;
 
-/**
- * Created by Deepak on 18-06-2017.
- */
-
 public class NotificationModel {
 
     private String body;

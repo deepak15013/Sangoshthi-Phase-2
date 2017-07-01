@@ -11,9 +11,6 @@ import android.telephony.TelephonyManager;
 
 import java.util.Date;
 
-/**
- * Created by deepaksood619 on 27/6/16.
- */
 public class PhoneCallReceiver extends BroadcastReceiver {
 
     private static int lastState = TelephonyManager.CALL_STATE_IDLE;

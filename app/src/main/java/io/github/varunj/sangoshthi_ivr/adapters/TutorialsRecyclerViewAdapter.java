@@ -25,9 +25,6 @@ import io.github.varunj.sangoshthi_ivr.fragments.PlaybackFragment;
 import io.github.varunj.sangoshthi_ivr.models.RecordingItem;
 import io.github.varunj.sangoshthi_ivr.models.TutorialModel;
 
-/**
- * Created by Deepak on 20-06-2017.
- */
 
 public class TutorialsRecyclerViewAdapter extends RecyclerView.Adapter<TutorialsRecyclerViewAdapter.MyViewHolder> {
 

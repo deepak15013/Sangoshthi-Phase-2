@@ -18,10 +18,6 @@ import java.util.List;
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.models.NotificationModel;
 
-/**
- * Created by Deepak on 18-06-2017.
- */
-
 public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<NotificationsRecyclerViewAdapter.MyViewHolder> {
 
     private static final String TAG = NotificationsRecyclerViewAdapter.class.getSimpleName();
