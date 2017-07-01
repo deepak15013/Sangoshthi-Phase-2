@@ -103,6 +103,12 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
                             blink++;
                             Thread.sleep(1000);
                         }
+                        showActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                holder.ivReconnection.setVisibility(View.GONE);
+                            }
+                        });
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

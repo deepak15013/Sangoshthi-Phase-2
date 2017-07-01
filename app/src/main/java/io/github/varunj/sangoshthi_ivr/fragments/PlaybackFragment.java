@@ -357,7 +357,7 @@ public class PlaybackFragment extends DialogFragment {
             public void run() {
                 if(isPlaying) {
                     Log.d(TAG, "count - " + ++count);
-                    if(count > 30) {
+                    if(count > 60) {
                         Log.d(TAG, "show_name - " + item.getShowName());
                         Log.d(TAG, "current_show_id - " + SharedPreferenceManager.getInstance().getShowId());
                         String show_status = "done";
