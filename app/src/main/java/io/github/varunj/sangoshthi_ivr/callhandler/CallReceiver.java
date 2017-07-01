@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import java.util.Date;
-
 import io.github.varunj.sangoshthi_ivr.activities.CallActivity;
 import io.github.varunj.sangoshthi_ivr.activities.HomeActivity;
 import io.github.varunj.sangoshthi_ivr.activities.ShowActivity;
@@ -22,28 +20,6 @@ import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 public class CallReceiver extends PhoneCallReceiver {
 
     private static final String TAG = CallReceiver.class.getSimpleName();
-
-    @Override
-    protected void onIncomingCallStarted(Context ctx, String number, Date start) {
-        super.onIncomingCallStarted(ctx, number, start);
-//        Log.d(TAG, "call incoming: " + number + " date start: " + start);
-        /*
-        if(CallActivity.dismissThread != null && CallActivity.dismissThread.isAlive()) {
-            CallActivity.dismissThread.interrupt();
-        }*/
-
-    }
-
-    @Override
-    protected void onIncomingCallEnded(Context ctx, String number, Date start, Date end) {
-        super.onIncomingCallEnded(ctx, number, start, end);
-//        Log.d(TAG, "call incoming ended: " + number + " date start: " + start + "date end: " + end);
-        /*if(number.contains(ConstantUtil.SERVER_NUM)) {
-            if(CallActivity.progressDialog != null && CallActivity.progressDialog.isShowing()) {
-                CallActivity.progressDialog.dismiss();
-            }
-        }*/
-    }
 
     @Override
     public void onCallStateChanged(Context context, int state, String number) {
@@ -91,25 +67,5 @@ public class CallReceiver extends PhoneCallReceiver {
                 }
             }
         }
-    }
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-    }
-
-    @Override
-    protected void onOutgoingCallStarted(Context ctx, String number, Date start) {
-        super.onOutgoingCallStarted(ctx, number, start);
-    }
-
-    @Override
-    protected void onOutgoingCallEnded(Context ctx, String number, Date start, Date end) {
-        super.onOutgoingCallEnded(ctx, number, start, end);
-    }
-
-    @Override
-    protected void onMissedCall(Context ctx, String number, Date start) {
-        super.onMissedCall(ctx, number, start);
     }
 }

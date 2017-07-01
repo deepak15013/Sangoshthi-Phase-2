@@ -84,7 +84,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
                     try {
                         ShowActivity showActivity = (ShowActivity) context;
                         int blink = 0;
-                        while(blink <= 12) {
+                        while(blink <= 10) {
                             if(blink % 2 == 0) {
                                 showActivity.runOnUiThread(new Runnable() {
                                     @Override

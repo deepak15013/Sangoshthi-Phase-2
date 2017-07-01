@@ -33,6 +33,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+
         btnHostShow = (Button) findViewById(R.id.btn_host_show);
         btnHostShow.setOnClickListener(this);
 
@@ -46,6 +48,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
+
         if(SharedPreferenceManager.getInstance().isShowUpdateStatus()) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -98,4 +101,10 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onBackPressed();
         finishAffinity();
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
 }

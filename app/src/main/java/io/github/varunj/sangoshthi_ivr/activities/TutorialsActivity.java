@@ -69,13 +69,27 @@ public class TutorialsActivity extends AppCompatActivity {
                             // TODO: 01-07-2017 ack can be out of sync then tutorialModelList can be smaller then given packet_id
                             if(jsonObject.getString("info").equals("OK") && !jsonObject.getString("packet_id").equals("")) {
                                 int packetId = Integer.parseInt(jsonObject.getString("packet_id"));
-                                if(packetId < tutorialListenModelList.size()) {
-                                    tutorialListenModelList.remove(Integer.parseInt(jsonObject.getString("packet_id")));
+                                Log.d(TAG, "packet_id - " + packetId);
+                                Log.d(TAG, "tutorial list - " + tutorialListenModelList.toString());
+
+                                int packet_id = Integer.parseInt(jsonObject.getString("packet_id"));
+                                if(packet_id >= 0) {
+                                    int tutorialListenModelId = -1;
+                                    for(int i = 0; i < tutorialListenModelList.size(); i++) {
+                                        if(tutorialListenModelList.get(i).getPacket_id() == packet_id) {
+                                            tutorialListenModelId = i;
+                                        }
+                                    }
+                                    Log.d(TAG, "packet found at - " + tutorialListenModelId);
+                                    if(tutorialListenModelId != -1) {
+                                        tutorialListenModelList.remove(tutorialListenModelId);
+                                    }
+                                    SharedPreferenceManager.getInstance().setTutorialListenModelList(tutorialListenModelList);
                                 }
                             }
                             break;
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Log.e(TAG, "" + e);
                 }
             }

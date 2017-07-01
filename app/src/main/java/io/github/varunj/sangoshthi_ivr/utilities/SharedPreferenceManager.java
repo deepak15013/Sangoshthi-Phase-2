@@ -207,8 +207,15 @@ public class SharedPreferenceManager {
                 tutorialListenModelList = gson.fromJson(json, type);
             }
         }
+        tutorialListenModel.setPacket_id(tutorialListenModelList.size());
         tutorialListenModelList.add(tutorialListenModel);
 
+        setTutorialListenData(gson.toJson(tutorialListenModelList));
+    }
+
+    public void setTutorialListenModelList(List<TutorialListenModel> tutorialListenModelList) {
+        this.tutorialListenModelList = tutorialListenModelList;
+        final Gson gson = new Gson();
         setTutorialListenData(gson.toJson(tutorialListenModelList));
     }
 }

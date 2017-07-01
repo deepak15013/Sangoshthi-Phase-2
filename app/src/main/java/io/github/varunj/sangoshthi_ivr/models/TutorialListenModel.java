@@ -14,6 +14,7 @@ public class TutorialListenModel {
     String show_status;
     String listen_timestamp;
     String topic;
+    int packet_id;
 
     public TutorialListenModel(String show_id, String show_status, String listen_timestamp, String topic) {
         this.show_id = show_id;
@@ -54,6 +55,14 @@ public class TutorialListenModel {
         this.topic = topic;
     }
 
+    public int getPacket_id() {
+        return packet_id;
+    }
+
+    public void setPacket_id(int packet_id) {
+        this.packet_id = packet_id;
+    }
+
     @Override
     public String toString() {
         return "TutorialListenModel{" +
@@ -61,6 +70,7 @@ public class TutorialListenModel {
                 ", show_status='" + show_status + '\'' +
                 ", listen_timestamp='" + listen_timestamp + '\'' +
                 ", topic='" + topic + '\'' +
+                ", packet_id=" + packet_id +
                 '}';
     }
 }

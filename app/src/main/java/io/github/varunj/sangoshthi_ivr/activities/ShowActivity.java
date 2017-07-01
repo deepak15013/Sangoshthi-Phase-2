@@ -110,7 +110,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
                         case "end_show_call_ack":
                             LoadingUtil.getInstance().hideLoading();
-                            chronometerShow.stop();
+                            if(chronometerShow != null)
+                                chronometerShow.stop();
                             finish();
                             break;
 
@@ -148,7 +149,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             // caller exists
             callerStateModelList.get(callerId).setTask(jsonObject.getString("task"));
-            if(!callerStateModelList.get(callerId).isMuteUnmuteState()) {
+            if(jsonObject.getString("task").equals("online") && !callerStateModelList.get(callerId).isMuteUnmuteState()) {
                 // old state was - unmuted, show reconnection
                 callerStateModelList.get(callerId).setReconnection(true);
                 callerStateModelList.get(callerId).setMuteUnmuteState(true);
