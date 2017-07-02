@@ -10,7 +10,6 @@ public class CallerStateModel {
 
     /* true - muted, false - unmuted */
     private boolean muteUnmuteState;
-    private boolean muteUnmuteDisabled;
 
     /* true - question, false - no-question */
     private boolean questionState;
@@ -25,7 +24,6 @@ public class CallerStateModel {
         this.muteUnmuteState = muteUnmuteState;
         this.questionState = questionState;
         this.task = task;
-        this.muteUnmuteDisabled = false;
         this.reconnection = false;
     }
 
@@ -59,14 +57,6 @@ public class CallerStateModel {
 
     public void setTurn(int turn) {
         this.turn = turn;
-    }
-
-    public boolean isMuteUnmuteDisabled() {
-        return muteUnmuteDisabled;
-    }
-
-    public void setMuteUnmuteDisabled(boolean muteUnmuteDisabled) {
-        this.muteUnmuteDisabled = muteUnmuteDisabled;
     }
 
     public String getTask() {

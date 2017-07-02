@@ -114,24 +114,6 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             // don't show reconnection
             holder.ivReconnection.setVisibility(View.GONE);
         }
-
-        if(callerStateModelList.get(position).isMuteUnmuteState()) {
-            // mute
-            holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
-        } else {
-            // unmute
-            holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
-        }
-
-        if(callerStateModelList.get(position).isMuteUnmuteDisabled()) {
-            // disable the mute unmute button
-            holder.ivMuteUnmute.setEnabled(true);
-            callerStateModelList.get(position).setMuteUnmuteState(true);
-            holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
-        } else {
-            // enable the mute unmute button
-            holder.ivMuteUnmute.setEnabled(true);
-        }
         
         if(callerStateModelList.get(position).isQuestionState()) {
             holder.ivQuestion.setVisibility(View.VISIBLE);
@@ -140,25 +122,31 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             holder.ivQuestion.setVisibility(View.INVISIBLE);
         }
 
+        holder.ivMuteUnmute.setEnabled(true);
+        holder.cvListenerItemRow.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorCardViewNormal));
+        /* mute un-mute handler */
+        if(callerStateModelList.get(position).isMuteUnmuteState()) {
+            // mute
+            holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
+        } else {
+            // unmute
+            holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
+        }
+
         holder.ivMuteUnmute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "position clicked: " + position);
                 holder.ivMuteUnmute.setEnabled(false);
+                holder.cvListenerItemRow.setCardBackgroundColor(ContextCompat.getColor(context, R.color.colorCardViewDisabled));
                 if(callerStateModelList.get(position).isMuteUnmuteState()) {
-                    // mute - set unmute
+                    // mute - send unmute request
                     RequestMessageHelper.getInstance().unmute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
-                    callerStateModelList.get(position).setMuteUnmuteState(false);
                     callerStateModelList.get(position).setTurn(callerStateModelList.get(position).getTurn()+1);
-                    holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
-                    holder.ivMuteUnmute.setEnabled(false);
                     callerStateModelList.get(position).setQuestionState(false);
                     holder.ivQuestion.setVisibility(View.INVISIBLE);
                 } else {
-                    // unmute - set mute
-                    callerStateModelList.get(position).setMuteUnmuteState(true);
-                    holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
-                    holder.ivMuteUnmute.setEnabled(false);
+                    // unmute - send mute request
                     RequestMessageHelper.getInstance().mute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
                 }
             }
