@@ -13,8 +13,6 @@ public class ConstantUtil {
     /*public static final String IP_ADDR = "192.168.2.71";
     public static final Integer SERVER_PORT = 5672;*/
 
-    public static final String SERVER_NUM = "8860244278";
-
     public static final long FIVE_SECOND_CLOCK = 5 * 1000;
     public static final long THIRTY_SECOND_CLOCK = 30 * 1000;
     public static final long FIFTEEN_MINUTES_CLOCK = 15 * 60* 1000;

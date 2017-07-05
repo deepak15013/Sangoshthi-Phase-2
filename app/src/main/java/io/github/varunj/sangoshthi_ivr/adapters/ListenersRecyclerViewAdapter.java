@@ -144,6 +144,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
                     RequestMessageHelper.getInstance().unmute(callerStateModelList.get(position).getPhoneNum(), callerStateModelList.get(position).getTurn());
                     callerStateModelList.get(position).setTurn(callerStateModelList.get(position).getTurn()+1);
                     callerStateModelList.get(position).setQuestionState(false);
+                    callerStateModelList.get(position).setReconnection(false);
                     holder.ivQuestion.setVisibility(View.INVISIBLE);
                 } else {
                     // unmute - send mute request
