@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     private TextView tvNumOfListeners;
     private Chronometer chronometerShow;
 
-    private Button showEndShow;
+    private ImageButton showEndShow;
     private Button showPlayPause;
 
     private RecyclerView rvListenersContent;
@@ -64,7 +65,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         chronometerShow = (Chronometer) findViewById(R.id.chronometer_show);
         chronometerShow.start();
 
-        showEndShow = (Button) findViewById(R.id.show_end_show);
+        showEndShow = (ImageButton) findViewById(R.id.show_end_show);
         showEndShow.setOnClickListener(this);
 
         showPlayPause = (Button) findViewById(R.id.show_play_pause);

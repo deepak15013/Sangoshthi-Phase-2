@@ -57,13 +57,16 @@
             android:layout_below="@+id/show_play_pause"
             android:layout_above="@+id/show_end_show" />
 
-        <Button
+        <ImageButton
             android:id="@+id/show_end_show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/show_end_show"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/show_end_show"
+            android:scaleType="fitCenter"
             android:background="@android:color/transparent"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/cd_image"/>
 
 </RelativeLayout>

@@ -3,12 +3,12 @@
     <color name="primary">#F44336</color>
 
     <color name="colorPrimary">#2196F3</color>
-    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#009688</color>
     <color name="colorBackground">#ffd4b1</color>
 
-    <color name="colorCardViewNormal">#87ffeb</color>
-    <color name="colorCardViewDisabled">#16edc9</color>
+    <color name="colorCardViewNormal">#C5E1A5</color>
+    <color name="colorCardViewDisabled">#AED581</color>
 
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#ffffff</color>

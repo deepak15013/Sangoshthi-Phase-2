@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     tools:context="io.github.varunj.sangoshthi_ivr.activities.HostShowActivity">
 
     <TextView
@@ -16,8 +16,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textStyle="bold"
         android:textSize="40sp"
-        android:gravity="center"
-        android:layout_marginTop="30dp"/>
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/tv_show_date_of_airing"
