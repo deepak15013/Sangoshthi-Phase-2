@@ -1,0 +1,8 @@
+<!--
+  ~ Copyright (c) 2017. Created by Deepak Sood
+  -->
+
+<vector android:height="24dp" android:viewportHeight="60.0"
+    android:viewportWidth="60.0" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#505e11" android:pathData="M30,0C13.46,0 0,13.46 0,30s13.46,30 30,30s30,-13.46 30,-30S46.54,0 30,0zM42,48.89C42,50.61 40.61,52 38.89,52c-0.55,0 -1.09,-0.15 -1.57,-0.43c-0.06,-0.04 -0.12,-0.08 -0.17,-0.13L23.91,39.11C23.76,39.04 23.59,39 23.43,39h-8.32C13.39,39 12,37.61 12,35.9V23.1C12,21.39 13.39,20 15.1,20h8.32c0.17,0 0.33,-0.04 0.48,-0.11L37.15,7.56c0.05,-0.05 0.11,-0.09 0.17,-0.13C37.8,7.15 38.35,7 38.89,7C40.61,7 42,8.39 42,10.11V48.89z"/>
+</vector>

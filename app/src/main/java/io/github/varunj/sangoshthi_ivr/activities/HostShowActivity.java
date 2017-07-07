@@ -4,12 +4,15 @@
 
 package io.github.varunj.sangoshthi_ivr.activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,8 +31,6 @@ import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
-import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
-
 
 public class HostShowActivity extends AppCompatActivity {
 
@@ -41,6 +42,9 @@ public class HostShowActivity extends AppCompatActivity {
     private LinearLayout llStartShow;
     private TextView tvChronometerStartShow;
 
+    private ProgressDialog progressDialog;
+    private Thread dismissThread;
+
     private Context context;
 
     @Override
@@ -48,7 +52,7 @@ public class HostShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_show);
 
-        LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait),HostShowActivity.this);
+        showProgressBar();
 
         this.context = this;
 
@@ -65,7 +69,12 @@ public class HostShowActivity extends AppCompatActivity {
                     Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
                     JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
                     if(!jsonObject.getString("show_id").equals("none")) {
-                        tvShowTopic.setText(jsonObject.getString("topic"));
+                        if(jsonObject.getString("local_name").equals("none")) {
+                            // show topic in english if local_name is none
+                            tvShowTopic.setText(jsonObject.getString("topic"));
+                        } else {
+                            tvShowTopic.setText(jsonObject.getString("local_name"));
+                        }
 
                         // 2017-06-20 14:20:59
                         if(jsonObject.getString("time_of_airing") != null) {
@@ -112,12 +121,12 @@ public class HostShowActivity extends AppCompatActivity {
                                     }
                                 }.start();
                             }
-                            LoadingUtil.getInstance().hideLoading();
+                            hideProgressBar();
                         }
                     } else {
                         Log.d(TAG, "no show present");
                         tvShowTopic.setText(getString(R.string.placeholder_tv_show_topic));
-                        LoadingUtil.getInstance().hideLoading();
+                        hideProgressBar();
                     }
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
@@ -137,4 +146,63 @@ public class HostShowActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void showProgressBar() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.progress_dialog_please_wait));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        dismissThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(ConstantUtil.FIVE_SECOND_CLOCK);
+
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showAlertDialog();
+                        }
+                    });
+                    Log.d(TAG, "dismiss progress bar from thread");
+                } catch (InterruptedException e) {
+                    Log.d(TAG, "thread interrupted " + e);
+                }
+            }
+        });
+        dismissThread.start();
+    }
+
+    private void hideProgressBar() {
+        if(progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        if(dismissThread != null) {
+            dismissThread.interrupt();
+        }
+    }
+
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.toast_no_internet))
+                .setCancelable(false);
+
+        builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 }
