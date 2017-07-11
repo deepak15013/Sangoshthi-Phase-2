@@ -11,12 +11,14 @@ public class TutorialListenModel {
     String listen_timestamp;
     String topic;
     int packet_id;
+    int countSeconds;
 
-    public TutorialListenModel(String show_id, String show_status, String listen_timestamp, String topic) {
+    public TutorialListenModel(String show_id, String show_status, String listen_timestamp, String topic, int countSeconds) {
         this.show_id = show_id;
         this.show_status = show_status;
         this.listen_timestamp = listen_timestamp;
         this.topic = topic;
+        this.countSeconds = countSeconds;
     }
 
     public String getShow_id() {
@@ -59,6 +61,14 @@ public class TutorialListenModel {
         this.packet_id = packet_id;
     }
 
+    public int getCountSeconds() {
+        return countSeconds;
+    }
+
+    public void setCountSeconds(int countSeconds) {
+        this.countSeconds = countSeconds;
+    }
+
     @Override
     public String toString() {
         return "TutorialListenModel{" +
@@ -67,6 +77,7 @@ public class TutorialListenModel {
                 ", listen_timestamp='" + listen_timestamp + '\'' +
                 ", topic='" + topic + '\'' +
                 ", packet_id=" + packet_id +
+                ", countSeconds=" + countSeconds +
                 '}';
     }
 }

@@ -27,6 +27,7 @@ import com.melnykov.fab.FloatingActionButton;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -60,6 +61,7 @@ public class PlaybackFragment extends DialogFragment {
     long minutes = 0;
     long seconds = 0;
 
+    Timer timer;
     private volatile int count;
 
     AssetFileDescriptor afd;
@@ -131,7 +133,7 @@ public class PlaybackFragment extends DialogFragment {
                     long minutes = TimeUnit.MILLISECONDS.toMinutes(mMediaPlayer.getCurrentPosition());
                     long seconds = TimeUnit.MILLISECONDS.toSeconds(mMediaPlayer.getCurrentPosition())
                             - TimeUnit.MINUTES.toSeconds(minutes);
-                    mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes,seconds));
+                    mCurrentProgressTextView.setText(String.format(Locale.ENGLISH, "%02d:%02d", minutes,seconds));
 
                     updateSeekBar();
 
@@ -158,7 +160,7 @@ public class PlaybackFragment extends DialogFragment {
                     long minutes = TimeUnit.MILLISECONDS.toMinutes(mMediaPlayer.getCurrentPosition());
                     long seconds = TimeUnit.MILLISECONDS.toSeconds(mMediaPlayer.getCurrentPosition())
                             - TimeUnit.MINUTES.toSeconds(minutes);
-                    mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes,seconds));
+                    mCurrentProgressTextView.setText(String.format(Locale.ENGLISH, "%02d:%02d", minutes,seconds));
                     updateSeekBar();
                 }
             }
@@ -174,7 +176,7 @@ public class PlaybackFragment extends DialogFragment {
         });
 
         mFileNameTextView.setText(item.getName());
-        mFileLengthTextView.setText(String.format("%02d:%02d", minutes,seconds));
+        mFileLengthTextView.setText(String.format(Locale.ENGLISH, "%02d:%02d", minutes,seconds));
 
         builder.setView(view);
 
@@ -218,6 +220,24 @@ public class PlaybackFragment extends DialogFragment {
         if (mMediaPlayer != null) {
             stopPlaying();
         }
+
+        Log.d(TAG, "show_name - " + item.getShowName());
+        Log.d(TAG, "current_show_id - " + SharedPreferenceManager.getInstance().getShowId());
+        String show_status = "done";
+        if(SharedPreferenceManager.getInstance().getShowId().equals(item.getShowName())) {
+            show_status = "due";
+        }
+        TutorialListenModel tutorialListenModel =
+                new TutorialListenModel(item.getShowName(),
+                        show_status,
+                        DateFormat.getDateTimeInstance().format(new Date()),
+                        item.getTopic(), count);
+        Log.d(TAG, "New listen event added - " + tutorialListenModel.toString());
+
+        SharedPreferenceManager.getInstance().addTutorialListenData(tutorialListenModel);
+
+        if(timer != null)
+            timer.cancel();
     }
 
     // Play start/stop
@@ -337,7 +357,7 @@ public class PlaybackFragment extends DialogFragment {
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
                         - TimeUnit.MINUTES.toSeconds(minutes);
-                mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
+                mCurrentProgressTextView.setText(String.format(Locale.ENGLISH, "%02d:%02d", minutes, seconds));
                 updateSeekBar();
             }
         }
@@ -348,31 +368,16 @@ public class PlaybackFragment extends DialogFragment {
     }
 
     private void startCountThread() {
-        final Timer timer = new Timer();
+
+        timer = new Timer();
+
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 if(isPlaying) {
                     Log.d(TAG, "count - " + ++count);
-                    if(count > 60) {
-                        Log.d(TAG, "show_name - " + item.getShowName());
-                        Log.d(TAG, "current_show_id - " + SharedPreferenceManager.getInstance().getShowId());
-                        String show_status = "done";
-                        if(SharedPreferenceManager.getInstance().getShowId().equals(item.getShowName())) {
-                            show_status = "due";
-                        }
-                        TutorialListenModel tutorialListenModel =
-                                new TutorialListenModel(item.getShowName(),
-                                        show_status,
-                                        DateFormat.getDateTimeInstance().format(new Date()),
-                                        item.getTopic());
-                        Log.d(TAG, "New listen event added - " + tutorialListenModel.toString());
-
-                        SharedPreferenceManager.getInstance().addTutorialListenData(tutorialListenModel);
-                        timer.cancel();
-                    }
                 }
             }
-        }, 0, 1000);
+        }, 1000, 1000);
     }
 }

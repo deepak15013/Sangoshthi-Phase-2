@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
@@ -311,6 +312,11 @@ public class RequestMessageHelper {
             jsonObject.put("listen_timestamp", tutorialListenModel.getListen_timestamp());
             jsonObject.put("topic", tutorialListenModel.getTopic());
             jsonObject.put("packet_id", String.valueOf(packetId));
+            int totalSeconds = tutorialListenModel.getCountSeconds();
+            int hours = totalSeconds / 3600;
+            int minutes = (totalSeconds % 3600) / 60;
+            int seconds = totalSeconds % 60;
+            jsonObject.put("duration", String.format(Locale.ENGLISH, "%02d:%02d:%02d", hours, minutes, seconds));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
