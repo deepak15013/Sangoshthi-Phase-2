@@ -23,7 +23,7 @@ public class LoadingUtil {
 
     private static LoadingUtil instance;
 
-    private Thread dismissThread;
+    private Thread dismissThreadLoading;
     private static ProgressDialog progressDialog;
     private Context context;
 
@@ -45,7 +45,7 @@ public class LoadingUtil {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        dismissThread = new Thread(new Runnable() {
+        dismissThreadLoading = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -60,13 +60,13 @@ public class LoadingUtil {
                             Toast.makeText(context, context.getString(R.string.toast_no_internet), Toast.LENGTH_SHORT).show();
                         }
                     });
-                    Log.d(TAG, "dismiss progress bar from thread");
+                    Log.d(TAG, "dismiss progress bar from thread LoadingUtil");
                 } catch (InterruptedException e) {
                     Log.d(TAG, "thread interrupted " + e);
                 }
             }
         });
-        dismissThread.start();
+        dismissThreadLoading.start();
     }
 
     public void hideLoading() {
@@ -74,8 +74,8 @@ public class LoadingUtil {
         if(progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-        if(dismissThread != null) {
-            dismissThread.interrupt();
+        if(dismissThreadLoading != null) {
+            dismissThreadLoading.interrupt();
         }
     }
 

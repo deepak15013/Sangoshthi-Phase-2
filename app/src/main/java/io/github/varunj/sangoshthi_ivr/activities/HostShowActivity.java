@@ -43,7 +43,7 @@ public class HostShowActivity extends AppCompatActivity {
     private TextView tvChronometerStartShow;
 
     private ProgressDialog progressDialog;
-    private Thread dismissThread;
+    private Thread dismissThreadHostShow;
 
     private Context context;
 
@@ -155,7 +155,7 @@ public class HostShowActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        dismissThread = new Thread(new Runnable() {
+        dismissThreadHostShow = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -171,21 +171,21 @@ public class HostShowActivity extends AppCompatActivity {
                             showAlertDialog();
                         }
                     });
-                    Log.d(TAG, "dismiss progress bar from thread");
+                    Log.d(TAG, "dismiss progress bar from thread HostShowActivity");
                 } catch (InterruptedException e) {
                     Log.d(TAG, "thread interrupted " + e);
                 }
             }
         });
-        dismissThread.start();
+        dismissThreadHostShow.start();
     }
 
     private void hideProgressBar() {
         if(progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-        if(dismissThread != null) {
-            dismissThread.interrupt();
+        if(dismissThreadHostShow != null) {
+            dismissThreadHostShow.interrupt();
         }
     }
 

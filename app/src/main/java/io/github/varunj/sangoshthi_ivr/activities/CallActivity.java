@@ -37,7 +37,7 @@ public class CallActivity extends AppCompatActivity {
     private TextView tvCall;
 
     public static ProgressDialog progressDialog;
-    public static Thread dismissThread;
+    public static Thread dismissThreadCall;
 
     private boolean callStarted = false;
 
@@ -84,6 +84,8 @@ public class CallActivity extends AppCompatActivity {
                     RequestMessageHelper.getInstance().startShow();
                     progressDialog.show();
                     callStarted = true;
+                    if(dismissThreadCall != null)
+                        dismissThreadCall.start();
 
                 } else if(tvCall.getText().equals(getResources().getString(R.string.btn_call_listeners))) {
                     RequestMessageHelper.getInstance().dialListeners();
@@ -102,7 +104,7 @@ public class CallActivity extends AppCompatActivity {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        dismissThread = new Thread(new Runnable() {
+        dismissThreadCall = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -111,19 +113,18 @@ public class CallActivity extends AppCompatActivity {
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
-                    Log.d(TAG, "dismiss progress bar from thread");
+                    Log.d(TAG, "dismiss progress bar from thread CallActivity");
                 } catch (InterruptedException e) {
                     Log.d(TAG, "thread interrupted " + e);
                 }
             }
         });
-        dismissThread.start();
 
         progressDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
                 Log.d(TAG, "Call received: " + SharedPreferenceManager.getInstance().isCallReceived());
-                dismissThread.interrupt();
+                dismissThreadCall.interrupt();
                 if(SharedPreferenceManager.getInstance().isCallReceived()) {
                     // call received, change button to call listeners
                     tvCall.setText(getResources().getString(R.string.btn_call_listeners));

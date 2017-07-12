@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             Manifest.permission.READ_PHONE_STATE};
 
     public ProgressDialog progressDialog;
-    private Thread dismissThread;
+    private Thread dismissThreadLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +120,8 @@ public class LoginActivity extends AppCompatActivity {
                             startNextActivity();
                         }
 
-                        if(dismissThread != null)
-                            dismissThread.interrupt();
+                        if(dismissThreadLogin != null)
+                            dismissThreadLogin.interrupt();
 
                         progressDialog.dismiss();
                     }
@@ -188,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void startLoadingThread() {
         try {
-            dismissThread = new Thread(new Runnable() {
+            dismissThreadLogin = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             });
-            dismissThread.start();
+            dismissThreadLogin.start();
         } catch(Exception e) {
             Log.e(TAG, "" + e);
         }
