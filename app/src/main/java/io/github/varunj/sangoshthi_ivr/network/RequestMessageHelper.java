@@ -7,8 +7,8 @@ package io.github.varunj.sangoshthi_ivr.network;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
@@ -46,7 +46,7 @@ public class RequestMessageHelper {
         try {
             jsonObject.put("objective", "app_install_notify");
             jsonObject.put("broadcaster", broadcaster);
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -66,7 +66,7 @@ public class RequestMessageHelper {
             jsonObject.put("objective", "get_upcoming_show");
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -76,6 +76,7 @@ public class RequestMessageHelper {
     /**
      * Start Show
      *
+     *
      */
     public void startShow() {
         JSONObject jsonObject = new JSONObject();
@@ -84,7 +85,7 @@ public class RequestMessageHelper {
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -103,7 +104,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -125,7 +126,7 @@ public class RequestMessageHelper {
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
             jsonObject.put("listener_phoneno", listener_phoneno);
             jsonObject.put("turn", turn);
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -147,7 +148,7 @@ public class RequestMessageHelper {
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
             jsonObject.put("listener_phoneno", listener_phoneno);
             jsonObject.put("turn", turn);
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -165,7 +166,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -183,7 +184,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -201,7 +202,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -216,7 +217,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -231,7 +232,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -246,7 +247,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -265,7 +266,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -278,7 +279,7 @@ public class RequestMessageHelper {
             jsonObject.put("objective", "get_show_id_for_gallery");
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -293,7 +294,7 @@ public class RequestMessageHelper {
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());
             jsonObject.put("conference_name", SharedPreferenceManager.getInstance().getConferenceName());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             AMQPPublish.getInstance().publishMessage(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -306,7 +307,7 @@ public class RequestMessageHelper {
             jsonObject.put("objective", "broadcaster_content_listen_event");
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
-            jsonObject.put("timestamp", DateFormat.getDateTimeInstance().format(new Date()));
+            jsonObject.put("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()));
             jsonObject.put("content_id", tutorialListenModel.getShow_id());
             jsonObject.put("show_status", tutorialListenModel.getShow_status());
             jsonObject.put("listen_timestamp", tutorialListenModel.getListen_timestamp());

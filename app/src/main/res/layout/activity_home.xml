@@ -62,7 +62,7 @@
             android:layout_weight="1.0"
             android:text="@string/home_help"
             android:textSize="20sp"
-            android:drawableTop="@drawable/home_help"
+            android:drawableTop="@drawable/home_tutorials"
             android:paddingTop="@dimen/home_left_icon_pad"
             android:layout_margin="10dp"/>
 

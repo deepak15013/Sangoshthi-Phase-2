@@ -25,8 +25,8 @@ import android.widget.TextView;
 import com.melnykov.fab.FloatingActionButton;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -230,7 +230,7 @@ public class PlaybackFragment extends DialogFragment {
         TutorialListenModel tutorialListenModel =
                 new TutorialListenModel(item.getShowName(),
                         show_status,
-                        DateFormat.getDateTimeInstance().format(new Date()),
+                        new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH).format(Calendar.getInstance().getTime()),
                         item.getTopic(), count);
         Log.d(TAG, "New listen event added - " + tutorialListenModel.toString());
 
