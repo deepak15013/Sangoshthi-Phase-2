@@ -49,4 +49,12 @@
     <string name="tv_chronometer_start_show">Show will start in \n%1$d : %2$d : %3$d</string>
     <string name="tv_num_of_listeners">Asha: %1$d / %2$s</string>
     <string name="toast_no_internet">No internet connection</string>
+    <string name="placeholder_tv_date">13 july, 2017</string>
+    <string name="home_text_welcome">Welcome</string>
+    <string name="toast_calling_listeners">Calling Listeners</string>
+    <string name="toast_content_locked">Content is Locked</string>
+    <string name="toast_calling_failed">Calling Failed</string>
+    <string name="toast_permission_denied">Permission Denied</string>
+    <string name="toast_state_changed">State changed</string>
+    <string name="toast_state_not_changed">State not changed</string>
 </resources>

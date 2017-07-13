@@ -210,10 +210,10 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("listener_phoneno"));
         if(callerId != -1) {
             if(jsonObject.getString("info").equals("OK")) {
-                Toast.makeText(this, "State changed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_state_changed), Toast.LENGTH_SHORT).show();
                 callerStateModelList.get(callerId).setMuteUnmuteState(!callerStateModelList.get(callerId).isMuteUnmuteState());
             } else {
-                Toast.makeText(this, "State not changed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_state_not_changed), Toast.LENGTH_SHORT).show();
             }
             mAdapter.notifyDataSetChanged();
         }

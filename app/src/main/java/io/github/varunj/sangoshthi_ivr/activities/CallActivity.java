@@ -58,7 +58,7 @@ public class CallActivity extends AppCompatActivity {
                     if(jsonObject.getString("objective").equals("start_show_response")) {
                         switch (jsonObject.getString("info")) {
                             case "FAIL":
-                                Toast.makeText(context, "calling failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, getString(R.string.toast_calling_failed), Toast.LENGTH_SHORT).show();
                                 progressDialog.dismiss();
                                 break;
 
@@ -89,7 +89,7 @@ public class CallActivity extends AppCompatActivity {
 
                 } else if(tvCall.getText().equals(getResources().getString(R.string.btn_call_listeners))) {
                     RequestMessageHelper.getInstance().dialListeners();
-                    Toast.makeText(CallActivity.this, "calling listeners", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CallActivity.this, getString(R.string.toast_calling_listeners), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ShowActivity.class);
                     startActivity(intent);
                     finish();

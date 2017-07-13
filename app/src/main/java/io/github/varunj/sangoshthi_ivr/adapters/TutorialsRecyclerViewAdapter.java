@@ -72,7 +72,7 @@ public class TutorialsRecyclerViewAdapter extends RecyclerView.Adapter<Tutorials
             public void onClick(View view) {
                 try {
                     if (tutorialList.get(position).isLocked()) {
-                        Toast.makeText(context, "content is locked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, context.getString(R.string.toast_content_locked), Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d(TAG, "Playing audio - " + tutorialList.get(position).getShowName());
 

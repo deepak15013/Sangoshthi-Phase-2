@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="Welcome"
+        android:text="@string/home_text_welcome"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
         android:textStyle="bold"/>

@@ -8,6 +8,7 @@
     <string name="home_host_show">प्रोग्राम देखें</string>
     <string name="home_notifications">सूचना</string>
     <string name="home_help">विषय सूची</string>
+    <string name="home_text_welcome">स्वागत हैं</string>
 
     <string name="show_play_pause">रोकें/चलाएँ</string>
 
@@ -47,6 +48,7 @@
     <string name="placeholder_tv_notification">सूचना/ दिशा निर्देश</string>
     <string name="placeholder_tv_tutorial">विषय सूची</string>
     <string name="placeholder_tv_date">13 july, 2017</string>
+    <string name="placeholder_tv_file_name">file_name.mp4</string>
 
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">कॉल की प्रतीक्षा करें</string>
@@ -61,5 +63,11 @@
 
     <string name="toast_back_disabled">खेद ! वापस नही जा सकते</string>
     <string name="toast_no_internet">खेद ! इंटरनेट नही चल रहा</string>
+    <string name="toast_calling_listeners">कॉल मिलाई जा रही हैं</string>
+    <string name="toast_calling_failed">खेद! कॉल नही लग रही</string>
+    <string name="toast_content_locked">फाइल लॉक हैं</string>
+    <string name="toast_state_changed">सफल</string>
+    <string name="toast_state_not_changed">फेल</string>
+    <string name="toast_permission_denied">खेद ! पर्मिशन नही मिलने की वजह से एप इनस्टॉल नही हुई |</string>
 
 </resources>

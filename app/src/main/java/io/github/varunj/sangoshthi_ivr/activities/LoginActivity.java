@@ -179,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d(TAG, "Permission granted");
             } else {
                 Log.d(TAG, "Permission denied");
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_permission_denied), Toast.LENGTH_SHORT).show();
                 finish();
             }
 
