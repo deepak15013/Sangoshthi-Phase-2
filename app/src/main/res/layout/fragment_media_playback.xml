@@ -34,6 +34,14 @@
                 android:textSize="18sp"
                 android:fontFamily="sans-serif-condensed"/>
 
+            <SurfaceView
+                android:id="@+id/sv_player"
+                android:layout_width="320dp"
+                android:layout_height="240dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"/>
+
             <SeekBar
                 android:id="@+id/seekbar"
                 android:layout_width="match_parent"

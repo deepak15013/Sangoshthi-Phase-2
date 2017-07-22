@@ -103,7 +103,8 @@ public class TutorialsActivity extends AppCompatActivity {
             tutorialList.add(new TutorialModel("Tutorial 1", "Tutorial1.mp3", "show_13", true));
             tutorialList.add(new TutorialModel("Tutorial 2", "Tutorial2.mp3", "show_8", true));
             tutorialList.add(new TutorialModel("Tutorial 3", "Tutorial3.mp3", "show_11", true));
-            tutorialList.add(new TutorialModel("Tutorial 4", "Tutorial4.mp4", "show_11", false));
+            tutorialList.add(new TutorialModel("Tutorial 4", "Tutorial4.mp4", "", false));
+            tutorialList.add(new TutorialModel("Tutorial 5", "Tutorial3.mp3", "show_14", true));
 
             SharedPreferenceManager.getInstance().setTutorialsActivityData(gson.toJson(tutorialList));
 

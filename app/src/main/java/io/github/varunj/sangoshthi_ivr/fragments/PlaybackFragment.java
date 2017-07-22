@@ -16,6 +16,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -53,9 +55,11 @@ public class PlaybackFragment extends DialogFragment {
     private TextView mCurrentProgressTextView = null;
     private TextView mFileNameTextView = null;
     private TextView mFileLengthTextView = null;
+    private SurfaceView svPlayer;
 
     //stores whether or not the mediaplayer is currently playing audio
     private volatile boolean isPlaying = false;
+    private boolean isVideo = false;
 
     //stores minutes and seconds of the length of the file.
     long minutes = 0;
@@ -116,6 +120,7 @@ public class PlaybackFragment extends DialogFragment {
         mFileNameTextView = (TextView) view.findViewById(R.id.file_name_text_view);
         mFileLengthTextView = (TextView) view.findViewById(R.id.file_length_text_view);
         mCurrentProgressTextView = (TextView) view.findViewById(R.id.current_progress_text_view);
+        svPlayer = (SurfaceView) view.findViewById(R.id.sv_player);
 
         mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);
         ColorFilter filter = new LightingColorFilter
@@ -176,6 +181,16 @@ public class PlaybackFragment extends DialogFragment {
         });
 
         mFileNameTextView.setText(item.getName());
+
+        Log.d(TAG, "Item Path - " + item.getFilePath());
+        if(item.getFilePath().contains(".mp4")) {
+            isVideo = true;
+            Log.d(TAG, "Video detected");
+            svPlayer.setVisibility(View.VISIBLE);
+        } else {
+            svPlayer.setVisibility(View.GONE);
+        }
+
         mFileLengthTextView.setText(String.format(Locale.ENGLISH, "%02d:%02d", minutes,seconds));
 
         builder.setView(view);
@@ -256,6 +271,8 @@ public class PlaybackFragment extends DialogFragment {
         }
     }
 
+
+
     private void startPlaying() {
         mPlayButton.setImageResource(R.drawable.ic_media_pause);
         mMediaPlayer = new MediaPlayer();
@@ -264,6 +281,30 @@ public class PlaybackFragment extends DialogFragment {
             mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             mMediaPlayer.prepare();
             mSeekBar.setMax(mMediaPlayer.getDuration());
+
+            if(isVideo) {
+                Log.d(TAG, "Surface View visible");
+
+                SurfaceHolder holder = svPlayer.getHolder();
+                mMediaPlayer.setDisplay(holder);
+
+                holder.addCallback(new SurfaceHolder.Callback() {
+                    @Override
+                    public void surfaceCreated(SurfaceHolder holder) {
+                        Log.d(TAG, "Surface Created");
+                    }
+
+                    @Override
+                    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                        Log.d(TAG, "Surface Changed");
+                    }
+
+                    @Override
+                    public void surfaceDestroyed(SurfaceHolder holder) {
+                        Log.d(TAG, "Surface Destroyed");
+                    }
+                });
+            }
 
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
