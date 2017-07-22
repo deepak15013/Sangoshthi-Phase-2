@@ -14,11 +14,11 @@ public class TutorialModel {
     /* Locked - true, Unlocked = false */
     private boolean locked;
 
-    public TutorialModel(String tutorialName, String fileName, String showName) {
+    public TutorialModel(String tutorialName, String fileName, String showName, boolean locked) {
         this.tutorialName = tutorialName;
         this.fileName = fileName;
         this.showName = showName;
-        this.locked = true;
+        this.locked = locked;
     }
 
     public String getTutorialName() {

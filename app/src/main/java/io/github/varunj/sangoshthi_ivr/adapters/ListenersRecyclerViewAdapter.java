@@ -5,6 +5,7 @@
 package io.github.varunj.sangoshthi_ivr.adapters;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
         ImageButton ivMuteUnmute;
         ImageButton ivQuestion;
         ImageView ivReconnection;
+        Chronometer chronometerListenerItem;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -44,6 +47,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
             ivMuteUnmute = (ImageButton) itemView.findViewById(R.id.iv_mute_unmute);
             ivQuestion = (ImageButton) itemView.findViewById(R.id.iv_question);
             ivReconnection = (ImageView) itemView.findViewById(R.id.iv_reconnection);
+            chronometerListenerItem = (Chronometer) itemView.findViewById(R.id.chronometer_listener_item);
         }
     }
 
@@ -128,9 +132,14 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
         if(callerStateModelList.get(position).isMuteUnmuteState()) {
             // mute
             holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.mute));
+            holder.chronometerListenerItem.setVisibility(View.GONE);
+            holder.chronometerListenerItem.stop();
         } else {
             // unmute
             holder.ivMuteUnmute.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.unmute));
+            holder.chronometerListenerItem.setVisibility(View.VISIBLE);
+            holder.chronometerListenerItem.setBase(SystemClock.elapsedRealtime());
+            holder.chronometerListenerItem.start();
         }
 
         holder.ivMuteUnmute.setOnClickListener(new View.OnClickListener() {
