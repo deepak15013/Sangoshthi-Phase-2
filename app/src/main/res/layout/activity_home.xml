@@ -52,7 +52,7 @@
             android:drawableTop="@drawable/home_notification"
             android:paddingTop="@dimen/home_left_icon_pad"
             android:text="@string/home_notifications"
-            android:textSize="20sp" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/btn_tutorials"
@@ -61,7 +61,7 @@
             android:background="@color/home_help"
             android:layout_weight="1.0"
             android:text="@string/home_help"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:drawableTop="@drawable/home_tutorials"
             android:paddingTop="@dimen/home_left_icon_pad"
             android:layout_margin="10dp"/>
