@@ -110,7 +110,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
                             }
                         });
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, "" + e);
                     }
                 }
             }).start();
