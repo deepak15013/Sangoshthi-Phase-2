@@ -7,9 +7,13 @@ package io.github.varunj.sangoshthi_ivr.utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class SharedPreferenceManager {
     private String tutorialsActivityData = null;
     private String tutorialListenData = null;
     private List<TutorialListenModel> tutorialListenModelList;
+    private JSONObject listenersData;
 
     /* only in local cache not in share preferences */
     private boolean callReceived = false;
@@ -49,6 +54,7 @@ public class SharedPreferenceManager {
     private final String PREF_SHOW_CONTENT = "show_content";
     private final String PREF_TUTORIALS_ACTIVITY_DATA = "tutorials_activity_data";
     private final String PREF_TUTORIAL_LISTEN_DATA = "tutorial_listen_data";
+    private final String PREF_LISTENERS_DATA = "listeners_data";
 
     private SharedPreferenceManager() { }
 
@@ -217,5 +223,25 @@ public class SharedPreferenceManager {
         this.tutorialListenModelList = tutorialListenModelList;
         final Gson gson = new Gson();
         setTutorialListenData(gson.toJson(tutorialListenModelList));
+    }
+
+    public void setListenersData(String listenersData) {
+        try {
+            Log.d(TAG, "listeners data - " + listenersData);
+            this.listenersData = new JSONObject(listenersData);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getListenersData(String phoneNum) {
+        try {
+            if(this.listenersData != null) {
+                return listenersData.getString(phoneNum);
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "" + e);
+        }
+        return phoneNum;
     }
 }

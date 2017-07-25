@@ -60,19 +60,24 @@ public class ResponseMessageHelper {
                     break;
 
                 case "media_stopped":
-                    handleMediaStopped(message);
+                    sendCallbackToActivity(message);
                     break;
 
+                case "mute_unmute_ack":
+                    sendCallbackToActivity(message);
+                    break;
+
+                // {"objective":"mute_unmute_response","info":"OK","listener_phoneno":"8527839396"}
                 case "mute_unmute_response":
-                    handleMuteUnmuteResponse(message);
+                    sendCallbackToActivity(message);
                     break;
 
                 case "press_1_event":
-                    handlePress1Event(message);
+                    sendCallbackToActivity(message);
                     break;
 
                 case "notify":
-                    handleNotify(message);
+                    sendCallbackToActivity(message);
                     break;
 
                 case "end_show_call_ack":
@@ -85,6 +90,10 @@ public class ResponseMessageHelper {
 
                 case "broadcaster_content_listen_event_ack":
                     sendCallbackToActivity(message);
+                    break;
+
+                case "dial_listeners_response":
+                    handleDialListenersResponse(message);
                     break;
 
                 default:
@@ -144,20 +153,11 @@ public class ResponseMessageHelper {
         sendCallbackToActivity(message);
     }
 
-    private void handleMediaStopped(JSONObject message) throws JSONException {
-        sendCallbackToActivity(message);
-    }
-
-    private void handleMuteUnmuteResponse(JSONObject message) throws JSONException {
-        sendCallbackToActivity(message);
-    }
-
-    private void handlePress1Event(JSONObject message) throws JSONException {
-        sendCallbackToActivity(message);
-    }
-
-    private void handleNotify(JSONObject message) throws JSONException {
-        sendCallbackToActivity(message);
+    private void handleDialListenersResponse(JSONObject message) throws JSONException {
+        String response = message.getString("cohort_members_phone_name_mapping");
+        if(!response.equals("")) {
+            SharedPreferenceManager.getInstance().setListenersData(response);
+        }
     }
 
     private void sendCallbackToActivity(JSONObject message) {

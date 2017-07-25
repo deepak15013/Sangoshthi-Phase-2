@@ -101,6 +101,10 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                             handleMediaStopped(jsonObject);
                             break;
 
+                        case "mute_unmute_ack":
+                            handleMuteUnmuteAck(jsonObject);
+                            break;
+
                         case "mute_unmute_response":
                             handleMuteUnmuteResponse(jsonObject);
                             break;
@@ -204,6 +208,13 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         }
         Log.d(TAG, "new caller");
         return -1;
+    }
+
+    private void handleMuteUnmuteAck(JSONObject jsonObject) throws JSONException {
+        if(jsonObject.getString("info").equals("FAIL")) {
+            Toast.makeText(this, getString(R.string.toast_state_not_changed), Toast.LENGTH_SHORT).show();
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     private void handleMuteUnmuteResponse(JSONObject jsonObject) throws JSONException {

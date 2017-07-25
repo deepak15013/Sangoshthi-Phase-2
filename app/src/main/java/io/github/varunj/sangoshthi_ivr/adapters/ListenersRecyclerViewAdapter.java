@@ -24,6 +24,7 @@ import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.activities.ShowActivity;
 import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
+import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<ListenersRecyclerViewAdapter.MyViewHolder> {
 
@@ -65,7 +66,7 @@ public class ListenersRecyclerViewAdapter extends RecyclerView.Adapter<Listeners
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.tvListenerNumber.setText(callerStateModelList.get(position).getPhoneNum());
+        holder.tvListenerNumber.setText(SharedPreferenceManager.getInstance().getListenersData(callerStateModelList.get(position).getPhoneNum()));
 
         if(callerStateModelList.get(position).getTask().equals("online")) {
             // user is online show its state
