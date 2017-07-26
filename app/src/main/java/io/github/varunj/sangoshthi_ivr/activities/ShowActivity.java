@@ -37,6 +37,9 @@ import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
+/**
+ * This is the main Dashboard activity that runs the show
+ */
 public class ShowActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = ShowActivity.class.getSimpleName();

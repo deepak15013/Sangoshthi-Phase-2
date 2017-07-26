@@ -32,6 +32,9 @@ import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
 
+/**
+ * This class displays the upcoming show details, and start show button is enabled only before 15 minutes of the show
+ */
 public class HostShowActivity extends AppCompatActivity {
 
     private static final String TAG = HostShowActivity.class.getSimpleName();

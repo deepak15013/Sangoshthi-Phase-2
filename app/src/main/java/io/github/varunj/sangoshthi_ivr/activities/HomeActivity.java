@@ -19,6 +19,11 @@ import io.github.varunj.sangoshthi_ivr.callhandler.CallReceiver;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
+/**
+ * This is main HomeActivity, Phone state listener is registered here and also de-registered on destroyed.
+ * Life Cycle of the stack is mostly dependent on this class and if any thing happens then the call stack is
+ * cleared and moved to HomeActivity as the main Activity.
+ */
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = HomeActivity.class.getSimpleName();

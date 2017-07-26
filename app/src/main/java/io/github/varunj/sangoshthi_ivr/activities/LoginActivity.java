@@ -31,6 +31,10 @@ import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
+/**
+ * This class is the launcher activity that is always called and checked if the phone number is registered or not,
+ * If not registered then register the phone number
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = LoginActivity.class.getSimpleName();

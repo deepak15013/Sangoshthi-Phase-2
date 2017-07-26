@@ -30,7 +30,10 @@ import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
-
+/**
+ * This the activity called from HomeActivity and fetches the tutorials from server
+ * The tutorials can be locked or unlocked
+ */
 public class TutorialsActivity extends AppCompatActivity {
 
     private static final String TAG = TutorialsActivity.class.getSimpleName();

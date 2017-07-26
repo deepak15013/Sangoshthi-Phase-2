@@ -33,7 +33,9 @@ import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 
-
+/**
+ * This is the notification activity, called from Home activity and fetches notification from the server
+ */
 public class NotificationsActivity extends AppCompatActivity {
 
     private static final String TAG = NotificationsActivity.class.getSimpleName();

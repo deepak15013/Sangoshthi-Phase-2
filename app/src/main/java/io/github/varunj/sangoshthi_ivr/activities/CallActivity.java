@@ -28,6 +28,11 @@ import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
+/**
+ * This class will dial the broadcaster and wait until the broadcaster picks the call,
+ * if picked then show dial listeners and move to ShowActivity on click
+ * otherwise back to Home Activity if calling failed or call rejected
+ */
 public class CallActivity extends AppCompatActivity {
 
     private static final String TAG = CallActivity.class.getSimpleName();
