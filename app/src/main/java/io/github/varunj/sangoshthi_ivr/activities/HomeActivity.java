@@ -84,6 +84,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
+        } else if(SharedPreferenceManager.getInstance().isShowRunning()) {
+            // if show is running then resume the already running show and send the resume packet
+            Log.d(TAG, "Show already running, redirecting to ShowActivity");
+            Intent intentResumeShow = new Intent(this, ShowActivity.class);
+            startActivity(intentResumeShow);
         }
     }
 

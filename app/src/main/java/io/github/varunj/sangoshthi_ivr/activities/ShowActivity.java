@@ -141,7 +141,12 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        SharedPreferenceManager.getInstance().setShowRunning(true);
+        if(SharedPreferenceManager.getInstance().isShowRunning()) {
+            Log.d(TAG, "Resuming show");
+            RequestMessageHelper.getInstance().getLiveShowDataOnAppResume();
+        } else {
+            SharedPreferenceManager.getInstance().setShowRunning(true);
+        }
     }
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
@@ -316,5 +321,11 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         handleEndShow();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "on destroy Show Activity");
+        super.onDestroy();
     }
 }

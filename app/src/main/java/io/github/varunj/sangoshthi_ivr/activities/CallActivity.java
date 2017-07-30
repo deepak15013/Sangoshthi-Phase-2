@@ -113,7 +113,7 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(ConstantUtil.THIRTY_SECOND_CLOCK);
+                    Thread.sleep(ConstantUtil.FOURTY_FIVE_SECOND_CLOCK);
 
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();

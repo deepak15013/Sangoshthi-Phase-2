@@ -54,7 +54,7 @@ public class SharedPreferenceManager {
     private final String PREF_SHOW_CONTENT = "show_content";
     private final String PREF_TUTORIALS_ACTIVITY_DATA = "tutorials_activity_data";
     private final String PREF_TUTORIAL_LISTEN_DATA = "tutorial_listen_data";
-    private final String PREF_LISTENERS_DATA = "listeners_data";
+    private final String PREF_SHOW_RUNNING = "show_running";
 
     private SharedPreferenceManager() { }
 
@@ -166,11 +166,13 @@ public class SharedPreferenceManager {
     }
 
     public boolean isShowRunning() {
+        this.showRunning = sharedPreferences.getBoolean(PREF_SHOW_RUNNING, showRunning);
         return showRunning;
     }
 
-    public void setShowRunning(boolean showRunning) {
+    public boolean setShowRunning(boolean showRunning) {
         this.showRunning = showRunning;
+        return sharedPreferences != null && sharedPreferences.edit().putBoolean(PREF_SHOW_RUNNING, showRunning).commit();
     }
 
     public boolean isShowUpdateStatus() {

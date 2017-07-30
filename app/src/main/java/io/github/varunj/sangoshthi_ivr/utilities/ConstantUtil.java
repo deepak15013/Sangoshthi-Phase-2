@@ -15,6 +15,7 @@ public class ConstantUtil {
 
     public static final long FIVE_SECOND_CLOCK = 5 * 1000;
     public static final long THIRTY_SECOND_CLOCK = 30 * 1000;
+    public static final long FOURTY_FIVE_SECOND_CLOCK = 45 * 1000;
     public static final long FIFTEEN_MINUTES_CLOCK = 15 * 60* 1000;
     public static final long ONE_HOUR_CLOCK = 60 * 60 * 1000;
 
