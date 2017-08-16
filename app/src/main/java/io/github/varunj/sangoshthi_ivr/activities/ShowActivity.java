@@ -9,6 +9,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -144,6 +146,24 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         if(SharedPreferenceManager.getInstance().isShowRunning()) {
             Log.d(TAG, "Resuming show");
             RequestMessageHelper.getInstance().getLiveShowDataOnAppResume();
+
+            List<CallerStateModel> resumeCallerStateModelList = SharedPreferenceManager.getInstance().getShowSessionData();
+            if(resumeCallerStateModelList != null) {
+
+                Log.d(TAG, "Resume callerStateModelList - " + resumeCallerStateModelList.toString());
+                callerStateModelList.clear();
+                callerStateModelList.addAll(resumeCallerStateModelList);
+
+                tvNumOfListeners.setText(getString(R.string.tv_num_of_listeners, getOnlineListeners(), SharedPreferenceManager.getInstance().getCohortSize()));
+            }
+
+            long chronometerTime = SharedPreferenceManager.getInstance().getShowChronometerTime();
+            Log.d(TAG, "chronometerTime - " + chronometerTime);
+            chronometerShow.setBase(SystemClock.elapsedRealtime() - chronometerTime);
+            chronometerShow.start();
+
+            Log.d(TAG, "resume notifyDataSetChanged");
+            mAdapter.notifyDataSetChanged();
         } else {
             SharedPreferenceManager.getInstance().setShowRunning(true);
         }
@@ -208,10 +228,12 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int matchPhoneExists(List<CallerStateModel> callerStateModelList, String phoneno) {
-        for(int i = 0; i < callerStateModelList.size(); i++) {
-            if(callerStateModelList.get(i).getPhoneNum().equals(phoneno)) {
-                Log.d(TAG, "update " + i + " position in caller list");
-                return i;
+        if(callerStateModelList != null) {
+            for(int i = 0; i < callerStateModelList.size(); i++) {
+                if(callerStateModelList.get(i).getPhoneNum().equals(phoneno)) {
+                    Log.d(TAG, "update " + i + " position in caller list");
+                    return i;
+                }
             }
         }
         Log.d(TAG, "new caller");
@@ -324,8 +346,38 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "SHOW ON RESUME");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "SHOW ON PAUSE");
+
+        if(SharedPreferenceManager.getInstance().isShowRunning()) {
+            Log.d(TAG, "SHOW ACTIVITY PAUSE IN BETWEEN SHOW");
+
+            long chronometerTime = SystemClock.elapsedRealtime() - chronometerShow.getBase();
+            Log.d(TAG, "Current show time - " + chronometerTime);
+
+            // save all the states
+            SharedPreferenceManager.getInstance().setShowSessionData(callerStateModelList, chronometerTime);
+        }
+
+    }
+
+    @Override
     protected void onDestroy() {
-        Log.d(TAG, "on destroy Show Activity");
+
+        Log.d(TAG, "SHOW ACTIVITY KILLED");
+
         super.onDestroy();
     }
 }

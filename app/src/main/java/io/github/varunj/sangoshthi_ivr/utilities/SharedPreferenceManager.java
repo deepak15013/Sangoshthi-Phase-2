@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
 import io.github.varunj.sangoshthi_ivr.models.TutorialListenModel;
 
 public class SharedPreferenceManager {
@@ -55,6 +56,8 @@ public class SharedPreferenceManager {
     private final String PREF_TUTORIALS_ACTIVITY_DATA = "tutorials_activity_data";
     private final String PREF_TUTORIAL_LISTEN_DATA = "tutorial_listen_data";
     private final String PREF_SHOW_RUNNING = "show_running";
+    private final String PREF_SHOW_SESSION_DATA = "show_session_data";
+    private final String PREF_SHOW_CHRONOMETER_TIME = "show_chronometer_time";
 
     private SharedPreferenceManager() { }
 
@@ -166,7 +169,8 @@ public class SharedPreferenceManager {
     }
 
     public boolean isShowRunning() {
-        this.showRunning = sharedPreferences.getBoolean(PREF_SHOW_RUNNING, showRunning);
+        if(sharedPreferences != null)
+            this.showRunning = sharedPreferences.getBoolean(PREF_SHOW_RUNNING, showRunning);
         return showRunning;
     }
 
@@ -245,5 +249,40 @@ public class SharedPreferenceManager {
             Log.e(TAG, "" + e);
         }
         return phoneNum;
+    }
+
+    public void setShowSessionData(List<CallerStateModel> callerStateModelList, long chronomterTime) {
+
+        Log.d(TAG, "saving data - " + callerStateModelList.toString());
+        Log.d(TAG, "saving time - " + chronomterTime);
+
+        final Gson gson = new Gson();
+
+        String json = gson.toJson(callerStateModelList);
+
+        if(sharedPreferences != null) {
+            sharedPreferences.edit().putString(PREF_SHOW_SESSION_DATA, json).commit();
+            sharedPreferences.edit().putLong(PREF_SHOW_CHRONOMETER_TIME, chronomterTime).commit();
+        }
+    }
+
+    public List<CallerStateModel> getShowSessionData() {
+        final Gson gson = new Gson();
+
+        if(sharedPreferences != null) {
+            String json = sharedPreferences.getString(PREF_SHOW_SESSION_DATA, "NONE");
+            Log.d(TAG, "show_session_data - " + json);
+            if(!json.equals("NONE")) {
+                Type type = new TypeToken<List<CallerStateModel>>(){}.getType();
+                return gson.fromJson(json, type);
+            }
+        }
+        return null;
+    }
+
+    public long getShowChronometerTime() {
+        if(sharedPreferences != null)
+            return sharedPreferences.getLong(PREF_SHOW_CHRONOMETER_TIME, 0);
+        return 0;
     }
 }

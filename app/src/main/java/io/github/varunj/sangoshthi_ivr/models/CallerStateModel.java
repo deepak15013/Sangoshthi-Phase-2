@@ -74,4 +74,16 @@ public class CallerStateModel {
     public void setReconnection(boolean reconnection) {
         this.reconnection = reconnection;
     }
+
+    @Override
+    public String toString() {
+        return "CallerStateModel{" +
+                "phoneNum='" + phoneNum + '\'' +
+                ", muteUnmuteState=" + muteUnmuteState +
+                ", questionState=" + questionState +
+                ", task='" + task + '\'' +
+                ", reconnection=" + reconnection +
+                ", turn=" + turn +
+                '}';
+    }
 }
