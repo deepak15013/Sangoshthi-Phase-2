@@ -58,6 +58,7 @@ public class SharedPreferenceManager {
     private final String PREF_SHOW_RUNNING = "show_running";
     private final String PREF_SHOW_SESSION_DATA = "show_session_data";
     private final String PREF_SHOW_CHRONOMETER_TIME = "show_chronometer_time";
+    private final String PREF_LISTENERS_DATA = "listeners_data";
 
     private SharedPreferenceManager() { }
 
@@ -231,22 +232,25 @@ public class SharedPreferenceManager {
         setTutorialListenData(gson.toJson(tutorialListenModelList));
     }
 
-    public void setListenersData(String listenersData) {
+    public boolean setListenersData(String listenersData) {
         try {
             Log.d(TAG, "listeners data - " + listenersData);
             this.listenersData = new JSONObject(listenersData);
+            return sharedPreferences!= null && sharedPreferences.edit().putString(PREF_LISTENERS_DATA, listenersData).commit();
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
     }
 
     public String getListenersData(String phoneNum) {
         try {
-            if(this.listenersData != null) {
-                return listenersData.getString(phoneNum);
-            }
+            if(this.listenersData == null)
+                listenersData = new JSONObject(sharedPreferences.getString(PREF_LISTENERS_DATA, ""));
+
+            return listenersData.getString(phoneNum);
         } catch (JSONException e) {
-            Log.e(TAG, "" + e);
+            Log.e(TAG, "listners data exception - " + e);
         }
         return phoneNum;
     }

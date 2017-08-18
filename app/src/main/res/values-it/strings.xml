@@ -22,6 +22,7 @@
     <string name="cd_ib_call_broadcaster">Call broadcaster</string>
     <string name="cd_image">Image</string>
     <string name="cd_iv_mute_unmute">Mute Unmute</string>
+    <string name="cd_iv_locked_unlocked">Locked Unlocked</string>
     <string name="cd_iv_online">User Online</string>
     <string name="cd_iv_question">Question Asked</string>
     <string name="dialog_box_end_show_message">Do you want to end show</string>

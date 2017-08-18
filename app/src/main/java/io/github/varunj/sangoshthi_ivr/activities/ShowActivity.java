@@ -253,6 +253,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             if(jsonObject.getString("info").equals("OK")) {
                 Toast.makeText(this, getString(R.string.toast_state_changed), Toast.LENGTH_SHORT).show();
                 callerStateModelList.get(callerId).setMuteUnmuteState(!callerStateModelList.get(callerId).isMuteUnmuteState());
+                Log.d(TAG, "CallerStateModelList after muteUnmute response -  " + callerStateModelList.toString());
             } else {
                 Toast.makeText(this, getString(R.string.toast_state_not_changed), Toast.LENGTH_SHORT).show();
             }

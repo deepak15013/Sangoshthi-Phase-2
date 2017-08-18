@@ -21,8 +21,9 @@
             android:id="@+id/tv_tutorial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxWidth="150dp"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             android:padding="10dp"
             android:text="@string/placeholder_tv_tutorial"
             android:textColor="@color/colorBlack"
@@ -35,6 +36,10 @@
             android:id="@+id/iv_lock_unlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minHeight="32dp"
+            android:minWidth="32dp"
+            android:src="@drawable/unlock"
+            android:contentDescription="@string/cd_btn_start_show"
             android:layout_weight="1" />
 
     </LinearLayout>
