@@ -145,7 +145,6 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         if(SharedPreferenceManager.getInstance().isShowRunning()) {
             Log.d(TAG, "Resuming show");
-            RequestMessageHelper.getInstance().getLiveShowDataOnAppResume();
 
             List<CallerStateModel> resumeCallerStateModelList = SharedPreferenceManager.getInstance().getShowSessionData();
             if(resumeCallerStateModelList != null) {
