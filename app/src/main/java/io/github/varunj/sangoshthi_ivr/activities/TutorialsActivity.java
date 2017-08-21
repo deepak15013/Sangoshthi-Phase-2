@@ -104,11 +104,17 @@ public class TutorialsActivity extends AppCompatActivity {
 
             // String tutorialName, String fileName, String showName, boolean locked
             // Locked - true (locked), false (unlocked)
-            tutorialList.add(new TutorialModel("Tutorial 1", "Tutorial1.mp3", "show_13", true));
-            tutorialList.add(new TutorialModel("Tutorial 2", "Tutorial2.mp3", "show_8", true));
-            tutorialList.add(new TutorialModel("Tutorial 3", "Tutorial3.mp3", "show_11", true));
-            tutorialList.add(new TutorialModel("Tutorial 4", "Tutorial4.mp4", "", false));
-            tutorialList.add(new TutorialModel("क्या करें और क्या न करें गर्भावस्था में", "क्या करें और क्या न करें गर्भावस्था में.wav", "", false));
+            tutorialList.add(new TutorialModel("MCP कार्ड", "MCP कार्ड.wav", "15", true));
+            tutorialList.add(new TutorialModel("क्या करें और क्या न करें गर्भावस्था में", "क्या करें और क्या न करें गर्भावस्था में.wav", "13", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था की आम समस्याएँ I", "गर्भावस्था की आम समस्याएँ I.wav", "5", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था की आम समस्याएँ II", "गर्भावस्था की आम समस्याएँ II.wav", "6", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था की पहचान", "गर्भावस्था की पहचान.wav", "12", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था के चेकअप", "गर्भावस्था के चेकअप.wav", "10", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था में इन्फेक्शन की रोकथाम", "गर्भावस्था में इन्फेक्शन की रोकथाम.wav", "11", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था में खतरे के लक्षण", "गर्भावस्था में खतरे के लक्षण.wav", "7", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था में खानपान", "गर्भावस्था में खानपान.wav", "8", true));
+            tutorialList.add(new TutorialModel("गर्भावस्था में व्यायाम", "गर्भावस्था में व्यायाम.wav", "9", true));
+            tutorialList.add(new TutorialModel("डिलीवरी की तयारी", "डिलीवरी की तयारी.wav", "14", true));
 
             SharedPreferenceManager.getInstance().setTutorialsActivityData(gson.toJson(tutorialList));
 
@@ -137,12 +143,12 @@ public class TutorialsActivity extends AppCompatActivity {
     }
 
     private void handlegetShowIdForGalleryAck(JSONObject jsonObject) throws JSONException {
-        if(!jsonObject.getString("show_id").equals("") && !jsonObject.getString("show_id").equals(" ") &&!jsonObject.getString("show_id").equals("-1")) {
-            String showId = jsonObject.getString("show_id");
-            Log.d(TAG, "show_id - " + showId);
+        if(!jsonObject.getString("content_id").equals("") && !jsonObject.getString("content_id").equals(" ") &&!jsonObject.getString("content_id").equals("-1")) {
+            String contentId = jsonObject.getString("content_id");
+            Log.d(TAG, "content_id - " + contentId);
 
             for(int i = 0; i < tutorialList.size(); i++) {
-                if(tutorialList.get(i).getShowName().equals(showId)) {
+                if(tutorialList.get(i).getShowName().equals(contentId)) {
                     tutorialList.get(i).setLocked(false);
                 }
             }
