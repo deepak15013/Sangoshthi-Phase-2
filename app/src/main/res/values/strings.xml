@@ -3,6 +3,7 @@
 
     <string name="login_text_register">अपना फोन नंबर डालें</string>
     <string name="login_hint_phone">अपना फोन नंबर डालें</string>
+    <string name="login_phone_error">Please enter a valid phone number</string>
     <string name="login_btn_sign_in">जमा करें</string>
 
     <string name="home_host_show">प्रोग्राम देखें</string>

@@ -6,6 +6,7 @@ package io.github.varunj.sangoshthi_ivr.activities;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -76,32 +78,38 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(etPhone != null && !etPhone.getText().toString().equals("")) {
-                    Log.d(TAG, "Sign in");
-                    SharedPreferenceManager.getInstance().setBroadcaster(etPhone.getText().toString());
+                    if (validatePhoneNumber(etPhone.getText().toString())) {
+                        Log.d(TAG, "Sign in");
+                        SharedPreferenceManager.getInstance().setBroadcaster(etPhone.getText().toString());
 
-                    progressDialog.show();
-                    startLoadingThread();
+                        progressDialog.show();
+                        startLoadingThread();
 
-                    AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
-                    RequestMessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
+                        AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
+                        RequestMessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
+                    } else {
+                        etPhone.setError(getString(R.string.login_phone_error));
+                    }
+                } else {
+                    etPhone.setError(getString(R.string.login_hint_phone));
                 }
             }
         });
 
 
-            // Login Procedure done, redirect to next activity
-            Log.d(TAG, "broadcaster - " + SharedPreferenceManager.getInstance().getBroadcaster());
-            if(!SharedPreferenceManager.getInstance().getBroadcaster().equals("0123456789")) {
-                Log.d(TAG, "start subscriber");
-                progressDialog.show();
-                startLoadingThread();
+        // Login Procedure done, redirect to next activity
+        Log.d(TAG, "broadcaster - " + SharedPreferenceManager.getInstance().getBroadcaster());
+        if (!SharedPreferenceManager.getInstance().getBroadcaster().equals("0123456789")) {
+            Log.d(TAG, "start subscriber");
+            progressDialog.show();
+            startLoadingThread();
 
-                AMQPPublish.getInstance().subscribe(SharedPreferenceManager.getInstance().getBroadcaster());
-                RequestMessageHelper.getInstance().appInstallNotify(SharedPreferenceManager.getInstance().getBroadcaster());
+            AMQPPublish.getInstance().subscribe(SharedPreferenceManager.getInstance().getBroadcaster());
+            RequestMessageHelper.getInstance().appInstallNotify(SharedPreferenceManager.getInstance().getBroadcaster());
 
-            } else {
-                Log.d(TAG, "number equals 0123456789");
-            }
+        } else {
+            Log.d(TAG, "number equals 0123456789");
+        }
 
 
         final Handler incomingMessageHandler = new Handler() {
@@ -114,7 +122,22 @@ public class LoginActivity extends AppCompatActivity {
                     if(jsonObject.getString("objective").equals("configuration_data")) {
                         if(jsonObject.getString("cohort_id").equals("-1") || jsonObject.getString("cohort_size").equals("-1")) {
                             // show error message
-                            Toast.makeText(getApplicationContext(), getString(R.string.error_phone_not_registered), Toast.LENGTH_SHORT).show();
+                            Log.d(TAG, "Phone not registered");
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage(R.string.error_phone_not_registered)
+                                    .setCancelable(false);
+
+                            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+
                         } else {
                             // everything ok
                             SharedPreferenceManager.getInstance().setSession();
@@ -138,6 +161,11 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d(TAG, "subscribe to response");
 
+    }
+
+    private boolean validatePhoneNumber(String phoneNumber) {
+        String pattern = "^(\\+91|0)?[789]\\d{9}$";
+        return phoneNumber.matches(pattern);
     }
 
     /**

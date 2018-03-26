@@ -58,4 +58,5 @@
     <string name="toast_permission_denied">Permission Denied</string>
     <string name="toast_state_changed">State changed</string>
     <string name="toast_state_not_changed">State not changed</string>
+    <string name="login_phone_error">Please enter a valid phone number</string>
 </resources>
