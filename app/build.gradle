@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "io.github.varunj.sangoshthi_ivr"
         minSdkVersion 16
@@ -19,24 +19,22 @@ android {
     }
 }
 
-
-
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/commons-cli-1.1.jar')
-    compile files('libs/hamcrest-core.jar')
-    compile files('libs/junit.jar')
-    compile files('libs/rabbitmq-client.jar')
-    compile files('libs/rabbitmq-client-tests.jar')
-    compile files('libs/common-lang3.jar')
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.google.android.exoplayer:exoplayer:r1.5.7'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'com.android.support:design:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:cardview-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.melnykov:floatingactionbutton:1.1.0'
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs/commons-cli-1.1.jar')
+    implementation files('libs/hamcrest-core.jar')
+    implementation files('libs/junit.jar')
+    implementation files('libs/rabbitmq-client.jar')
+    implementation files('libs/rabbitmq-client-tests.jar')
+    implementation files('libs/common-lang3.jar')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:25.4.0'
+    implementation 'com.google.android.exoplayer:exoplayer:r1.5.7'
+    implementation 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.android.support:design:25.4.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'com.android.support:cardview-v7:25.4.0'
+    implementation 'com.android.support:recyclerview-v7:25.4.0'
+    implementation 'com.melnykov:floatingactionbutton:1.1.0'
+    testImplementation 'junit:junit:4.12'
 }

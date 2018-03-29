@@ -110,7 +110,7 @@ public class ResponseMessageHelper {
      * @param message
      * @throws JSONException
      */
-    private void handleConfigurationData(JSONObject message) throws JSONException {
+    private void handleConfigurationData(JSONObject message) {
         sendCallbackToActivity(message);
     }
 

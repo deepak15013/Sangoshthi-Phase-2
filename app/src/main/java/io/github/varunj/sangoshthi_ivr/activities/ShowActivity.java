@@ -203,7 +203,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         return count;
     }
 
-    private void handleShowPlaybackMetadataResponse(JSONObject jsonObject) throws JSONException {
+    private void handleShowPlaybackMetadataResponse(JSONObject jsonObject) {
         if(SharedPreferenceManager.getInstance().getFeedback()) {
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_play));
             showPlayPause.setVisibility(View.VISIBLE);
