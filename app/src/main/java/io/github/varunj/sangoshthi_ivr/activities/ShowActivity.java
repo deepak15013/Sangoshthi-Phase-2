@@ -51,6 +51,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageButton showEndShow;
     private Button showPlayPause;
+    private ImageButton btnPreviousContent;
+    private ImageButton btnNextContent;
 
     private RecyclerView rvListenersContent;
     private ListenersRecyclerViewAdapter mAdapter;
@@ -75,6 +77,12 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         showPlayPause = (Button) findViewById(R.id.show_play_pause);
         showPlayPause.setOnClickListener(this);
+
+        btnPreviousContent = (ImageButton) findViewById(R.id.btn_previous_content);
+        btnPreviousContent.setOnClickListener(this);
+
+        btnNextContent = (ImageButton) findViewById(R.id.btn_next_content);
+        btnNextContent.setOnClickListener(this);
 
         rvListenersContent = (RecyclerView) findViewById(R.id.rv_listeners_content);
 
@@ -120,7 +128,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
                         case "end_show_call_ack":
                             LoadingUtil.getInstance().hideLoading();
-                            if(chronometerShow != null)
+                            if (chronometerShow != null)
                                 chronometerShow.stop();
                             finish();
                             break;
@@ -143,11 +151,11 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        if(SharedPreferenceManager.getInstance().isShowRunning()) {
+        if (SharedPreferenceManager.getInstance().isShowRunning()) {
             Log.d(TAG, "Resuming show");
 
             List<CallerStateModel> resumeCallerStateModelList = SharedPreferenceManager.getInstance().getShowSessionData();
-            if(resumeCallerStateModelList != null) {
+            if (resumeCallerStateModelList != null) {
 
                 Log.d(TAG, "Resume callerStateModelList - " + resumeCallerStateModelList.toString());
                 callerStateModelList.clear();
@@ -170,7 +178,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
-        if(callerId == -1) {
+        if (callerId == -1) {
             // new caller is added
             CallerStateModel callerStateModel = new CallerStateModel(
                     jsonObject.getString("phoneno"),
@@ -181,7 +189,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             // caller exists
             callerStateModelList.get(callerId).setTask(jsonObject.getString("task"));
-            if(jsonObject.getString("task").equals("online") && !callerStateModelList.get(callerId).isMuteUnmuteState()) {
+            if (jsonObject.getString("task").equals("online") && !callerStateModelList.get(callerId).isMuteUnmuteState()) {
                 // old state was - unmuted, show reconnection
                 callerStateModelList.get(callerId).setReconnection(true);
                 callerStateModelList.get(callerId).setMuteUnmuteState(true);
@@ -195,8 +203,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private int getOnlineListeners() {
         int count = 0;
-        for(CallerStateModel callerStateModel : callerStateModelList) {
-            if(callerStateModel.getTask().equals("online")) {
+        for (CallerStateModel callerStateModel : callerStateModelList) {
+            if (callerStateModel.getTask().equals("online")) {
                 count++;
             }
         }
@@ -214,22 +222,22 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleMediaStopped(JSONObject jsonObject) throws JSONException {
-        if(jsonObject.getString("case").equals("feedback")) {
-            if(SharedPreferenceManager.getInstance().getShowContent()) {
+        if (jsonObject.getString("case").equals("feedback")) {
+            if (SharedPreferenceManager.getInstance().getShowContent()) {
                 showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
                 showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
                 showPlayPause.setVisibility(View.VISIBLE);
             }
-        } else if(jsonObject.getString("case").equals("show_content")) {
+        } else if (jsonObject.getString("case").equals("show_content")) {
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
         }
     }
 
     private int matchPhoneExists(List<CallerStateModel> callerStateModelList, String phoneno) {
-        if(callerStateModelList != null) {
-            for(int i = 0; i < callerStateModelList.size(); i++) {
-                if(callerStateModelList.get(i).getPhoneNum().equals(phoneno)) {
+        if (callerStateModelList != null) {
+            for (int i = 0; i < callerStateModelList.size(); i++) {
+                if (callerStateModelList.get(i).getPhoneNum().equals(phoneno)) {
                     Log.d(TAG, "update " + i + " position in caller list");
                     return i;
                 }
@@ -240,7 +248,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleMuteUnmuteAck(JSONObject jsonObject) throws JSONException {
-        if(jsonObject.getString("info").equals("FAIL")) {
+        if (jsonObject.getString("info").equals("FAIL")) {
             Toast.makeText(this, getString(R.string.toast_state_not_changed), Toast.LENGTH_SHORT).show();
             mAdapter.notifyDataSetChanged();
         }
@@ -248,8 +256,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleMuteUnmuteResponse(JSONObject jsonObject) throws JSONException {
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("listener_phoneno"));
-        if(callerId != -1) {
-            if(jsonObject.getString("info").equals("OK")) {
+        if (callerId != -1) {
+            if (jsonObject.getString("info").equals("OK")) {
                 Toast.makeText(this, getString(R.string.toast_state_changed), Toast.LENGTH_SHORT).show();
                 callerStateModelList.get(callerId).setMuteUnmuteState(!callerStateModelList.get(callerId).isMuteUnmuteState());
                 Log.d(TAG, "CallerStateModelList after muteUnmute response -  " + callerStateModelList.toString());
@@ -262,7 +270,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handlePress1Event(JSONObject jsonObject) throws JSONException {
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
-        if(callerId != -1) {
+        if (callerId != -1) {
             callerStateModelList.get(callerId).setQuestionState(true);
             mAdapter.notifyDataSetChanged();
         }
@@ -277,6 +285,12 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.show_play_pause:
                 handleToggleShowPlayPause();
+                break;
+
+            case R.id.btn_previous_content:
+                break;
+
+            case R.id.btn_next_content:
                 break;
 
             default:
@@ -313,27 +327,27 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleToggleShowPlayPause() {
-        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_play))) {
+        if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_play))) {
             RequestMessageHelper.getInstance().playFeedback();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
+        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
             RequestMessageHelper.getInstance().pauseShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_resume));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_resume))) {
+        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_resume))) {
             RequestMessageHelper.getInstance().pauseShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
+        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
             RequestMessageHelper.getInstance().playShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
+        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
             RequestMessageHelper.getInstance().pauseShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_resume))) {
+        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_resume))) {
             RequestMessageHelper.getInstance().pauseShowContent();
             showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
             showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
@@ -361,7 +375,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         Log.d(TAG, "SHOW ON PAUSE");
 
-        if(SharedPreferenceManager.getInstance().isShowRunning()) {
+        if (SharedPreferenceManager.getInstance().isShowRunning()) {
             Log.d(TAG, "SHOW ACTIVITY PAUSE IN BETWEEN SHOW");
 
             long chronometerTime = SystemClock.elapsedRealtime() - chronometerShow.getBase();

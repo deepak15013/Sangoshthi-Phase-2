@@ -9,9 +9,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import io.github.varunj.sangoshthi_ivr.models.ShowPlaybackModel;
 import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 
 public class ResponseMessageHelper {
@@ -23,10 +27,11 @@ public class ResponseMessageHelper {
     private static ResponseMessageHelper instance;
     private Handler handler;
 
-    private ResponseMessageHelper() {}
+    private ResponseMessageHelper() {
+    }
 
     public static synchronized ResponseMessageHelper getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new ResponseMessageHelper();
         return instance;
     }
@@ -126,36 +131,38 @@ public class ResponseMessageHelper {
     }
 
     private void handleStartShowResponse(JSONObject message) throws JSONException {
-        if(!message.getString("info").equals("FAIL")) {
+        if (!message.getString("info").equals("FAIL")) {
             SharedPreferenceManager.getInstance().setConferenceName(message.getString("info"));
         }
     }
 
     private void handleConfMemberStatus(JSONObject message) throws JSONException {
-        if(message.getString("task").equals("offline") || message.getString("task").equals("online")) {
+        if (message.getString("task").equals("offline") || message.getString("task").equals("online")) {
             sendCallbackToActivity(message);
         }
     }
 
     private void handleShowPlaybackMetadataResponse(JSONObject message) throws JSONException {
-        if(message.getString("feedback").equals("yes")) {
-            SharedPreferenceManager.getInstance().setFeedback(true);
-        } else {
-            SharedPreferenceManager.getInstance().setFeedback(false);
+
+        JSONArray jsonArray = message.getJSONArray("media");
+
+        ArrayList<ShowPlaybackModel> showPlaybackModels = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject obj = jsonArray.getJSONObject(i);
+
+            ShowPlaybackModel showPlaybackModel = new ShowPlaybackModel(ShowPlaybackModel.Type.valueOf(obj.getString("type")), obj.getInt("order"), obj.getString("duration"), obj.getString("name"));
+            showPlaybackModels.add(showPlaybackModel);
         }
 
-        if(message.getString("show_content").equals("yes")) {
-            SharedPreferenceManager.getInstance().setShowContent(true);
-        } else {
-            SharedPreferenceManager.getInstance().setShowContent(false);
-        }
+        SharedPreferenceManager.getInstance().setShowPlaybackModels(showPlaybackModels);
 
         sendCallbackToActivity(message);
     }
 
     private void handleDialListenersResponse(JSONObject message) throws JSONException {
         String response = message.getString("cohort_members_phone_name_mapping");
-        if(!response.equals("")) {
+        if (!response.equals("")) {
             SharedPreferenceManager.getInstance().setListenersData(response);
         }
     }
