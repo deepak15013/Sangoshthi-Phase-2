@@ -148,8 +148,16 @@ public class SharedPreferenceManager {
     }
 
     public ArrayList<ShowPlaybackModel> getShowPlaybackModels() {
+        final Gson gson = new Gson();
         if (this.showPlaybackModels == null) {
+            String json = sharedPreferences.getString(PREF_SHOW_PLAYBACK_MODEL, "NONE");
+            Log.d(TAG, "show_playback_model - " + json);
+            if (!json.equals("NONE")) {
+                Type type = new TypeToken<List<ShowPlaybackModel>>() {
 
+                }.getType();
+                this.showPlaybackModels = gson.fromJson(json, type);
+            }
         }
 
         return this.showPlaybackModels;

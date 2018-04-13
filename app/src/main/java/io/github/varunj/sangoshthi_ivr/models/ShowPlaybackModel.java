@@ -1,17 +1,26 @@
 package io.github.varunj.sangoshthi_ivr.models;
 
-public class ShowPlaybackModel {
+import android.support.annotation.NonNull;
+
+public class ShowPlaybackModel implements Comparable<ShowPlaybackModel> {
 
     private Type type;
     private int order;
     private String duration;
     private String name;
 
+    // Not started yet = 0
+    // Playing = 1
+    // Pause = 2
+    // Stopped = 3
+    private int audioState;
+
     public ShowPlaybackModel(Type type, int order, String duration, String name) {
         this.type = type;
         this.order = order;
         this.duration = duration;
         this.name = name;
+        this.audioState = -1;
     }
 
     public Type getType() {
@@ -44,6 +53,19 @@ public class ShowPlaybackModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getAudioState() {
+        return audioState;
+    }
+
+    public void setAudioState(int audioState) {
+        this.audioState = audioState;
+    }
+
+    @Override
+    public int compareTo(@NonNull ShowPlaybackModel showPlaybackModel) {
+        return this.getOrder() - showPlaybackModel.getOrder();
     }
 
     public enum Type {

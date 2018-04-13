@@ -55,7 +55,6 @@
             android:id="@+id/show_play_pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
             android:text="@string/show_play_pause"
             android:drawableTop="@drawable/btn_play"
             android:background="@android:color/transparent"

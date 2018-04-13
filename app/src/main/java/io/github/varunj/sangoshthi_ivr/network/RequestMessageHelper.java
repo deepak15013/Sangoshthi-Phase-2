@@ -176,7 +176,7 @@ public class RequestMessageHelper {
     /**
      * objective - pause_show_content
      */
-    public void pauseShowContent() {
+    public void pausePlayShowContent() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "pause_play_content");
@@ -191,11 +191,11 @@ public class RequestMessageHelper {
         }
     }
 
-    public void playShowMedia(String mediaOrder) {
+    public void playShowMedia(int mediaOrder) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "play_show_media");
-            jsonObject.put("media_order", mediaOrder);
+            jsonObject.put("media_order", Integer.toString(mediaOrder));
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());

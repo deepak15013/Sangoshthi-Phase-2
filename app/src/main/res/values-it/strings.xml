@@ -16,6 +16,12 @@
     <string name="btn_show_play_pause_feedback_pause">Pause Feedback</string>
     <string name="btn_show_play_pause_feedback_play">Play Feedback</string>
     <string name="btn_show_play_pause_feedback_resume">Resume Feedback</string>
+    <string name="btn_show_play_pause_question_play">Play Question</string>
+    <string name="btn_show_play_pause_question_pause">Pause Question</string>
+    <string name="btn_show_play_pause_question_resume">Resume Question</string>
+    <string name="btn_show_play_pause_answer_play">Play Answer</string>
+    <string name="btn_show_play_pause_answer_pause">Pause Answer</string>
+    <string name="btn_show_play_pause_answer_resume">Resume Answer</string>
     <string name="btn_start_show">Start</string>
     <string name="btn_yes">YES</string>
     <string name="cd_btn_start_show">Start Show</string>

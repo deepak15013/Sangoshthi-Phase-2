@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +30,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.adapters.ListenersRecyclerViewAdapter;
 import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
+import io.github.varunj.sangoshthi_ivr.models.ShowPlaybackModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
@@ -53,11 +56,14 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     private Button showPlayPause;
     private ImageButton btnPreviousContent;
     private ImageButton btnNextContent;
+    private RelativeLayout llMediaControls;
 
     private RecyclerView rvListenersContent;
     private ListenersRecyclerViewAdapter mAdapter;
 
     private List<CallerStateModel> callerStateModelList;
+    private ArrayList<ShowPlaybackModel> showPlaybackModels;
+    private int currentPlayingIndex;
 
     public static ProgressDialog progressDialog;
 
@@ -83,6 +89,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         btnNextContent = (ImageButton) findViewById(R.id.btn_next_content);
         btnNextContent.setOnClickListener(this);
+
+        llMediaControls = (RelativeLayout) findViewById(R.id.ll_media_controls);
 
         rvListenersContent = (RecyclerView) findViewById(R.id.rv_listeners_content);
 
@@ -212,26 +220,60 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleShowPlaybackMetadataResponse(JSONObject jsonObject) {
-        if(SharedPreferenceManager.getInstance().getFeedback()) {
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_play));
+
+        showPlaybackModels = SharedPreferenceManager.getInstance().getShowPlaybackModels();
+
+        // sort the list by order
+        Collections.sort(showPlaybackModels);
+
+        Log.d(TAG, showPlaybackModels.toString());
+
+        btnPreviousContent.setVisibility(View.INVISIBLE);
+        btnNextContent.setVisibility(View.INVISIBLE);
+
+        if (showPlaybackModels.size() <= 0) {
+            showPlayPause.setVisibility(View.INVISIBLE);
+            llMediaControls.setVisibility(View.INVISIBLE);
+        } else {
+            llMediaControls.setVisibility(View.VISIBLE);
             showPlayPause.setVisibility(View.VISIBLE);
-        } else if(SharedPreferenceManager.getInstance().getShowContent()) {
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
-            showPlayPause.setVisibility(View.VISIBLE);
+
+            currentPlayingIndex = 0;
+
+            showPlayPause.setText(btnShowPlayPauseString(showPlaybackModels.get(currentPlayingIndex).getType()));
         }
     }
 
-    private void handleMediaStopped(JSONObject jsonObject) throws JSONException {
-        if (jsonObject.getString("case").equals("feedback")) {
-            if (SharedPreferenceManager.getInstance().getShowContent()) {
-                showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
-                showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                showPlayPause.setVisibility(View.VISIBLE);
-            }
-        } else if (jsonObject.getString("case").equals("show_content")) {
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+    private String btnShowPlayPauseString(ShowPlaybackModel.Type val) {
+        switch (val) {
+            case content:
+                return getResources().getString(R.string.btn_show_play_pause_content_play);
+
+            case question:
+                return getResources().getString(R.string.btn_show_play_pause_question_play);
+
+            case answer:
+                return getResources().getString(R.string.btn_show_play_pause_answer_play);
+
+            default:
+                Log.e(TAG, "Error Type value - " + val);
+                return "";
         }
+    }
+
+    private void handleMediaStopped(JSONObject jsonObject) {
+
+        showPlaybackModels.get(currentPlayingIndex).setAudioState(3);
+
+        if (showPlaybackModels.size() > currentPlayingIndex) {
+            currentPlayingIndex++;
+        }
+
+        if (currentPlayingIndex == 1) {
+            btnNextContent.setVisibility(View.VISIBLE);
+        }
+
+        handleToggleShowPlayPause();
     }
 
     private int matchPhoneExists(List<CallerStateModel> callerStateModelList, String phoneno) {
@@ -288,14 +330,39 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btn_previous_content:
+                handlePrevButton();
                 break;
 
             case R.id.btn_next_content:
+                handleNextButton();
                 break;
 
             default:
                 break;
         }
+    }
+
+    private void handleNextButton() {
+        currentPlayingIndex++;
+
+        if (currentPlayingIndex == showPlaybackModels.size() - 1) {
+            btnNextContent.setVisibility(View.INVISIBLE);
+        }
+
+        if (currentPlayingIndex == 1) {
+            btnPreviousContent.setVisibility(View.VISIBLE);
+        }
+        handleToggleShowPlayPause();
+    }
+
+    private void handlePrevButton() {
+        currentPlayingIndex--;
+
+        if (currentPlayingIndex == 0) {
+            btnPreviousContent.setVisibility(View.INVISIBLE);
+        }
+
+        handleToggleShowPlayPause();
     }
 
     private void handleEndShow() {
@@ -327,30 +394,114 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleToggleShowPlayPause() {
-        if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_play))) {
-            RequestMessageHelper.getInstance().playFeedback();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_resume));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_resume))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
-            RequestMessageHelper.getInstance().playShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-        } else if (showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_resume))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+        switch (showPlaybackModels.get(currentPlayingIndex).getType()) {
+            case content:
+                switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                    case 0:
+                        // send play content
+                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex);
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+
+                    case 1:
+                        RequestMessageHelper.getInstance().pausePlayShowContent();
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                        break;
+
+                    case 2:
+                        RequestMessageHelper.getInstance().pausePlayShowContent();
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+
+                    case 3:
+                        // same as case -1, but repeated
+                        // send play content
+                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex);
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+                }
+                break;
+
+            case question:
+                switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                    case 0:
+                        // send play content
+                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex);
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+
+                    case 1:
+                        RequestMessageHelper.getInstance().pausePlayShowContent();
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                        break;
+
+                    case 2:
+                        RequestMessageHelper.getInstance().pausePlayShowContent();
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+
+                    case 3:
+                        // same as case -1, but repeated
+                        // send play content
+                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex);
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+                }
+                break;
+
+            case answer:
+                switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                    case 0:
+                        // send play content
+                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex);
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+
+                    case 1:
+                        RequestMessageHelper.getInstance().pausePlayShowContent();
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                        break;
+
+                    case 2:
+                        RequestMessageHelper.getInstance().pausePlayShowContent();
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+
+                    case 3:
+                        // same as case -1, but repeated
+                        // send play content
+                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex);
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                        break;
+                }
+                break;
+
+            default:
+                Log.e(TAG, "error toggle index");
         }
     }
 
