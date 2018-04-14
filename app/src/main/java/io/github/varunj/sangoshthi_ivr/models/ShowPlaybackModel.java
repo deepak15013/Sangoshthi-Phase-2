@@ -9,19 +9,19 @@ public class ShowPlaybackModel implements Comparable<ShowPlaybackModel> {
     private String duration;
     private String name;
 
-    // Not started yet = -1
-    // Stopped, but can be played = 0
+    // Stop = 0
     // Playing = 1
     // Pause = 2
-    // Stopped = 3
     private int audioState;
+    private boolean oncePlayed;
 
     public ShowPlaybackModel(Type type, int order, String duration, String name) {
         this.type = type;
         this.order = order;
         this.duration = duration;
         this.name = name;
-        this.audioState = -1;
+        this.audioState = 0;
+        this.oncePlayed = false;
     }
 
     public Type getType() {
@@ -64,6 +64,14 @@ public class ShowPlaybackModel implements Comparable<ShowPlaybackModel> {
         this.audioState = audioState;
     }
 
+    public boolean isOncePlayed() {
+        return oncePlayed;
+    }
+
+    public void setOncePlayed(boolean oncePlayed) {
+        this.oncePlayed = oncePlayed;
+    }
+
     @Override
     public int compareTo(@NonNull ShowPlaybackModel showPlaybackModel) {
         return this.getOrder() - showPlaybackModel.getOrder();
@@ -81,6 +89,7 @@ public class ShowPlaybackModel implements Comparable<ShowPlaybackModel> {
                 ", duration='" + duration + '\'' +
                 ", name='" + name + '\'' +
                 ", audioState=" + audioState +
+                ", oncePlayed=" + oncePlayed +
                 '}';
     }
 }

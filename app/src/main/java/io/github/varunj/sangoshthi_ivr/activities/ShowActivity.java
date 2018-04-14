@@ -246,27 +246,11 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private String btnShowPlayPauseString(ShowPlaybackModel.Type val) {
-        switch (val) {
-            case content:
-                return getResources().getString(R.string.btn_show_play_pause_content_play);
-
-            case question:
-                return getResources().getString(R.string.btn_show_play_pause_question_play);
-
-            case answer:
-                return getResources().getString(R.string.btn_show_play_pause_answer_play);
-
-            default:
-                Log.e(TAG, "Error Type value - " + val);
-                return "";
-        }
-    }
-
     private void handleMediaStopped(JSONObject jsonObject) {
 
         if (showPlaybackModels != null) {
-            showPlaybackModels.get(currentPlayingIndex).setAudioState(3);
+            showPlaybackModels.get(currentPlayingIndex).setOncePlayed(true);
+            showPlaybackModels.get(currentPlayingIndex).setAudioState(0);
 
             if (currentPlayingIndex < showPlaybackModels.size() - 1) {
                 btnNextContent.setVisibility(View.VISIBLE);
@@ -330,7 +314,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.show_play_pause:
-                handleToggleShowPlayPause();
+                sendPlayPauseResumePacket();
                 break;
 
             case R.id.btn_previous_content:
@@ -351,22 +335,26 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         // check if playback models is present
         if (showPlaybackModels != null) {
 
-            // check if audio is in stopped state
-            if (showPlaybackModels.get(currentPlayingIndex).getAudioState() == 0) {
-                // only next can happen when audio is fully played and stopped
-                currentPlayingIndex++;
-                tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
+            // check if audio is played once fully and there is no current audio played
+            if (showPlaybackModels.get(currentPlayingIndex).isOncePlayed()) {
+                if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1) {
+                    // only next can happen when audio is fully played and stopped
+                    currentPlayingIndex++;
+                    tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
 
-                if (currentPlayingIndex == showPlaybackModels.size() - 1) {
-                    btnNextContent.setVisibility(View.INVISIBLE);
-                }
+                    if (currentPlayingIndex == showPlaybackModels.size() - 1) {
+                        btnNextContent.setVisibility(View.INVISIBLE);
+                    }
 
-                if (currentPlayingIndex == 1) {
-                    btnPreviousContent.setVisibility(View.VISIBLE);
+                    if (currentPlayingIndex == 1) {
+                        btnPreviousContent.setVisibility(View.VISIBLE);
+                    }
+                    handleToggleShowPlayPause();
+                } else {
+                    Toast.makeText(this, "Pause or fully play the current audio", Toast.LENGTH_SHORT).show();
                 }
-                handleToggleShowPlayPause();
             } else {
-                Toast.makeText(this, "Audio not stopped", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Next will unlock after this audio is once played fully", Toast.LENGTH_SHORT).show();
             }
         } else {
             Log.e(TAG, "showPlaybackModel null");
@@ -377,7 +365,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         if (showPlaybackModels != null) {
 
-            if (showPlaybackModels.get(currentPlayingIndex).getAudioState() == 0) {
+            // check if current audio is not playing
+            if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1) {
                 currentPlayingIndex--;
                 tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
 
@@ -386,8 +375,34 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 handleToggleShowPlayPause();
+            } else {
+                Toast.makeText(this, "Pause or fully play the current audio", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void sendPlayPauseResumePacket() {
+        switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+            case 0:
+                // send play
+                RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
+                showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                break;
+
+            case 1:
+                RequestMessageHelper.getInstance().pausePlayShowContent();
+                showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                break;
+
+            case 2:
+                RequestMessageHelper.getInstance().pausePlayShowContent();
+                showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                break;
+
+            default:
+                Log.e(TAG, "sendPlayPauseResumePacket error state - " + showPlaybackModels.get(currentPlayingIndex).getAudioState());
+        }
+        handleToggleShowPlayPause();
     }
 
     private void handleEndShow() {
@@ -426,120 +441,66 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         switch (showPlaybackModels.get(currentPlayingIndex).getType()) {
             case content:
                 switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
-                    case -1:
-                        // not started state
+                    case 0:
+                        // stopped state
                         showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(0);
-                        break;
-
-                    case 0:
-                        // send play content, but repeated
-                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
                         break;
 
                     case 1:
-                        RequestMessageHelper.getInstance().pausePlayShowContent();
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                        // playing state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
                         break;
 
                     case 2:
-                        RequestMessageHelper.getInstance().pausePlayShowContent();
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
-                        break;
-
-                    case 3:
-                        // stopped state, can be played again
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+                        // resume state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(-1);
                         break;
                 }
                 break;
 
             case question:
                 switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
-                    case -1:
-                        // not started state
+                    case 0:
+                        // stopped state
                         showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_play));
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(0);
-                        break;
-
-                    case 0:
-                        // send play content, but repeated
-                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_pause));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
                         break;
 
                     case 1:
-                        RequestMessageHelper.getInstance().pausePlayShowContent();
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_resume));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                        // playing state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
                         break;
 
                     case 2:
-                        RequestMessageHelper.getInstance().pausePlayShowContent();
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_pause));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
-                        break;
-
-                    case 3:
-                        // stopped state, can be played again
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_play));
+                        // resume state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_resume));
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(-1);
                         break;
                 }
                 break;
 
             case answer:
                 switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
-                    case -1:
-                        // not started state
+                    case 0:
+                        // stopped state
                         showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_play));
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(0);
-                        break;
-
-                    case 0:
-                        // send play content, but repeated
-                        RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_pause));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
                         break;
 
                     case 1:
-                        RequestMessageHelper.getInstance().pausePlayShowContent();
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_resume));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                        // playing state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
                         break;
 
                     case 2:
-                        RequestMessageHelper.getInstance().pausePlayShowContent();
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_pause));
-                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
-                        break;
-
-                    case 3:
-                        // stopped state, can be played again
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_play));
+                        // resume state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_resume));
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                        showPlaybackModels.get(currentPlayingIndex).setAudioState(-1);
                         break;
                 }
                 break;
