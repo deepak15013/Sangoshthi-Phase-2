@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +30,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.adapters.ListenersRecyclerViewAdapter;
 import io.github.varunj.sangoshthi_ivr.models.CallerStateModel;
+import io.github.varunj.sangoshthi_ivr.models.ShowPlaybackModel;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
@@ -51,11 +54,17 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private ImageButton showEndShow;
     private Button showPlayPause;
+    private ImageButton btnPreviousContent;
+    private ImageButton btnNextContent;
+    private RelativeLayout llMediaControls;
+    private TextView tvMediaName;
 
     private RecyclerView rvListenersContent;
     private ListenersRecyclerViewAdapter mAdapter;
 
     private List<CallerStateModel> callerStateModelList;
+    private ArrayList<ShowPlaybackModel> showPlaybackModels;
+    private int currentPlayingIndex;
 
     public static ProgressDialog progressDialog;
 
@@ -75,6 +84,15 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
         showPlayPause = (Button) findViewById(R.id.show_play_pause);
         showPlayPause.setOnClickListener(this);
+
+        btnPreviousContent = (ImageButton) findViewById(R.id.btn_previous_content);
+        btnPreviousContent.setOnClickListener(this);
+
+        btnNextContent = (ImageButton) findViewById(R.id.btn_next_content);
+        btnNextContent.setOnClickListener(this);
+
+        llMediaControls = (RelativeLayout) findViewById(R.id.ll_media_controls);
+        tvMediaName = (TextView) findViewById(R.id.tv_media_name);
 
         rvListenersContent = (RecyclerView) findViewById(R.id.rv_listeners_content);
 
@@ -120,7 +138,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
                         case "end_show_call_ack":
                             LoadingUtil.getInstance().hideLoading();
-                            if(chronometerShow != null)
+                            if (chronometerShow != null)
                                 chronometerShow.stop();
                             finish();
                             break;
@@ -143,11 +161,11 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 
-        if(SharedPreferenceManager.getInstance().isShowRunning()) {
+        if (SharedPreferenceManager.getInstance().isShowRunning()) {
             Log.d(TAG, "Resuming show");
 
             List<CallerStateModel> resumeCallerStateModelList = SharedPreferenceManager.getInstance().getShowSessionData();
-            if(resumeCallerStateModelList != null) {
+            if (resumeCallerStateModelList != null) {
 
                 Log.d(TAG, "Resume callerStateModelList - " + resumeCallerStateModelList.toString());
                 callerStateModelList.clear();
@@ -170,7 +188,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleConfMemberStatus(JSONObject jsonObject) throws JSONException {
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
-        if(callerId == -1) {
+        if (callerId == -1) {
             // new caller is added
             CallerStateModel callerStateModel = new CallerStateModel(
                     jsonObject.getString("phoneno"),
@@ -181,7 +199,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             // caller exists
             callerStateModelList.get(callerId).setTask(jsonObject.getString("task"));
-            if(jsonObject.getString("task").equals("online") && !callerStateModelList.get(callerId).isMuteUnmuteState()) {
+            if (jsonObject.getString("task").equals("online") && !callerStateModelList.get(callerId).isMuteUnmuteState()) {
                 // old state was - unmuted, show reconnection
                 callerStateModelList.get(callerId).setReconnection(true);
                 callerStateModelList.get(callerId).setMuteUnmuteState(true);
@@ -195,8 +213,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private int getOnlineListeners() {
         int count = 0;
-        for(CallerStateModel callerStateModel : callerStateModelList) {
-            if(callerStateModel.getTask().equals("online")) {
+        for (CallerStateModel callerStateModel : callerStateModelList) {
+            if (callerStateModel.getTask().equals("online")) {
                 count++;
             }
         }
@@ -204,32 +222,52 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleShowPlaybackMetadataResponse(JSONObject jsonObject) {
-        if(SharedPreferenceManager.getInstance().getFeedback()) {
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_play));
+        Log.d(TAG, "handleShowPlaybackMetadataResponse function called");
+
+        showPlaybackModels = SharedPreferenceManager.getInstance().getShowPlaybackModels();
+
+        // sort the list by order
+        Collections.sort(showPlaybackModels);
+
+        Log.d(TAG, showPlaybackModels.toString());
+
+        btnPreviousContent.setVisibility(View.INVISIBLE);
+        btnNextContent.setVisibility(View.INVISIBLE);
+
+        if (showPlaybackModels.size() <= 0) {
+            showPlayPause.setVisibility(View.INVISIBLE);
+            llMediaControls.setVisibility(View.GONE);
+        } else {
+            llMediaControls.setVisibility(View.VISIBLE);
             showPlayPause.setVisibility(View.VISIBLE);
-        } else if(SharedPreferenceManager.getInstance().getShowContent()) {
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
-            showPlayPause.setVisibility(View.VISIBLE);
+            currentPlayingIndex = 0;
+
+            handleToggleShowPlayPause();
         }
     }
 
-    private void handleMediaStopped(JSONObject jsonObject) throws JSONException {
-        if(jsonObject.getString("case").equals("feedback")) {
-            if(SharedPreferenceManager.getInstance().getShowContent()) {
-                showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
-                showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-                showPlayPause.setVisibility(View.VISIBLE);
+    private void handleMediaStopped(JSONObject jsonObject) {
+
+        if (showPlaybackModels != null) {
+            showPlaybackModels.get(currentPlayingIndex).setOncePlayed(true);
+            showPlaybackModels.get(currentPlayingIndex).setAudioState(0);
+
+            if (currentPlayingIndex < showPlaybackModels.size() - 1) {
+                btnNextContent.setVisibility(View.VISIBLE);
+            } else {
+                btnNextContent.setVisibility(View.INVISIBLE);
             }
-        } else if(jsonObject.getString("case").equals("show_content")) {
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+
+            handleToggleShowPlayPause();
+        } else {
+            Log.e(TAG, "showPlaybackModel null");
         }
     }
 
     private int matchPhoneExists(List<CallerStateModel> callerStateModelList, String phoneno) {
-        if(callerStateModelList != null) {
-            for(int i = 0; i < callerStateModelList.size(); i++) {
-                if(callerStateModelList.get(i).getPhoneNum().equals(phoneno)) {
+        if (callerStateModelList != null) {
+            for (int i = 0; i < callerStateModelList.size(); i++) {
+                if (callerStateModelList.get(i).getPhoneNum().equals(phoneno)) {
                     Log.d(TAG, "update " + i + " position in caller list");
                     return i;
                 }
@@ -240,7 +278,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleMuteUnmuteAck(JSONObject jsonObject) throws JSONException {
-        if(jsonObject.getString("info").equals("FAIL")) {
+        if (jsonObject.getString("info").equals("FAIL")) {
             Toast.makeText(this, getString(R.string.toast_state_not_changed), Toast.LENGTH_SHORT).show();
             mAdapter.notifyDataSetChanged();
         }
@@ -248,8 +286,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleMuteUnmuteResponse(JSONObject jsonObject) throws JSONException {
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("listener_phoneno"));
-        if(callerId != -1) {
-            if(jsonObject.getString("info").equals("OK")) {
+        if (callerId != -1) {
+            if (jsonObject.getString("info").equals("OK")) {
                 Toast.makeText(this, getString(R.string.toast_state_changed), Toast.LENGTH_SHORT).show();
                 callerStateModelList.get(callerId).setMuteUnmuteState(!callerStateModelList.get(callerId).isMuteUnmuteState());
                 Log.d(TAG, "CallerStateModelList after muteUnmute response -  " + callerStateModelList.toString());
@@ -262,7 +300,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handlePress1Event(JSONObject jsonObject) throws JSONException {
         int callerId = matchPhoneExists(callerStateModelList, jsonObject.getString("phoneno"));
-        if(callerId != -1) {
+        if (callerId != -1) {
             callerStateModelList.get(callerId).setQuestionState(true);
             mAdapter.notifyDataSetChanged();
         }
@@ -276,12 +314,95 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.show_play_pause:
-                handleToggleShowPlayPause();
+                sendPlayPauseResumePacket();
+                break;
+
+            case R.id.btn_previous_content:
+                handlePrevButton();
+                break;
+
+            case R.id.btn_next_content:
+                handleNextButton();
                 break;
 
             default:
                 break;
         }
+    }
+
+    private void handleNextButton() {
+
+        // check if playback models is present
+        if (showPlaybackModels != null) {
+
+            // check if audio is played once fully and there is no current audio played
+            if (showPlaybackModels.get(currentPlayingIndex).isOncePlayed()) {
+                if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1) {
+                    // only next can happen when audio is fully played and stopped
+                    currentPlayingIndex++;
+                    tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
+
+                    if (currentPlayingIndex == showPlaybackModels.size() - 1) {
+                        btnNextContent.setVisibility(View.INVISIBLE);
+                    }
+
+                    if (currentPlayingIndex == 1) {
+                        btnPreviousContent.setVisibility(View.VISIBLE);
+                    }
+                    handleToggleShowPlayPause();
+                } else {
+                    Toast.makeText(this, "Pause or fully play the current audio", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Next will unlock after this audio is once played fully", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.e(TAG, "showPlaybackModel null");
+        }
+    }
+
+    private void handlePrevButton() {
+
+        if (showPlaybackModels != null) {
+
+            // check if current audio is not playing
+            if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1) {
+                currentPlayingIndex--;
+                tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
+
+                if (currentPlayingIndex == 0) {
+                    btnPreviousContent.setVisibility(View.INVISIBLE);
+                }
+
+                handleToggleShowPlayPause();
+            } else {
+                Toast.makeText(this, "Pause or fully play the current audio", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void sendPlayPauseResumePacket() {
+        switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+            case 0:
+                // send play
+                RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
+                showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                break;
+
+            case 1:
+                RequestMessageHelper.getInstance().pausePlayShowContent();
+                showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                break;
+
+            case 2:
+                RequestMessageHelper.getInstance().pausePlayShowContent();
+                showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                break;
+
+            default:
+                Log.e(TAG, "sendPlayPauseResumePacket error state - " + showPlaybackModels.get(currentPlayingIndex).getAudioState());
+        }
+        handleToggleShowPlayPause();
     }
 
     private void handleEndShow() {
@@ -313,30 +434,79 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void handleToggleShowPlayPause() {
-        if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_play))) {
-            RequestMessageHelper.getInstance().playFeedback();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_pause))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_resume));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_feedback_resume))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_feedback_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_play))) {
-            RequestMessageHelper.getInstance().playShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_pause))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
-        } else if(showPlayPause.getText().equals(getResources().getString(R.string.btn_show_play_pause_content_resume))) {
-            RequestMessageHelper.getInstance().pauseShowContent();
-            showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
-            showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+        Log.d(TAG, "handleToggleShowPlayPause function called, current index - " + currentPlayingIndex);
+        Log.d(TAG, "Type - " + showPlaybackModels.get(currentPlayingIndex).getType());
+        Log.d(TAG, "AudioState - " + showPlaybackModels.get(currentPlayingIndex).getAudioState());
+
+        switch (showPlaybackModels.get(currentPlayingIndex).getType()) {
+            case content:
+                switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                    case 0:
+                        // stopped state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+
+                    case 1:
+                        // playing state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        break;
+
+                    case 2:
+                        // resume state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_resume));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+                }
+                break;
+
+            case question:
+                switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                    case 0:
+                        // stopped state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_play));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+
+                    case 1:
+                        // playing state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        break;
+
+                    case 2:
+                        // resume state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_resume));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+                }
+                break;
+
+            case answer:
+                switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                    case 0:
+                        // stopped state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_play));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+
+                    case 1:
+                        // playing state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        break;
+
+                    case 2:
+                        // resume state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_resume));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+                }
+                break;
+
+            default:
+                Log.e(TAG, "error toggle index");
         }
     }
 
@@ -361,7 +531,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
         Log.d(TAG, "SHOW ON PAUSE");
 
-        if(SharedPreferenceManager.getInstance().isShowRunning()) {
+        if (SharedPreferenceManager.getInstance().isShowRunning()) {
             Log.d(TAG, "SHOW ACTIVITY PAUSE IN BETWEEN SHOW");
 
             long chronometerTime = SystemClock.elapsedRealtime() - chronometerShow.getBase();

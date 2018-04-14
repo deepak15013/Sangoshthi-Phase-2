@@ -55,112 +55,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        /* First check for permission for external storage, Uses runtime permission */
-        checkAndGetRuntimePermissions();
-
         AMQPPublish.getInstance().setupConnectionFactory();
         AMQPPublish.getInstance().publishToAMQP();
 
         SharedPreferenceManager.getInstance().init(getApplicationContext());
 
+        /* First check for permission for external storage, Uses runtime permission */
+        checkAndGetRuntimePermissions();
+
         Log.d(TAG, "session - " + SharedPreferenceManager.getInstance().getSession());
-
-        final EditText etPhone = (EditText) findViewById(R.id.et_phone);
-        Button btnSignIn = (Button) findViewById(R.id.btn_sign_in);
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getResources().getString(R.string.progress_dialog_please_wait));
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setCancelable(false);
-
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(etPhone != null && !etPhone.getText().toString().equals("")) {
-                    if (validatePhoneNumber(etPhone.getText().toString())) {
-                        Log.d(TAG, "Sign in");
-                        SharedPreferenceManager.getInstance().setBroadcaster(etPhone.getText().toString());
-
-                        progressDialog.show();
-                        startLoadingThread();
-
-                        AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
-                        RequestMessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
-                    } else {
-                        etPhone.setError(getString(R.string.login_phone_error));
-                    }
-                } else {
-                    etPhone.setError(getString(R.string.login_hint_phone));
-                }
-            }
-        });
-
-
-        // Login Procedure done, redirect to next activity
-        Log.d(TAG, "broadcaster - " + SharedPreferenceManager.getInstance().getBroadcaster());
-        if (!SharedPreferenceManager.getInstance().getBroadcaster().equals("0123456789")) {
-            Log.d(TAG, "start subscriber");
-            progressDialog.show();
-            startLoadingThread();
-
-            AMQPPublish.getInstance().subscribe(SharedPreferenceManager.getInstance().getBroadcaster());
-            RequestMessageHelper.getInstance().appInstallNotify(SharedPreferenceManager.getInstance().getBroadcaster());
-
-        } else {
-            Log.d(TAG, "number equals 0123456789");
-        }
-
-
-        final Handler incomingMessageHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                try {
-                    Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
-                    JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
-
-                    if(jsonObject.getString("objective").equals("configuration_data")) {
-                        if(jsonObject.getString("cohort_id").equals("-1") || jsonObject.getString("cohort_size").equals("-1")) {
-                            // show error message
-                            Log.d(TAG, "Phone not registered");
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage(R.string.error_phone_not_registered)
-                                    .setCancelable(false);
-
-                            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.cancel();
-                                }
-                            });
-
-                            AlertDialog alertDialog = builder.create();
-                            alertDialog.show();
-
-                        } else {
-                            // everything ok
-                            SharedPreferenceManager.getInstance().setSession();
-
-                            SharedPreferenceManager.getInstance().setCohortId(jsonObject.getString("cohort_id"));
-                            SharedPreferenceManager.getInstance().setCohortSize(jsonObject.getString("cohort_size"));
-                            startNextActivity();
-                        }
-
-                        if(dismissThreadLogin != null)
-                            dismissThreadLogin.interrupt();
-
-                        progressDialog.dismiss();
-                    }
-                } catch (JSONException e) {
-                    Log.e(TAG, "" + e);
-                }
-            }
-        };
-        ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
-
-        Log.d(TAG, "subscribe to response");
-
     }
 
     private boolean validatePhoneNumber(String phoneNumber) {
@@ -181,6 +84,8 @@ public class LoginActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     permissionsRequired,
                     PERMISSION_CALLBACK_CONSTANT);
+        } else {
+            startLoginProcess();
         }
     }
 
@@ -209,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
             if(allgranted) {
                 Log.d(TAG, "Permission granted");
+                startLoginProcess();
             } else {
                 Log.d(TAG, "Permission denied");
                 Toast.makeText(this, getString(R.string.toast_permission_denied), Toast.LENGTH_SHORT).show();
@@ -216,6 +122,103 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void startLoginProcess() {
+        final EditText etPhone = (EditText) findViewById(R.id.et_phone);
+        Button btnSignIn = (Button) findViewById(R.id.btn_sign_in);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.progress_dialog_please_wait));
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+
+        btnSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (etPhone != null && !etPhone.getText().toString().equals("")) {
+                    if (validatePhoneNumber(etPhone.getText().toString())) {
+                        Log.d(TAG, "Sign in");
+                        SharedPreferenceManager.getInstance().setBroadcaster(etPhone.getText().toString());
+
+                        progressDialog.show();
+                        startLoadingThread();
+
+                        AMQPPublish.getInstance().subscribe(etPhone.getText().toString());
+                        RequestMessageHelper.getInstance().appInstallNotify(etPhone.getText().toString());
+                    } else {
+                        etPhone.setError(getString(R.string.login_phone_error));
+                    }
+                } else {
+                    etPhone.setError(getString(R.string.login_hint_phone));
+                }
+            }
+        });
+
+        // Login Procedure done, redirect to next activity
+        Log.d(TAG, "broadcaster - " + SharedPreferenceManager.getInstance().getBroadcaster());
+        if (!SharedPreferenceManager.getInstance().getBroadcaster().equals("0123456789")) {
+            Log.d(TAG, "start subscriber");
+            progressDialog.show();
+            startLoadingThread();
+
+            AMQPPublish.getInstance().subscribe(SharedPreferenceManager.getInstance().getBroadcaster());
+            RequestMessageHelper.getInstance().appInstallNotify(SharedPreferenceManager.getInstance().getBroadcaster());
+
+        } else {
+            Log.d(TAG, "number equals 0123456789");
+        }
+
+        final Handler incomingMessageHandler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                try {
+                    Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
+                    JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
+
+                    if (jsonObject.getString("objective").equals("configuration_data")) {
+                        if (jsonObject.getString("cohort_id").equals("-1") || jsonObject.getString("cohort_size").equals("-1")) {
+                            // show error message
+                            Log.d(TAG, "Phone not registered");
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage(R.string.error_phone_not_registered)
+                                    .setCancelable(false);
+
+                            builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+
+                            AlertDialog alertDialog = builder.create();
+                            alertDialog.show();
+
+                        } else {
+                            // everything ok
+                            SharedPreferenceManager.getInstance().setSession();
+
+                            SharedPreferenceManager.getInstance().setCohortId(jsonObject.getString("cohort_id"));
+                            SharedPreferenceManager.getInstance().setCohortSize(jsonObject.getString("cohort_size"));
+                            startNextActivity();
+                        }
+
+                        if (dismissThreadLogin != null)
+                            dismissThreadLogin.interrupt();
+
+                        progressDialog.dismiss();
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "" + e);
+                }
+            }
+        };
+
+        ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
+
+        Log.d(TAG, "subscribe to response");
     }
 
     private void startLoadingThread() {

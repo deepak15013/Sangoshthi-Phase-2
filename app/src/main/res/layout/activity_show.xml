@@ -33,17 +33,62 @@
 
     </RelativeLayout>
 
-        <Button
-            android:id="@+id/show_play_pause"
+    <RelativeLayout
+        android:id="@+id/ll_media_controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_marginTop="30dp">
+
+        <ImageButton
+            android:id="@+id/btn_previous_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:text="@string/show_play_pause"
-            android:drawableTop="@drawable/btn_play"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:layout_below="@+id/relativeLayout"
-            android:layout_marginTop="30dp"
-            android:layout_centerHorizontal="true" />
+            android:contentDescription="@string/cd_image"
+            android:src="@drawable/btn_prev" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/show_play_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/btn_play"
+                android:text="@string/show_play_pause" />
+
+            <TextView
+                android:id="@+id/tv_media_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_tv_media_name"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_next_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/cd_image"
+            android:src="@drawable/btn_next" />
+
+    </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_listeners_content"
@@ -54,7 +99,7 @@
             android:scrollbars="vertical"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/show_play_pause"
+            android:layout_below="@+id/ll_media_controls"
             android:layout_above="@+id/show_end_show" />
 
         <ImageButton

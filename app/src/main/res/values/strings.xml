@@ -19,6 +19,12 @@
     <string name="btn_show_play_pause_content_play">आज का विचार सुने</string>
     <string name="btn_show_play_pause_content_pause">रोकें</string>
     <string name="btn_show_play_pause_content_resume">चलाएँ</string>
+    <string name="btn_show_play_pause_question_play">आज का question सुने</string>
+    <string name="btn_show_play_pause_question_pause">रोकें</string>
+    <string name="btn_show_play_pause_question_resume">चलाएँ</string>
+    <string name="btn_show_play_pause_answer_play">आज का answer सुने</string>
+    <string name="btn_show_play_pause_answer_pause">रोकें</string>
+    <string name="btn_show_play_pause_answer_resume">चलाएँ</string>
 
     <string name="btn_start_show">शुरू करें</string>
     <string name="btn_call_broadcaster">कॉल करें</string>
@@ -51,6 +57,7 @@
     <string name="placeholder_tv_tutorial">विषय सूची</string>
     <string name="placeholder_tv_date">13 july, 2017</string>
     <string name="placeholder_tv_file_name">file_name.mp4</string>
+    <string name="placeholder_tv_media_name">विषय सूची</string>
 
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">कॉल की प्रतीक्षा करें</string>

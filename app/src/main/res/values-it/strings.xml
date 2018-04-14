@@ -16,6 +16,12 @@
     <string name="btn_show_play_pause_feedback_pause">Pause Feedback</string>
     <string name="btn_show_play_pause_feedback_play">Play Feedback</string>
     <string name="btn_show_play_pause_feedback_resume">Resume Feedback</string>
+    <string name="btn_show_play_pause_question_play">Play Question</string>
+    <string name="btn_show_play_pause_question_pause">Pause Question</string>
+    <string name="btn_show_play_pause_question_resume">Resume Question</string>
+    <string name="btn_show_play_pause_answer_play">Play Answer</string>
+    <string name="btn_show_play_pause_answer_pause">Pause Answer</string>
+    <string name="btn_show_play_pause_answer_resume">Resume Answer</string>
     <string name="btn_start_show">Start</string>
     <string name="btn_yes">YES</string>
     <string name="cd_btn_start_show">Start Show</string>
@@ -42,6 +48,7 @@
     <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
     <string name="placeholder_tv_show_topic">Coming Soon</string>
     <string name="placeholder_tv_tutorial">Tutorial</string>
+    <string name="placeholder_tv_media_name">Media name</string>
     <string name="progress_dialog_calling_broadcaster">Calling</string>
     <string name="progress_dialog_please_wait">Please Wait</string>
     <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>
