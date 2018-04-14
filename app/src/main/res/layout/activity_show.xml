@@ -51,14 +51,31 @@
             android:contentDescription="@string/cd_image"
             android:src="@drawable/btn_prev" />
 
-        <Button
-            android:id="@+id/show_play_pause"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/show_play_pause"
-            android:drawableTop="@drawable/btn_play"
-            android:background="@android:color/transparent"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/show_play_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableTop="@drawable/btn_play"
+                android:text="@string/show_play_pause" />
+
+            <TextView
+                android:id="@+id/tv_media_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_tv_media_name"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <ImageButton
             android:id="@+id/btn_next_content"

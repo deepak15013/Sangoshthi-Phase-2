@@ -48,6 +48,7 @@
     <string name="placeholder_tv_num_of_listeners">Asha : 3</string>
     <string name="placeholder_tv_show_topic">Coming Soon</string>
     <string name="placeholder_tv_tutorial">Tutorial</string>
+    <string name="placeholder_tv_media_name">Media name</string>
     <string name="progress_dialog_calling_broadcaster">Calling</string>
     <string name="progress_dialog_please_wait">Please Wait</string>
     <string name="progress_dialog_reconnecting_call">Reconnecting Call</string>

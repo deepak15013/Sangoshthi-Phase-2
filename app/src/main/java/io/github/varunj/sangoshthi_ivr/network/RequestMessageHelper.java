@@ -191,11 +191,12 @@ public class RequestMessageHelper {
         }
     }
 
-    public void playShowMedia(int mediaOrder) {
+    public void playShowMedia(int mediaOrder, String type) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("objective", "play_show_media");
             jsonObject.put("media_order", Integer.toString(mediaOrder));
+            jsonObject.put("type", type);
             jsonObject.put("broadcaster", SharedPreferenceManager.getInstance().getBroadcaster());
             jsonObject.put("cohort_id", SharedPreferenceManager.getInstance().getCohortId());
             jsonObject.put("show_id", SharedPreferenceManager.getInstance().getShowId());

@@ -60,6 +60,14 @@ public class ResponseMessageHelper {
                     handleConfMemberStatus(message);
                     break;
 
+                // {"objective":"show_playback_metadata_response",
+                // "media":[{"duration":7338,"type":"content","order":"1","name":"sample_content"},
+                //          {"duration":4899,"type":"question","order":"2","name":"sample_question1"},
+                //          {"duration":4899,"type":"answer","order":"3","name":"sample_answer1"},
+                //          {"duration":3669,"type":"question","order":"4","name":"sample_question2"},
+                //          {"duration":4899,"type":"answer","order":"5","name":"sample_answer2"},
+                //          {"duration":4899,"type":"question","order":"6","name":"sample_question3"},
+                //          {"duration":4899,"type":"answer","order":"7","name":"sample_answer3"}]}
                 case "show_playback_metadata_response":
                     handleShowPlaybackMetadataResponse(message);
                     break;

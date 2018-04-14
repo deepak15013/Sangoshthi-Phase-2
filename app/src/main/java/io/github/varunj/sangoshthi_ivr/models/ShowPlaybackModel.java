@@ -9,7 +9,8 @@ public class ShowPlaybackModel implements Comparable<ShowPlaybackModel> {
     private String duration;
     private String name;
 
-    // Not started yet = 0
+    // Not started yet = -1
+    // Stopped, but can be played = 0
     // Playing = 1
     // Pause = 2
     // Stopped = 3
@@ -70,5 +71,16 @@ public class ShowPlaybackModel implements Comparable<ShowPlaybackModel> {
 
     public enum Type {
         content, question, answer
+    }
+
+    @Override
+    public String toString() {
+        return "ShowPlaybackModel{" +
+                "type=" + type +
+                ", order=" + order +
+                ", duration='" + duration + '\'' +
+                ", name='" + name + '\'' +
+                ", audioState=" + audioState +
+                '}';
     }
 }

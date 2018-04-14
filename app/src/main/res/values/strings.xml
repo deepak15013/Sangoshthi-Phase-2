@@ -57,6 +57,7 @@
     <string name="placeholder_tv_tutorial">विषय सूची</string>
     <string name="placeholder_tv_date">13 july, 2017</string>
     <string name="placeholder_tv_file_name">file_name.mp4</string>
+    <string name="placeholder_tv_media_name">विषय सूची</string>
 
     <!-- Messages String -->
     <string name="progress_dialog_calling_broadcaster">कॉल की प्रतीक्षा करें</string>
