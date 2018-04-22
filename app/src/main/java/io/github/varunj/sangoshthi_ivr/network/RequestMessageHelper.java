@@ -191,6 +191,17 @@ public class RequestMessageHelper {
         }
     }
 
+     /*
+        {
+          "objective":"play_show_media",
+          "media_order":"3",
+          "type":"answer","broadcaster":"8368861819",
+          "cohort_id":"9",
+          "show_id":"show_20",
+          "conference_name":"show_20_2018_04_16_11_02_30",
+          "timestamp":"2018-04-16 11:09:56"
+        }
+     */
     public void playShowMedia(int mediaOrder, String type) {
         JSONObject jsonObject = new JSONObject();
         try {
