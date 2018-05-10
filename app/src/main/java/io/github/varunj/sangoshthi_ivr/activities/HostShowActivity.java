@@ -4,15 +4,12 @@
 
 package io.github.varunj.sangoshthi_ivr.activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +28,7 @@ import io.github.varunj.sangoshthi_ivr.R;
 import io.github.varunj.sangoshthi_ivr.network.RequestMessageHelper;
 import io.github.varunj.sangoshthi_ivr.network.ResponseMessageHelper;
 import io.github.varunj.sangoshthi_ivr.utilities.ConstantUtil;
+import io.github.varunj.sangoshthi_ivr.utilities.LoadingUtil;
 
 /**
  * This class displays the upcoming show details, and start show button is enabled only before 15 minutes of the show
@@ -45,9 +43,6 @@ public class HostShowActivity extends AppCompatActivity {
     private LinearLayout llStartShow;
     private TextView tvChronometerStartShow;
 
-    private ProgressDialog progressDialog;
-    private Thread dismissThreadHostShow;
-
     private Context context;
 
     @Override
@@ -55,7 +50,7 @@ public class HostShowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_host_show);
 
-        showProgressBar();
+        LoadingUtil.getInstance().showLoading(getString(R.string.progress_dialog_please_wait), HostShowActivity.this);
 
         this.context = this;
 
@@ -71,8 +66,8 @@ public class HostShowActivity extends AppCompatActivity {
                 try {
                     Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
                     JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
-                    if(!jsonObject.getString("show_id").equals("none")) {
-                        if(jsonObject.getString("local_name").equals("none")) {
+                    if (!jsonObject.getString("show_id").equals("none")) {
+                        if (jsonObject.getString("local_name").equals("none")) {
                             // show topic in english if local_name is none
                             tvShowTopic.setText(jsonObject.getString("topic"));
                         } else {
@@ -80,7 +75,7 @@ public class HostShowActivity extends AppCompatActivity {
                         }
 
                         // 2017-06-20 14:20:59
-                        if(jsonObject.getString("time_of_airing") != null) {
+                        if (jsonObject.getString("time_of_airing") != null) {
                             String dateTime = jsonObject.getString("time_of_airing");
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
                             Calendar showDateTime = Calendar.getInstance();
@@ -89,10 +84,10 @@ public class HostShowActivity extends AppCompatActivity {
                             tvShowDateOfAiring.setText(String.format(Locale.ENGLISH, "%1$te %1$tb, %1$tY", showDateTime));
                             tvShowTimeOfAiring.setText(String.format(Locale.ENGLISH, "%1$tH : %1$tM", showDateTime));
 
-                        /* compare time, if time passed then show start show button, if not then show chronometer countdown */
+                            /* compare time, if time passed then show start show button, if not then show chronometer countdown */
                             Calendar currentDateTime = Calendar.getInstance();
                             long diff = showDateTime.getTimeInMillis() - currentDateTime.getTimeInMillis();
-                            if(diff <= ConstantUtil.FIFTEEN_MINUTES_CLOCK) {
+                            if (diff <= ConstantUtil.FIFTEEN_MINUTES_CLOCK) {
                                 // 1 hour left to start show, move to next screen
                                 llStartShow.setVisibility(View.VISIBLE);
                                 tvChronometerStartShow.setVisibility(View.GONE);
@@ -109,7 +104,7 @@ public class HostShowActivity extends AppCompatActivity {
                                     public void onTick(long millisUntilFinished) {
                                         int hours = (int) (millisUntilFinished / ConstantUtil.ONE_HOUR_CLOCK);
                                         millisUntilFinished = millisUntilFinished % ConstantUtil.ONE_HOUR_CLOCK;
-                                        int mins = (int) (millisUntilFinished / (1000*60));
+                                        int mins = (int) (millisUntilFinished / (1000 * 60));
                                         millisUntilFinished = millisUntilFinished % (1000 * 60);
                                         int secs = (int) (millisUntilFinished / 1000);
                                         //Log.d(TAG, "Show start in " + hours + " : " + mins + " : " + secs);
@@ -124,12 +119,12 @@ public class HostShowActivity extends AppCompatActivity {
                                     }
                                 }.start();
                             }
-                            hideProgressBar();
+                            LoadingUtil.getInstance().hideLoading();
                         }
                     } else {
                         Log.d(TAG, "no show present");
                         tvShowTopic.setText(getString(R.string.placeholder_tv_show_topic));
-                        hideProgressBar();
+                        LoadingUtil.getInstance().hideLoading();
                     }
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();
@@ -148,64 +143,6 @@ public class HostShowActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
-
-    private void showProgressBar() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.progress_dialog_please_wait));
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-
-        dismissThreadHostShow = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(ConstantUtil.FIVE_SECOND_CLOCK);
-
-                    if (progressDialog.isShowing()) {
-                        progressDialog.dismiss();
-                    }
-
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            showAlertDialog();
-                        }
-                    });
-                    Log.d(TAG, "dismiss progress bar from thread HostShowActivity");
-                } catch (InterruptedException e) {
-                    Log.d(TAG, "thread interrupted " + e);
-                }
-            }
-        });
-        dismissThreadHostShow.start();
-    }
-
-    private void hideProgressBar() {
-        if(progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
-        }
-        if(dismissThreadHostShow != null) {
-            dismissThreadHostShow.interrupt();
-        }
-    }
-
-    private void showAlertDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.toast_no_internet))
-                .setCancelable(false);
-
-        builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                finish();
-            }
-        });
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
 }

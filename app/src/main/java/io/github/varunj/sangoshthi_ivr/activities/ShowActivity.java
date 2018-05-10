@@ -411,7 +411,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 .setMessage(R.string.dialog_box_end_show_message)
                 .setCancelable(false);
 
-        builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Log.d(TAG, "End show ok");
@@ -422,7 +422,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        builder.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.cancel();

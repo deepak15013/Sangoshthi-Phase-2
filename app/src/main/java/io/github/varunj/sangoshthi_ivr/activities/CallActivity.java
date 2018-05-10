@@ -36,14 +36,11 @@ import io.github.varunj.sangoshthi_ivr.utilities.SharedPreferenceManager;
 public class CallActivity extends AppCompatActivity {
 
     private static final String TAG = CallActivity.class.getSimpleName();
-    private Context context;
-
-    private ImageButton btnCall;
-    private TextView tvCall;
-
     public static ProgressDialog progressDialog;
     public static Thread dismissThreadCall;
-
+    private Context context;
+    private ImageButton btnCall;
+    private TextView tvCall;
     private boolean callStarted = false;
 
     @Override
@@ -60,7 +57,7 @@ public class CallActivity extends AppCompatActivity {
                     Log.d(TAG, "Message received: " + msg.getData().getString("msg"));
                     JSONObject jsonObject = new JSONObject(msg.getData().getString("msg"));
 
-                    if(jsonObject.getString("objective").equals("start_show_response")) {
+                    if (jsonObject.getString("objective").equals("start_show_response")) {
                         switch (jsonObject.getString("info")) {
                             case "FAIL":
                                 Toast.makeText(context, getString(R.string.toast_calling_failed), Toast.LENGTH_SHORT).show();
@@ -85,14 +82,15 @@ public class CallActivity extends AppCompatActivity {
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tvCall.getText().equals(getResources().getString(R.string.btn_call_broadcaster))) {
+                if (tvCall.getText().equals(getResources().getString(R.string.btn_call_broadcaster))) {
                     RequestMessageHelper.getInstance().startShow();
+
                     progressDialog.show();
                     callStarted = true;
-                    if(dismissThreadCall != null)
+                    if (dismissThreadCall != null)
                         dismissThreadCall.start();
 
-                } else if(tvCall.getText().equals(getResources().getString(R.string.btn_call_listeners))) {
+                } else if (tvCall.getText().equals(getResources().getString(R.string.btn_call_listeners))) {
                     RequestMessageHelper.getInstance().dialListeners();
                     Toast.makeText(CallActivity.this, getString(R.string.toast_calling_listeners), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(context, ShowActivity.class);
@@ -130,7 +128,7 @@ public class CallActivity extends AppCompatActivity {
             public void onDismiss(DialogInterface dialogInterface) {
                 Log.d(TAG, "Call received: " + SharedPreferenceManager.getInstance().isCallReceived());
                 dismissThreadCall.interrupt();
-                if(SharedPreferenceManager.getInstance().isCallReceived()) {
+                if (SharedPreferenceManager.getInstance().isCallReceived()) {
                     // call received, change button to call listeners
                     tvCall.setText(getResources().getString(R.string.btn_call_listeners));
                     btnCall.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.call_listeners));
@@ -143,7 +141,7 @@ public class CallActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(callStarted) {
+        if (callStarted) {
             Toast.makeText(this, getString(R.string.toast_back_disabled), Toast.LENGTH_SHORT).show();
         } else {
             super.onBackPressed();

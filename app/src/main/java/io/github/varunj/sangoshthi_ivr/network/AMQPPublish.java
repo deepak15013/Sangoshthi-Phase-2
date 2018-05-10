@@ -25,27 +25,23 @@ public class AMQPPublish {
     private static final String TAG = AMQPPublish.class.getSimpleName();
 
     private static AMQPPublish instance;
+    private static String EXCHANGE_NAME = "defaultExchangeName";
+    private static String QUEUE_NAME = "broadcaster_to_server_ivr";
+    public BlockingDeque<JSONObject> queue = new LinkedBlockingDeque<>();
+    private ConnectionFactory factory = new ConnectionFactory();
+    private Thread publishThread;
+    private Thread subscribeThread;
 
     private AMQPPublish() {
 
     }
 
     public static synchronized AMQPPublish getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AMQPPublish();
         }
         return instance;
     }
-
-    private static String EXCHANGE_NAME = "defaultExchangeName";
-    private static String QUEUE_NAME = "broadcaster_to_server_ivr";
-
-    public BlockingDeque<JSONObject> queue = new LinkedBlockingDeque<>();
-
-    private ConnectionFactory factory = new ConnectionFactory();
-
-    private Thread publishThread;
-    private Thread subscribeThread;
 
     public void setupConnectionFactory() {
         try {
@@ -53,8 +49,7 @@ public class AMQPPublish {
             factory.setNetworkRecoveryInterval(10000);
             factory.setHost(ConstantUtil.IP_ADDR);
             factory.setPort(ConstantUtil.SERVER_PORT);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -66,7 +61,7 @@ public class AMQPPublish {
         publishThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(true) {
+                while (true) {
                     try {
                         Connection connection = factory.newConnection();
                         Channel channel = connection.createChannel();
@@ -88,7 +83,7 @@ public class AMQPPublish {
 
                                 channel.waitForConfirmsOrDie();
                             } catch (Exception e) {
-                                Log.e(TAG,"[f] " + message);
+                                Log.e(TAG, "[f] " + message);
                                 queue.putFirst(message);
                                 throw e;
                             }
@@ -126,12 +121,12 @@ public class AMQPPublish {
         subscribeThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(true) {
+                while (true) {
                     try {
                         Connection connection = factory.newConnection();
                         Channel channel = connection.createChannel();
 
-                        String queue_name = "server_to_broadcaster_ivr_" +  senderPhoneNum;
+                        String queue_name = "server_to_broadcaster_ivr_" + senderPhoneNum;
                         channel.queueDeclare(queue_name, false, false, false, null);
                         QueueingConsumer consumer = new QueueingConsumer(channel);
                         channel.basicConsume(queue_name, true, consumer);
@@ -161,9 +156,9 @@ public class AMQPPublish {
     }
 
     public void interruptThreads() {
-        if(publishThread != null)
+        if (publishThread != null)
             publishThread.interrupt();
-        if(subscribeThread != null)
+        if (subscribeThread != null)
             subscribeThread.interrupt();
     }
 }

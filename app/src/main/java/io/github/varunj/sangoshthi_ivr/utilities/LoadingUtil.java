@@ -11,24 +11,22 @@ import android.util.Log;
 import android.widget.Toast;
 
 import io.github.varunj.sangoshthi_ivr.R;
+import io.github.varunj.sangoshthi_ivr.activities.LoginActivity;
 
 
 public class LoadingUtil {
 
     private static final String TAG = LoadingUtil.class.getSimpleName();
-
+    private static LoadingUtil instance;
+    private static ProgressDialog progressDialog;
+    private Thread dismissThreadLoading;
+    private Context context;
     private LoadingUtil() {
 
     }
 
-    private static LoadingUtil instance;
-
-    private Thread dismissThreadLoading;
-    private static ProgressDialog progressDialog;
-    private Context context;
-
     public static synchronized LoadingUtil getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new LoadingUtil();
         }
         return instance;
@@ -61,6 +59,13 @@ public class LoadingUtil {
                         }
                     });
                     Log.d(TAG, "dismiss progress bar from thread LoadingUtil");
+
+                    // If user has already logged in once, than without internet connection also he can login
+                    if (context instanceof LoginActivity) {
+                        if (SharedPreferenceManager.getInstance().getSession()) {
+                            ((LoginActivity) context).startNextActivity();
+                        }
+                    }
                 } catch (InterruptedException e) {
                     Log.d(TAG, "thread interrupted " + e);
                 }
@@ -71,12 +76,28 @@ public class LoadingUtil {
 
     public void hideLoading() {
         Log.d(TAG, "hideLoading");
-        if(progressDialog != null && progressDialog.isShowing()) {
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
-        if(dismissThreadLoading != null) {
+        if (dismissThreadLoading != null) {
             dismissThreadLoading.interrupt();
         }
     }
+
+    /*private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.toast_no_internet))
+                .setCancelable(false);
+
+        builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }*/
 
 }
