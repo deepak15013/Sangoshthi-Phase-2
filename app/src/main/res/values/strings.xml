@@ -72,6 +72,7 @@
 
     <string name="toast_back_disabled">खेद ! वापस नही जा सकते</string>
     <string name="toast_no_internet">खेद ! इंटरनेट नही चल रहा</string>
+    <string name="toast_server_error">Server is not responding, contact the admin</string>
     <string name="toast_calling_listeners">कॉल मिलाई जा रही हैं</string>
     <string name="toast_calling_failed">खेद! कॉल नही लग रही</string>
     <string name="toast_content_locked">फाइल लॉक हैं</string>

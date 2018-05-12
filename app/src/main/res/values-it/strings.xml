@@ -57,6 +57,7 @@
     <string name="tv_chronometer_start_show">Show will start in \n%1$d : %2$d : %3$d</string>
     <string name="tv_num_of_listeners">Asha: %1$d / %2$s</string>
     <string name="toast_no_internet">No internet connection</string>
+    <string name="toast_server_error">Server is not responding, contact the admin</string>
     <string name="placeholder_tv_date">13 july, 2017</string>
     <string name="home_text_welcome">Welcome</string>
     <string name="toast_calling_listeners">Calling Listeners</string>
