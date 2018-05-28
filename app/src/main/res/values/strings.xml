@@ -75,14 +75,14 @@
 
     <string name="toast_back_disabled">खेद ! वापस नही जा सकते</string>
     <string name="toast_no_internet">खेद ! इंटरनेट नही चल रहा</string>
-    <string name="toast_server_error">Server is not responding, contact the admin</string>
+    <string name="toast_server_error">कंप्यूटर सर्वर से  संपर्क नहीं हो पा रहा, कृपया एडमिनिस्ट्रेटर की सहायता लें</string>
     <string name="toast_calling_listeners">कॉल मिलाई जा रही हैं</string>
     <string name="toast_calling_failed">खेद! कॉल नही लग रही</string>
     <string name="toast_content_locked">फाइल लॉक हैं</string>
     <string name="toast_state_changed">सफल</string>
     <string name="toast_state_not_changed">फेल</string>
     <string name="toast_permission_denied">खेद ! पर्मिशन नही मिलने की वजह से एप इनस्टॉल नही हुई |</string>
-    <string name="toast_pause_fully_play_error">Fully play the current audio first</string>
-    <string name="toast_unlock_error">Next will unlock after this audio is once played fully</string>
+    <string name="toast_pause_fully_play_error">आगे बढ़ने से पहले रिकॉर्डिंग पूरी ख़त्म करें</string>
+    <string name="toast_unlock_error">अगली रिकॉर्डिंग तभी जारी होगी जब चल रही रिकॉर्डिंग पूरी ख़त्म हो जाएगी</string>
 
 </resources>

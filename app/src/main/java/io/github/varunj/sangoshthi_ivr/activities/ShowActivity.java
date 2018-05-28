@@ -391,18 +391,20 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     private void sendPlayPauseResumePacket() {
         switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
             case 0:
-                // send play
+                // send play/start
                 RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
                 showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
                 break;
 
             case 1:
-                RequestMessageHelper.getInstance().pausePlayShowContent();
+                // send pause
+                RequestMessageHelper.getInstance().pausePlayShowContent(currentPlayingIndex + 1);
                 showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
                 break;
 
             case 2:
-                RequestMessageHelper.getInstance().pausePlayShowContent();
+                // send play/resume
+                RequestMessageHelper.getInstance().pausePlayShowContent(currentPlayingIndex + 1);
                 showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
                 break;
 
