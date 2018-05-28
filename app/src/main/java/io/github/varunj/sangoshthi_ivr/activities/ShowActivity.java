@@ -64,6 +64,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private List<CallerStateModel> callerStateModelList;
     private ArrayList<ShowPlaybackModel> showPlaybackModels;
+
+    // it follows 0 based indexing, 0 is the first item that is played
     private int currentPlayingIndex;
 
     public static ProgressDialog progressDialog;
@@ -337,7 +339,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
             // check if audio is played once fully and there is no current audio played
             if (showPlaybackModels.get(currentPlayingIndex).isOncePlayed()) {
-                if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1) {
+                if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1 && showPlaybackModels.get(currentPlayingIndex).getAudioState() != 2) {
                     // only next can happen when audio is fully played and stopped
                     currentPlayingIndex++;
                     tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
@@ -366,7 +368,8 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
         if (showPlaybackModels != null) {
 
             // check if current audio is not playing
-            if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1) {
+            if (showPlaybackModels.get(currentPlayingIndex).getAudioState() != 1 && showPlaybackModels.get(currentPlayingIndex).getAudioState() != 2) {
+                // only prev can happen when audio is fully played and stopped
                 currentPlayingIndex--;
                 tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
 
@@ -374,9 +377,13 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                     btnPreviousContent.setVisibility(View.INVISIBLE);
                 }
 
+                if (currentPlayingIndex < showPlaybackModels.size()) {
+                    btnNextContent.setVisibility(View.VISIBLE);
+                }
+
                 handleToggleShowPlayPause();
             } else {
-                Toast.makeText(this, "Pause or fully play the current audio", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_pause_fully_play_error), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -512,7 +519,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                 switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
                     case 0:
                         // stopped state
-                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_answer_play));
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_answer_resume));
                         tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
                         break;
