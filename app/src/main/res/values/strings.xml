@@ -25,6 +25,9 @@
     <string name="btn_show_play_pause_answer_play">आज का answer सुने</string>
     <string name="btn_show_play_pause_answer_pause">रोकें</string>
     <string name="btn_show_play_pause_answer_resume">चलाएँ</string>
+    <string name="btn_show_play_pause_question_answer_play">आज का question-answer सुने</string>
+    <string name="btn_show_play_pause_question_answer_pause">रोकें</string>
+    <string name="btn_show_play_pause_question_answer_resume">चलाएँ</string>
 
     <string name="btn_start_show">शुरू करें</string>
     <string name="btn_call_broadcaster">कॉल करें</string>
@@ -79,5 +82,7 @@
     <string name="toast_state_changed">सफल</string>
     <string name="toast_state_not_changed">फेल</string>
     <string name="toast_permission_denied">खेद ! पर्मिशन नही मिलने की वजह से एप इनस्टॉल नही हुई |</string>
+    <string name="toast_pause_fully_play_error">Pause or fully play the current audio</string>
+    <string name="toast_unlock_error">Next will unlock after this audio is once played fully</string>
 
 </resources>

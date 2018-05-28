@@ -68,6 +68,12 @@ public class ResponseMessageHelper {
                 //          {"duration":4899,"type":"answer","order":"5","name":"sample_answer2"},
                 //          {"duration":4899,"type":"question","order":"6","name":"sample_question3"},
                 //          {"duration":4899,"type":"answer","order":"7","name":"sample_answer3"}]}
+                /*
+                {"objective":"show_playback_metadata_response",
+                    "media":[{"duration":135433,"type":"content","order":"1","name":"स्तनपान (सैंपल शो)"},
+                             {"duration":4899,"type":"QA","order":"2","name":"QA1"},
+                             {"duration":3669,"type":"QA","order":"3","name":"QA2"}]}
+                 */
                 case "show_playback_metadata_response":
                     handleShowPlaybackMetadataResponse(message);
                     break;
@@ -161,6 +167,7 @@ public class ResponseMessageHelper {
 
             ShowPlaybackModel showPlaybackModel = new ShowPlaybackModel(ShowPlaybackModel.Type.valueOf(obj.getString("type")), obj.getInt("order"), obj.getString("duration"), obj.getString("name"));
             showPlaybackModels.add(showPlaybackModel);
+            Log.d(TAG, showPlaybackModel.toString());
         }
 
         SharedPreferenceManager.getInstance().setShowPlaybackModels(showPlaybackModels);

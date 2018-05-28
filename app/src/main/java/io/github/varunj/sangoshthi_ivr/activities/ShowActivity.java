@@ -351,10 +351,10 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     handleToggleShowPlayPause();
                 } else {
-                    Toast.makeText(this, "Pause or fully play the current audio", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.toast_pause_fully_play_error), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "Next will unlock after this audio is once played fully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_unlock_error), Toast.LENGTH_SHORT).show();
             }
         } else {
             Log.e(TAG, "showPlaybackModel null");
@@ -444,6 +444,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                     case 0:
                         // stopped state
                         showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_content_play));
+                        tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
                         break;
 
@@ -466,6 +467,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                     case 0:
                         // stopped state
                         showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_play));
+                        tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
                         break;
 
@@ -488,6 +490,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                     case 0:
                         // stopped state
                         showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_play));
+                        tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
                         break;
 
@@ -500,6 +503,29 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
                     case 2:
                         // resume state
                         showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_answer_resume));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+                }
+                break;
+
+            case QA:
+                switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                    case 0:
+                        // stopped state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_answer_play));
+                        tvMediaName.setText(showPlaybackModels.get(currentPlayingIndex).getName());
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
+                        break;
+
+                    case 1:
+                        // playing state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_answer_pause));
+                        showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_pause), null, null);
+                        break;
+
+                    case 2:
+                        // resume state
+                        showPlayPause.setText(getResources().getString(R.string.btn_show_play_pause_question_answer_resume));
                         showPlayPause.setCompoundDrawablesWithIntrinsicBounds(null, ContextCompat.getDrawable(this, R.drawable.btn_play), null, null);
                         break;
                 }
@@ -545,9 +571,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onDestroy() {
-
         Log.d(TAG, "SHOW ACTIVITY KILLED");
-
         super.onDestroy();
     }
 }

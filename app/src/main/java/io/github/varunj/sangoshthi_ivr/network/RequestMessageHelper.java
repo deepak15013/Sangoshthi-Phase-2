@@ -219,6 +219,10 @@ public class RequestMessageHelper {
         }
     }
 
+    /*
+        {"objective":"show_playback_metadata","broadcaster":"9425592627","cohort_id":"7","show_id":"show_23","conference_name":"show_23_2018_05_28_13_52_31","timestamp":"2018-05-28 13:52:50"}
+        {"objective":"show_playback_metadata_response","media":[{"duration":135433,"type":"content","order":"1","name":"स्तनपान (सैंपल शो)"},{"duration":4899,"type":"QA","order":"2","name":"QA1"},{"duration":3669,"type":"QA","order":"3","name":"QA2"}]}
+     */
     public void showPlaybackMetadata() {
         JSONObject jsonObject = new JSONObject();
         try {

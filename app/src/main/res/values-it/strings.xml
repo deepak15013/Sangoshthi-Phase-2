@@ -22,6 +22,9 @@
     <string name="btn_show_play_pause_answer_play">Play Answer</string>
     <string name="btn_show_play_pause_answer_pause">Pause Answer</string>
     <string name="btn_show_play_pause_answer_resume">Resume Answer</string>
+    <string name="btn_show_play_pause_question_answer_play">Play question-answer</string>
+    <string name="btn_show_play_pause_question_answer_pause">Pause</string>
+    <string name="btn_show_play_pause_question_answer_resume">Resume</string>
     <string name="btn_start_show">Start</string>
     <string name="btn_yes">YES</string>
     <string name="cd_btn_start_show">Start Show</string>
@@ -66,5 +69,7 @@
     <string name="toast_permission_denied">Permission Denied</string>
     <string name="toast_state_changed">State changed</string>
     <string name="toast_state_not_changed">State not changed</string>
+    <string name="toast_pause_fully_play_error">Pause or fully play the current audio</string>
+    <string name="toast_unlock_error">Next will unlock after this audio is once played fully</string>
     <string name="login_phone_error">Please enter a valid phone number</string>
 </resources>

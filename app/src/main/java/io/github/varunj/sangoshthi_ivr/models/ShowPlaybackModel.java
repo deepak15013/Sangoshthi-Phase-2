@@ -78,7 +78,7 @@ public class ShowPlaybackModel implements Comparable<ShowPlaybackModel> {
     }
 
     public enum Type {
-        content, question, answer
+        content, question, answer, QA
     }
 
     @Override
