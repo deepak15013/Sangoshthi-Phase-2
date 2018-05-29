@@ -102,19 +102,18 @@ public class TutorialsActivity extends AppCompatActivity {
         if(SharedPreferenceManager.getInstance().getTutorialsActivityData().equals("NONE")) {
             Log.d(TAG, "No tutorial data present");
 
-            // String tutorialName, String fileName, String showName, boolean locked
+            // String tutorialName, String fileName, String showName/content-id, boolean locked
+            // files are unlocked using the content id in the acknowledgement of get_show_id_for_gallery_ack packet
             // Locked - true (locked), false (unlocked)
-            tutorialList.add(new TutorialModel("MCP कार्ड", "MCP कार्ड.wav", "15", true));
-            tutorialList.add(new TutorialModel("क्या करें और क्या न करें गर्भावस्था में", "क्या करें और क्या न करें गर्भावस्था में.wav", "13", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था की आम समस्याएँ I", "गर्भावस्था की आम समस्याएँ I.wav", "5", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था की आम समस्याएँ II", "गर्भावस्था की आम समस्याएँ II.wav", "6", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था की पहचान", "गर्भावस्था की पहचान.wav", "12", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था के चेकअप", "गर्भावस्था के चेकअप.wav", "10", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था में इन्फेक्शन की रोकथाम", "गर्भावस्था में इन्फेक्शन की रोकथाम.wav", "11", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था में खतरे के लक्षण", "गर्भावस्था में खतरे के लक्षण.wav", "7", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था में खानपान", "गर्भावस्था में खानपान.wav", "8", true));
-            tutorialList.add(new TutorialModel("गर्भावस्था में व्यायाम", "गर्भावस्था में व्यायाम.wav", "9", true));
-            tutorialList.add(new TutorialModel("डिलीवरी की तयारी", "डिलीवरी की तयारी.wav", "14", true));
+            tutorialList.add(new TutorialModel("नवजात का तापमान", "नवजात का तापमान.mp3", "15", false));
+            tutorialList.add(new TutorialModel("नवजात के साथ खेलना और बातें", "नवजात के साथ खेलना और बातें.mp3", "13", true));
+            tutorialList.add(new TutorialModel("नवजात शिशु का रोना", "नवजात शिशु का रोना.mp3", "5", true));
+            tutorialList.add(new TutorialModel("नवजात शिशु में खतरे के लक्षण", "नवजात शिशु में खतरे के लक्षण.mp3", "6", true));
+            tutorialList.add(new TutorialModel("माँ की मायूसी", "माँ की मायूसी.mp3", "12", true));
+            tutorialList.add(new TutorialModel("माँ बच्चे की ख़ुशी", "माँ बच्चे की ख़ुशी.mp3", "10", true));
+            tutorialList.add(new TutorialModel("माँ में खतरे के लक्षण", "माँ में खतरे के लक्षण.mp3", "11", true));
+            tutorialList.add(new TutorialModel("स्तनपान", "स्तनपान.mp3", "7", true));
+            tutorialList.add(new TutorialModel("हैंड वाशिंग", "हैंड वाशिंग.mp3", "8", true));
 
             SharedPreferenceManager.getInstance().setTutorialsActivityData(gson.toJson(tutorialList));
 
