@@ -79,13 +79,20 @@ public class CallReceiver extends PhoneCallReceiver {
     private boolean isServerNumber(String incomingNumber) {
         if(serverNum == null) {
             serverNum = new ArrayList<>();
-            serverNum.add("8860244278");
             serverNum.add("9643099799");
-            serverNum.add("9643544477");
             serverNum.add("9643066633");
-            serverNum.add("9643411611");
-            serverNum.add("9643722522");
+            serverNum.add("8377081661");
             serverNum.add("7291048199");
+            serverNum.add("8377846695");
+            serverNum.add("7291047922");
+            serverNum.add("8377084994");
+            serverNum.add("7291047811");
+            serverNum.add("8377081771");
+            serverNum.add("8377842350");
+            serverNum.add("7291047622");
+            serverNum.add("9560739967");
+            serverNum.add("9971126889");
+            serverNum.add("9599079805");
         }
 
         for(String serverNumberItem : serverNum) {
