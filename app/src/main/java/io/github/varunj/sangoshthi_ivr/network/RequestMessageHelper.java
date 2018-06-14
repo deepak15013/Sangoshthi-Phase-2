@@ -74,9 +74,12 @@ public class RequestMessageHelper {
     }
 
     /**
-     * Start Show
-     *
-     *
+     * {"objective":"start_show",
+     *  "broadcaster":"8368861819",
+     *  "cohort_id":"7",
+     *  "show_id":"show_61",
+     *  "timestamp":"2018-06-14 22:54:01"
+     * }
      */
     public void startShow() {
         JSONObject jsonObject = new JSONObject();
@@ -93,8 +96,13 @@ public class RequestMessageHelper {
     }
 
     /**
-     * Dial Listeners
-     *
+     * {"objective":"dial_listeners",
+     *  "broadcaster":"8368861819",
+     *  "cohort_id":"7",
+     *  "show_id":"show_61",
+     *  "conference_name":"show_61_2018_06_14_22_53_58",
+     *  "timestamp":"2018-06-14 22:54:11"
+     * }
      */
     public void dialListeners() {
         JSONObject jsonObject = new JSONObject();
@@ -112,9 +120,16 @@ public class RequestMessageHelper {
     }
 
     /**
-     * Mute
+     * {"objective":"mute",
+     *  "broadcaster":"8368861819",
+     *  "cohort_id":"7",
+     *  "show_id":"show_61",
+     *  "conference_name":"show_61_2018_06_14_22_53_58",
+     *  "listener_phoneno":"9716517818",
+     *  "turn":3,"timestamp":"2018-06-14 22:55:56"
+     * }
      *
-     * @param listener_phoneno
+     *  @param listener_phoneno
      */
     public void mute(String listener_phoneno, int turn) {
         JSONObject jsonObject = new JSONObject();
@@ -174,7 +189,14 @@ public class RequestMessageHelper {
     }
 
     /**
-     * objective - pause_play_content
+     * {"objective":"pause_play_content",
+     *  "media_order":"1",
+     *  "broadcaster":"8368861819",
+     *  "cohort_id":"7",
+     *  "show_id":"show_61",
+     *  "conference_name":"show_61_2018_06_14_22_53_58",
+     *  "timestamp":"2018-06-14 22:56:06"
+     * }
      */
     public void pausePlayShowContent(int mediaOrder) {
         JSONObject jsonObject = new JSONObject();
