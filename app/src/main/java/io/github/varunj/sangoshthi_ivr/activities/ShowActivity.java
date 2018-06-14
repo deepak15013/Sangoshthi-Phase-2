@@ -49,26 +49,23 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final String TAG = ShowActivity.class.getSimpleName();
 
+    public static ProgressDialog progressDialog;
+
     private TextView tvNumOfListeners;
     private Chronometer chronometerShow;
-
     private ImageButton showEndShow;
     private Button showPlayPause;
     private ImageButton btnPreviousContent;
     private ImageButton btnNextContent;
     private RelativeLayout llMediaControls;
     private TextView tvMediaName;
-
     private RecyclerView rvListenersContent;
     private ListenersRecyclerViewAdapter mAdapter;
-
     private List<CallerStateModel> callerStateModelList;
     private ArrayList<ShowPlaybackModel> showPlaybackModels;
 
     // it follows 0 based indexing, 0 is the first item that is played
     private int currentPlayingIndex;
-
-    public static ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,29 +386,34 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void sendPlayPauseResumePacket() {
-        switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
-            case 0:
-                // send play/start
-                RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
-                showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
-                break;
 
-            case 1:
-                // send pause
-                RequestMessageHelper.getInstance().pausePlayShowContent(currentPlayingIndex + 1);
-                showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
-                break;
+        // check if playback models is present
+        if (showPlaybackModels != null) {
 
-            case 2:
-                // send play/resume
-                RequestMessageHelper.getInstance().pausePlayShowContent(currentPlayingIndex + 1);
-                showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
-                break;
+            switch (showPlaybackModels.get(currentPlayingIndex).getAudioState()) {
+                case 0:
+                    // send play/start
+                    RequestMessageHelper.getInstance().playShowMedia(currentPlayingIndex + 1, showPlaybackModels.get(currentPlayingIndex).getType().name());
+                    showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                    break;
 
-            default:
-                Log.e(TAG, "sendPlayPauseResumePacket error state - " + showPlaybackModels.get(currentPlayingIndex).getAudioState());
+                case 1:
+                    // send pause
+                    RequestMessageHelper.getInstance().pausePlayShowContent(currentPlayingIndex + 1);
+                    showPlaybackModels.get(currentPlayingIndex).setAudioState(2);
+                    break;
+
+                case 2:
+                    // send play/resume
+                    RequestMessageHelper.getInstance().pausePlayShowContent(currentPlayingIndex + 1);
+                    showPlaybackModels.get(currentPlayingIndex).setAudioState(1);
+                    break;
+
+                default:
+                    Log.e(TAG, "sendPlayPauseResumePacket error state - " + showPlaybackModels.get(currentPlayingIndex).getAudioState());
+            }
+            handleToggleShowPlayPause();
         }
-        handleToggleShowPlayPause();
     }
 
     private void handleEndShow() {
