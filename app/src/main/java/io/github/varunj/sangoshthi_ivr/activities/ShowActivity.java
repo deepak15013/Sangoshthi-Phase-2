@@ -253,6 +253,7 @@ public class ShowActivity extends AppCompatActivity implements View.OnClickListe
 
             if (currentPlayingIndex < showPlaybackModels.size() - 1) {
                 btnNextContent.setVisibility(View.VISIBLE);
+                handleNextButton();
             } else {
                 btnNextContent.setVisibility(View.INVISIBLE);
             }
