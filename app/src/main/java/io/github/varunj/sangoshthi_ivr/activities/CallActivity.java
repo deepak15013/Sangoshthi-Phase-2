@@ -76,8 +76,8 @@ public class CallActivity extends AppCompatActivity {
         };
         ResponseMessageHelper.getInstance().subscribeToResponse(incomingMessageHandler);
 
-        btnCall = (ImageButton) findViewById(R.id.btn_call);
-        tvCall = (TextView) findViewById(R.id.tv_call);
+        btnCall = findViewById(R.id.btn_call);
+        tvCall = findViewById(R.id.tv_call);
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +111,7 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(ConstantUtil.FOURTY_FIVE_SECOND_CLOCK);
+                    Thread.sleep(ConstantUtil.FORTY_FIVE_SECOND_CLOCK);
 
                     if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
